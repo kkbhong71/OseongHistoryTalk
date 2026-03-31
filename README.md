@@ -1,2 +1,2 @@
 # OseongHistoryTalk
-오성역사톡!! v1.0
+오성역사톡!! v2.0

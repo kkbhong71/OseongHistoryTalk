@@ -348,7 +348,7 @@ function es(s){const d=document.createElement('div');d.textContent=s;return d.in
 
 function slt(r,el){document.querySelectorAll('.ltab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('sf').style.display=r==='s'?'flex':'none';document.getElementById('tf').style.display=r==='t'?'flex':'none';}
 function sLogin(){const c=document.getElementById('lc').value,num=document.getElementById('lsn').value.trim(),n=document.getElementById('ln').value.trim();if(!c){alert('반을 선택하세요!');return;}if(!num){alert('번호를 입력하세요!');return;}if(!n){alert('이름을 입력하세요!');return;}S.li=true;S.rl='s';S.nm=n;S.cl=c;S.sn=num;sv();ea();}
-function tLogin(){const pw=document.getElementById('tp').value;if(pw==='oseong2025'){S.li=true;S.rl='t';S.nm='선생님';sv();ea();go('teacher');}else{alert('비밀번호가 올바르지 않습니다.');}}
+function tLogin(){const pw=document.getElementById('tp').value;if(pw==='oseong2026'){S.li=true;S.rl='t';S.nm='선생님';sv();ea();go('teacher');}else{alert('비밀번호가 올바르지 않습니다.');}}
 function ea(){document.getElementById('loginScreen').style.display='none';document.getElementById('tn').style.display='flex';document.getElementById('ma').style.display='block';document.getElementById('bn').style.display='flex';cs();uu();}
 function lo(){S.li=false;sv();document.getElementById('loginScreen').style.display='flex';document.getElementById('tn').style.display='none';document.getElementById('ma').style.display='none';document.getElementById('bn').style.display='none';}
 

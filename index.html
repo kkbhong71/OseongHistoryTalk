@@ -4,2267 +4,425 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="theme-color" content="#1a1a2e">
-<title>오성역사톡!! - 역사가 재미있어지는 순간</title>
-<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoi7Jik7ISx7Jet7IKs7YahISEiLCJzaG9ydF9uYW1lIjoi7Jet7IKs7YahIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzFhMWEyZSIsInRoZW1lX2NvbG9yIjoiIzFhMWEyZSJ9">
+<meta name="theme-color" content="#07070f">
+<title>오성역사톡!! v2.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════
-   🎨 CSS DESIGN SYSTEM - 오성역사톡!!
-   ═══════════════════════════════════════════ */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Black+Han+Sans&family=Gowun+Batang:wght@400;700&display=swap');
+:root{--bg:#07070f;--bg2:#111122;--bgc:rgba(22,22,48,0.85);--bgg:rgba(255,255,255,0.04);--bgh:rgba(255,255,255,0.08);--t1:#f0f0ff;--t2:#9898b8;--t3:#5a5a78;--a1:#6C5CE7;--a2:#00CECE;--a3:#FD79A8;--a4:#FDCB6E;--a5:#00B894;--a6:#E17055;--gm:linear-gradient(135deg,#6C5CE7,#00CECE);--gw:linear-gradient(135deg,#FD79A8,#FDCB6E);--bd:rgba(255,255,255,0.06);--sh:0 8px 32px rgba(0,0,0,0.3);--r:20px;--rs:14px;--rx:8px;--nh:60px;--bh:70px;--fs:15px}
+[data-theme=light]{--bg:#f4f2ff;--bg2:#fff;--bgc:rgba(255,255,255,0.9);--bgg:rgba(108,92,231,0.04);--bgh:rgba(108,92,231,0.08);--t1:#1a1a2e;--t2:#555580;--t3:#8888aa;--bd:rgba(108,92,231,0.1);--sh:0 4px 20px rgba(108,92,231,0.08)}
+*{margin:0;padding:0;box-sizing:border-box}html{font-size:var(--fs)}body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--a1);border-radius:3px}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bounceIn{0%{transform:scale(0)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+@keyframes glow{0%,100%{box-shadow:0 0 8px var(--a4)}50%{box-shadow:0 0 24px var(--a4)}}
 
-:root {
-  /* Core Colors */
-  --bg-primary: #0f0f1a;
-  --bg-secondary: #1a1a2e;
-  --bg-card: #16213e;
-  --bg-card-hover: #1c2a4a;
-  --text-primary: #e8e8f0;
-  --text-secondary: #a0a0b8;
-  --text-muted: #6a6a80;
-  --accent-gold: #f0c040;
-  --accent-blue: #4a90d9;
-  --accent-purple: #9b59b6;
-  --accent-green: #2ecc71;
-  --accent-red: #e74c3c;
-  --accent-orange: #f39c12;
-  --accent-cyan: #00d2ff;
-  --border: rgba(255,255,255,0.08);
-  --shadow: 0 4px 20px rgba(0,0,0,0.4);
-  --shadow-glow: 0 0 20px rgba(74,144,217,0.15);
-  --radius: 16px;
-  --radius-sm: 10px;
-  --radius-xs: 6px;
-  --font-size-base: 15px;
-  --nav-height: 64px;
-  --bottom-nav-height: 68px;
-}
+#loginScreen{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.lc{width:90%;max-width:420px;text-align:center;animation:fadeUp .8s ease}
+.ll{font-size:4rem;margin-bottom:8px;animation:float 3s ease-in-out infinite}
+.lt{font-family:'Black Han Sans',sans-serif;font-size:2.2rem;background:var(--gm);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
+.ls{color:var(--t3);font-size:.85rem;margin-bottom:32px}
+.ltabs{display:flex;gap:4px;background:var(--bg2);border-radius:var(--r);padding:4px;margin-bottom:24px;border:1px solid var(--bd)}
+.ltab{flex:1;padding:12px;border-radius:calc(var(--r) - 4px);border:none;background:0;color:var(--t3);font-weight:600;font-size:.88rem;cursor:pointer;transition:.3s;font-family:inherit}
+.ltab.active{background:var(--a1);color:#fff}
+.lform{display:flex;flex-direction:column;gap:12px}
+.lin{padding:14px 18px;border-radius:var(--rs);background:var(--bg2);border:1px solid var(--bd);color:var(--t1);font-size:.92rem;font-family:inherit;outline:none;transition:.3s}
+.lin:focus{border-color:var(--a1)}.lin::placeholder{color:var(--t3)}
+.lbtn{padding:16px;border-radius:var(--rs);border:none;background:var(--gm);color:#fff;font-weight:700;font-size:1rem;cursor:pointer;font-family:inherit;transition:.3s}
+.lbtn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,92,231,.3)}
+.lsel{padding:14px 18px;border-radius:var(--rs);background:var(--bg2);border:1px solid var(--bd);color:var(--t1);font-size:.92rem;font-family:inherit;outline:none;cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%239898b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 12L2 6h12z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
 
-[data-theme="light"] {
-  --bg-primary: #f5f3ef;
-  --bg-secondary: #ffffff;
-  --bg-card: #ffffff;
-  --bg-card-hover: #f8f6f2;
-  --text-primary: #1a1a2e;
-  --text-secondary: #555566;
-  --text-muted: #888899;
-  --border: rgba(0,0,0,0.08);
-  --shadow: 0 2px 12px rgba(0,0,0,0.08);
-  --shadow-glow: 0 0 20px rgba(74,144,217,0.08);
-}
+.tn{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);background:rgba(7,7,15,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+[data-theme=light] .tn{background:rgba(255,255,255,.88)}
+.tn-l{display:flex;align-items:center;gap:8px;cursor:pointer}
+.tn-i{width:34px;height:34px;border-radius:10px;background:var(--gm);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.tn-t{font-family:'Black Han Sans',sans-serif;font-size:1.15rem;background:var(--gm);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.tn-r{display:flex;gap:6px;align-items:center}
+.tn-b{display:flex;align-items:center;gap:4px;padding:5px 12px;border-radius:20px;font-size:.72rem;font-weight:700}
+.sb{background:linear-gradient(135deg,#FDCB6E,#E17055);color:#1a1a2e;animation:pulse 2s infinite}
+.xb{background:rgba(108,92,231,.15);color:var(--a1);border:1px solid rgba(108,92,231,.3)}
+.tn-ic{width:36px;height:36px;border-radius:50%;background:var(--bgg);border:1px solid var(--bd);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:.2s}
+.tn-ic:hover{background:var(--a1);color:#fff;border-color:var(--a1)}
 
-* { margin:0; padding:0; box-sizing:border-box; }
-html { font-size: var(--font-size-base); scroll-behavior: smooth; }
-body {
-  font-family: 'Noto Sans KR', -apple-system, sans-serif;
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-tap-highlight-color: transparent;
-}
+.bn{position:fixed;bottom:0;left:0;right:0;z-index:100;height:var(--bh);background:rgba(7,7,15,.92);backdrop-filter:blur(20px);border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom,0)}
+[data-theme=light] .bn{background:rgba(255,255,255,.92)}
+.bni{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--t3);font-size:.6rem;font-weight:600;cursor:pointer;transition:.2s;padding:6px 14px;border-radius:14px;position:relative}
+.bni .be{font-size:1.5rem;transition:.2s}.bni.a{color:var(--a1)}.bni.a .be{transform:scale(1.15)}
+.bni.a::after{content:'';position:absolute;bottom:-2px;width:20px;height:3px;border-radius:3px;background:var(--a1)}
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--accent-blue); border-radius: 4px; }
+.mn{padding-top:var(--nh);padding-bottom:calc(var(--bh) + 16px);min-height:100vh}
+.pg{display:none;padding:16px;max-width:820px;margin:0 auto}.pg.a{display:block;animation:fadeIn .3s ease}
 
-/* ═══ ANIMATIONS ═══ */
-@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
-@keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
-@keyframes pulse { 0%,100% { transform:scale(1); } 50% { transform:scale(1.05); } }
-@keyframes slideIn { from { transform:translateX(-100%); } to { transform:translateX(0); } }
-@keyframes glow { 0%,100% { box-shadow:0 0 5px var(--accent-gold); } 50% { box-shadow:0 0 20px var(--accent-gold), 0 0 40px rgba(240,192,64,0.3); } }
-@keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
-@keyframes typing { from { width:0; } to { width:100%; } }
-@keyframes shimmer { 0% { background-position:-200% 0; } 100% { background-position:200% 0; } }
+.hero{text-align:center;padding:28px 20px 24px;background:linear-gradient(160deg,rgba(108,92,231,.12),rgba(0,206,206,.08),rgba(253,121,168,.06));border-radius:var(--r);border:1px solid var(--bd);margin-bottom:16px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 20% 80%,rgba(108,92,231,.08) 0%,transparent 60%),radial-gradient(circle at 80% 20%,rgba(0,206,206,.06) 0%,transparent 60%)}
+.hg{font-size:1.4rem;font-weight:800;margin-bottom:4px;position:relative}.hg span{color:var(--a4)}
+.hm{color:var(--t2);font-size:.82rem;margin-bottom:18px;position:relative}
+.hs{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative}
+.hsi{background:var(--bgg);backdrop-filter:blur(20px);border:1px solid var(--bd);border-radius:var(--rs);padding:10px 18px;text-align:center;min-width:85px}
+.hsn{font-size:1.5rem;font-weight:900}.hsl{font-size:.65rem;color:var(--t3);margin-top:2px}
 
-.fade-up { animation: fadeUp 0.5s ease forwards; }
-.fade-in { animation: fadeIn 0.3s ease forwards; }
+.qg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px}
+.qc{background:var(--bgc);backdrop-filter:blur(20px);border:1px solid var(--bd);border-radius:var(--r);padding:18px 14px;text-align:center;cursor:pointer;transition:.3s;position:relative;overflow:hidden}
+.qc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0}
+.qc:nth-child(1)::before{background:var(--gm)}.qc:nth-child(2)::before{background:var(--gw)}.qc:nth-child(3)::before{background:linear-gradient(135deg,var(--a5),var(--a2))}.qc:nth-child(4)::before{background:linear-gradient(135deg,var(--a6),var(--a4))}
+.qc:hover{transform:translateY(-4px);border-color:var(--a1);box-shadow:0 0 30px rgba(108,92,231,.15)}
+.qce{font-size:2.2rem;margin-bottom:6px}.qct{font-weight:700;font-size:.88rem;margin-bottom:3px}.qcd{font-size:.68rem;color:var(--t3)}
 
-/* ═══ TOP NAVIGATION BAR ═══ */
-.top-nav {
-  position: fixed; top:0; left:0; right:0; z-index:100;
-  height: var(--nav-height);
-  background: rgba(15,15,26,0.92);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 16px;
-}
-[data-theme="light"] .top-nav { background: rgba(255,255,255,0.92); }
+.mc{background:linear-gradient(135deg,rgba(253,203,110,.1),rgba(225,112,85,.08));border:1px solid rgba(253,203,110,.15);border-radius:var(--r);padding:16px;margin-bottom:16px}
+.mch{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.mctg{background:linear-gradient(135deg,#FDCB6E,#E17055);color:#1a1a2e;font-size:.65rem;font-weight:800;padding:3px 10px;border-radius:20px}
+.mctx{font-size:.82rem;color:var(--t2);line-height:1.5}
+.mcbt{margin-top:10px;width:100%;padding:12px;border-radius:var(--rx);background:var(--gw);color:#1a1a2e;font-weight:700;border:none;cursor:pointer;font-size:.85rem;font-family:inherit;transition:.2s}
 
-.top-nav-logo {
-  display: flex; align-items: center; gap: 10px;
-  font-family: 'Black Han Sans', sans-serif;
-  font-size: 1.3rem; color: var(--accent-gold);
-  cursor: pointer;
-}
-.top-nav-logo span { font-size: 1.5rem; }
+.sh{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.st{font-weight:800;font-size:1rem}
+.al{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.ai{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rs);padding:11px 14px;display:flex;align-items:center;gap:10px}
+.aie{font-size:1.3rem}.aii{flex:1}.ait{font-weight:600;font-size:.82rem}.ais{font-size:.68rem;color:var(--t3)}.aix{color:var(--a4);font-weight:700;font-size:.78rem}
 
-.top-nav-actions { display: flex; gap: 8px; align-items: center; }
-.nav-icon-btn {
-  width: 38px; height: 38px; border-radius: 50%;
-  background: var(--bg-card); border: 1px solid var(--border);
-  color: var(--text-secondary); cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; transition: all 0.2s;
-}
-.nav-icon-btn:hover, .nav-icon-btn.active { 
-  background: var(--accent-blue); color: #fff; 
-  border-color: var(--accent-blue);
-}
-.streak-badge {
-  background: linear-gradient(135deg, #f0c040, #ff8c00);
-  color: #1a1a2e; font-weight:700; font-size:0.75rem;
-  padding: 4px 10px; border-radius:20px;
-  display: flex; align-items:center; gap:4px;
-  animation: pulse 2s infinite;
-}
-.xp-badge {
-  background: var(--bg-card); border:1px solid var(--accent-purple);
-  color: var(--accent-purple); font-weight:700; font-size:0.75rem;
-  padding: 4px 10px; border-radius:20px;
-}
+.bt{display:flex;gap:4px;background:var(--bg2);border-radius:var(--r);padding:4px;margin-bottom:14px;border:1px solid var(--bd)}
+.btb{flex:1;text-align:center;padding:10px 8px;border-radius:calc(var(--r) - 4px);cursor:pointer;font-weight:600;font-size:.82rem;transition:.25s;color:var(--t3);border:none;background:0;font-family:inherit}
+.btb.a{background:var(--a1);color:#fff}
 
-/* ═══ BOTTOM NAVIGATION ═══ */
-.bottom-nav {
-  position: fixed; bottom:0; left:0; right:0; z-index:100;
-  height: var(--bottom-nav-height);
-  background: rgba(15,15,26,0.95);
-  backdrop-filter: blur(20px);
-  border-top: 1px solid var(--border);
-  display: flex; align-items:center; justify-content:space-around;
-  padding-bottom: env(safe-area-inset-bottom, 0);
-}
-[data-theme="light"] .bottom-nav { background: rgba(255,255,255,0.95); }
+.uc{background:var(--bgc);backdrop-filter:blur(20px);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;overflow:hidden;transition:.3s}
+.uh{padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:12px}
+.ui{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex-shrink:0;background:var(--bgg);border:1px solid var(--bd)}
+.uif{flex:1}.ut{font-weight:700;font-size:.92rem;line-height:1.3}.ue{font-size:.7rem;color:var(--t3);margin-top:2px}
+.ua{color:var(--t3);transition:transform .3s;font-size:.75rem}
+.uc.o .ua{transform:rotate(180deg)}.uc.o{border-color:var(--a1)}
+.ub{display:none;padding:0 14px 14px}.uc.o .ub{display:block;animation:fadeUp .3s ease}
 
-.bottom-nav-item {
-  display: flex; flex-direction:column; align-items:center; gap:3px;
-  color: var(--text-muted); font-size:0.65rem; font-weight:500;
-  cursor:pointer; transition:all 0.2s; padding:6px 12px;
-  border-radius: 12px; position:relative;
-}
-.bottom-nav-item .nav-emoji { font-size:1.4rem; transition:transform 0.2s; }
-.bottom-nav-item.active { color: var(--accent-gold); }
-.bottom-nav-item.active .nav-emoji { transform:scale(1.15); }
-.bottom-nav-item:hover { color: var(--accent-blue); }
+.tc{background:var(--bgg);border-radius:var(--rs);padding:14px;margin-bottom:8px;cursor:pointer;border-left:3px solid var(--a1);transition:.25s}
+.tc:hover{background:var(--bgh);transform:translateX(4px)}
+.tcn{font-weight:700;font-size:.88rem;margin-bottom:4px}.tcs{font-size:.76rem;color:var(--t2);line-height:1.5}
+.tbs{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap}
+.tb{padding:7px 14px;border-radius:20px;font-size:.7rem;font-weight:600;border:none;cursor:pointer;transition:.2s;display:flex;align-items:center;gap:4px;font-family:inherit}
+.tb:hover{transform:scale(1.05)}
+.tb1{background:rgba(108,92,231,.15);color:var(--a1)}.tb2{background:rgba(255,0,0,.12);color:#ff4455}
+.tb3{background:rgba(0,184,148,.12);color:var(--a5)}.tb4{background:rgba(0,206,206,.12);color:var(--a2)}
 
-/* ═══ MAIN CONTENT AREA ═══ */
-.main-content {
-  padding-top: var(--nav-height);
-  padding-bottom: calc(var(--bottom-nav-height) + 16px);
-  min-height: 100vh;
-}
-.page { display:none; padding:16px; max-width:800px; margin:0 auto; }
-.page.active { display:block; animation: fadeIn 0.3s ease; }
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.75);z-index:200;backdrop-filter:blur(6px)}
+.mo.a{display:flex;align-items:flex-end;justify-content:center}
+.ms{background:var(--bg2);border-radius:var(--r) var(--r) 0 0;width:100%;max-width:820px;max-height:88vh;overflow-y:auto;animation:slideUp .35s ease;padding-bottom:env(safe-area-inset-bottom,20px)}
+.mha{width:36px;height:4px;background:var(--t3);border-radius:4px;margin:10px auto 0;opacity:.5}
+.mh{position:sticky;top:0;z-index:10;background:var(--bg2);padding:14px 16px;border-bottom:1px solid var(--bd);display:flex;justify-content:space-between;align-items:center}
+.mti{font-weight:800;font-size:1rem}
+.mx{width:32px;height:32px;border-radius:50%;background:var(--bgg);border:1px solid var(--bd);color:var(--t2);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem}
+.mb{padding:16px}.msc{margin-bottom:20px}
+.msct{font-weight:700;font-size:.88rem;margin-bottom:8px;display:flex;align-items:center;gap:6px;color:var(--a4)}
+.msctx{font-size:.84rem;line-height:1.85;color:var(--t2);background:var(--bgg);border-radius:var(--rs);padding:16px;border:1px solid var(--bd)}
 
-/* ═══ HOME PAGE ═══ */
-.hero-section {
-  text-align:center; padding:30px 16px 24px;
-  background: linear-gradient(135deg, rgba(74,144,217,0.1), rgba(155,89,182,0.1));
-  border-radius: var(--radius);
-  margin-bottom:20px; position:relative; overflow:hidden;
-}
-.hero-section::before {
-  content:''; position:absolute; top:-50%; left:-50%;
-  width:200%; height:200%;
-  background: radial-gradient(circle at 30% 40%, rgba(240,192,64,0.05) 0%, transparent 50%),
-              radial-gradient(circle at 70% 60%, rgba(74,144,217,0.05) 0%, transparent 50%);
-  animation: float 8s ease-in-out infinite;
-}
-.hero-title {
-  font-family:'Black Han Sans',sans-serif;
-  font-size: 2rem; color:var(--accent-gold);
-  margin-bottom:8px; position:relative;
-}
-.hero-subtitle {
-  color:var(--text-secondary); font-size:0.9rem;
-  margin-bottom:16px; position:relative;
-}
-.hero-stats {
-  display:flex; gap:12px; justify-content:center;
-  flex-wrap:wrap; position:relative;
-}
-.hero-stat {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius-sm); padding:10px 16px;
-  text-align:center; min-width:90px;
-}
-.hero-stat-num { font-size:1.4rem; font-weight:900; color:var(--accent-blue); }
-.hero-stat-label { font-size:0.7rem; color:var(--text-muted); margin-top:2px; }
+.ytl{display:flex;align-items:center;gap:10px;padding:14px;border-radius:var(--rs);background:rgba(255,0,0,.06);border:1px solid rgba(255,0,0,.12);color:#ff4455;font-weight:600;font-size:.85rem;text-decoration:none;transition:.2s}
+.ytl:hover{background:rgba(255,0,0,.12);transform:translateY(-2px)}
 
-/* Quick Action Cards */
-.quick-actions {
-  display:grid; grid-template-columns:repeat(2, 1fr);
-  gap:12px; margin-bottom:20px;
-}
-.quick-card {
-  background: var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:20px 16px;
-  text-align:center; cursor:pointer;
-  transition: all 0.3s; position:relative; overflow:hidden;
-}
-.quick-card::after {
-  content:''; position:absolute; top:0; left:0; right:0;
-  height:3px; border-radius:3px 3px 0 0;
-}
-.quick-card:nth-child(1)::after { background:var(--accent-blue); }
-.quick-card:nth-child(2)::after { background:var(--accent-green); }
-.quick-card:nth-child(3)::after { background:var(--accent-purple); }
-.quick-card:nth-child(4)::after { background:var(--accent-orange); }
-.quick-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-glow); border-color:var(--accent-blue); }
-.quick-card-emoji { font-size:2rem; margin-bottom:8px; }
-.quick-card-title { font-weight:700; font-size:0.9rem; margin-bottom:4px; }
-.quick-card-desc { font-size:0.72rem; color:var(--text-muted); line-height:1.4; }
+.cw{display:flex;flex-direction:column;height:calc(100vh - var(--nh) - var(--bh) - 32px)}
+.ct{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:12px 14px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.cav{width:42px;height:42px;border-radius:14px;background:var(--gm);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
+.cbn{font-weight:700;font-size:.9rem}.cbs{font-size:.7rem;color:var(--a5)}
+.cms{flex:1;overflow-y:auto;padding:8px 0;display:flex;flex-direction:column;gap:10px}
+.cm{display:flex;gap:8px;max-width:88%;animation:fadeUp .3s ease}
+.cm.b{align-self:flex-start}.cm.u{align-self:flex-end;flex-direction:row-reverse}
+.cma{width:28px;height:28px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.cm.b .cma{background:var(--gm)}.cm.u .cma{background:var(--a3)}
+.cmb{padding:11px 14px;border-radius:18px;font-size:.84rem;line-height:1.65}
+.cm.b .cmb{background:var(--bgc);border:1px solid var(--bd);border-bottom-left-radius:4px}
+.cm.u .cmb{background:var(--a1);color:#fff;border-bottom-right-radius:4px}
+.cqb{display:flex;gap:6px;flex-wrap:wrap;padding:6px 0}
+.cq{padding:7px 14px;border-radius:20px;background:var(--bgc);border:1px solid var(--bd);color:var(--t2);font-size:.73rem;cursor:pointer;transition:.2s;white-space:nowrap;font-family:inherit}
+.cq:hover{border-color:var(--a1);color:var(--a1)}
+.cb{display:flex;gap:8px;padding:10px 0 4px;border-top:1px solid var(--bd)}
+.ci{flex:1;padding:12px 16px;border-radius:24px;background:var(--bgc);border:1px solid var(--bd);color:var(--t1);font-size:.88rem;font-family:inherit;outline:none}
+.ci:focus{border-color:var(--a1)}.ci::placeholder{color:var(--t3)}
+.csb{width:44px;height:44px;border-radius:50%;background:var(--gm);border:none;color:#fff;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:.2s;flex-shrink:0}
+.csb:hover{transform:scale(1.08)}
+.ti{display:flex;gap:4px;padding:10px 14px;background:var(--bgc);border:1px solid var(--bd);border-radius:18px;border-bottom-left-radius:4px;width:fit-content}
+.td{width:6px;height:6px;border-radius:50%;background:var(--t3);animation:pulse 1.2s ease-in-out infinite}
+.td:nth-child(2){animation-delay:.15s}.td:nth-child(3){animation-delay:.3s}
 
-/* Daily Mission */
-.daily-mission {
-  background: linear-gradient(135deg, var(--bg-card), rgba(240,192,64,0.08));
-  border:1px solid rgba(240,192,64,0.2); border-radius:var(--radius);
-  padding:16px; margin-bottom:20px;
-}
-.daily-mission-header { display:flex; align-items:center; gap:8px; margin-bottom:10px; }
-.daily-mission-title { font-weight:700; font-size:0.95rem; color:var(--accent-gold); }
-.daily-mission-content { font-size:0.85rem; color:var(--text-secondary); line-height:1.5; }
-.daily-mission-btn {
-  margin-top:12px; background:var(--accent-gold); color:#1a1a2e;
-  border:none; border-radius:var(--radius-xs); padding:10px 20px;
-  font-weight:700; font-size:0.85rem; cursor:pointer;
-  width:100%; transition:all 0.2s;
-}
-.daily-mission-btn:hover { transform:scale(1.02); }
+.qp{height:6px;background:var(--bgc);border-radius:3px;margin-bottom:14px;overflow:hidden}
+.qpf{height:100%;background:var(--gm);border-radius:3px;transition:width .5s ease}
+.qqc{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:22px 18px;margin-bottom:10px}
+.qqn{font-size:.73rem;color:var(--a1);font-weight:700;margin-bottom:6px}
+.qqt{font-size:1rem;font-weight:600;line-height:1.6;margin-bottom:18px}
+.qas{display:flex;flex-direction:column;gap:8px}
+.qa{padding:13px 16px;border-radius:var(--rs);background:var(--bgg);border:2px solid var(--bd);cursor:pointer;transition:.2s;font-size:.86rem;display:flex;align-items:center;gap:10px}
+.qa:hover{border-color:var(--a1)}.qa.s{border-color:var(--a1);background:rgba(108,92,231,.1)}
+.qa.c{border-color:var(--a5);background:rgba(0,184,148,.1)}.qa.w{border-color:var(--a6);background:rgba(225,112,85,.1)}
+.qal{width:30px;height:30px;border-radius:50%;background:var(--bg2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.8rem;flex-shrink:0}
+.qex{background:rgba(108,92,231,.06);border:1px solid rgba(108,92,231,.15);border-radius:var(--rs);padding:14px;margin-top:12px;font-size:.82rem;line-height:1.6;color:var(--t2)}
+.qnb{width:100%;padding:14px;border-radius:var(--rs);background:var(--gm);color:#fff;font-weight:700;border:none;cursor:pointer;margin-top:10px;font-size:.9rem;font-family:inherit;transition:.2s}
+.qnb:hover{transform:scale(1.02)}
+.qlg{text-align:center;padding:50px 20px}
+.qls{width:48px;height:48px;border:3px solid var(--bd);border-top-color:var(--a1);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+.qr{text-align:center;padding:30px 20px;background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r)}
+.qre{font-size:4rem;margin-bottom:10px;animation:bounceIn .5s ease}
+.qrs{font-size:2.5rem;font-weight:900;background:var(--gw);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.qrl{font-size:.88rem;color:var(--t2);margin-bottom:14px}
+.qrx{padding:8px 20px;border-radius:20px;background:rgba(253,203,110,.12);color:var(--a4);font-weight:700;display:inline-block;margin-bottom:14px}
 
-/* Recent Activity */
-.section-header {
-  display:flex; justify-content:space-between; align-items:center;
-  margin-bottom:12px;
-}
-.section-title { font-weight:700; font-size:1.05rem; }
-.section-more { color:var(--accent-blue); font-size:0.8rem; cursor:pointer; }
+.ph{text-align:center;padding:24px 20px;background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:14px;position:relative;overflow:hidden}
+.ph::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(108,92,231,.08),rgba(0,206,206,.05))}
+.pav{width:72px;height:72px;border-radius:50%;background:var(--gm);display:flex;align-items:center;justify-content:center;font-size:2.4rem;margin:0 auto 10px;border:3px solid var(--a1);position:relative}
+.pn{font-weight:800;font-size:1.15rem;position:relative}.plv{color:var(--a1);font-weight:600;font-size:.82rem;position:relative}
+.xw{margin:14px 0;position:relative}.xl{display:flex;justify-content:space-between;font-size:.72rem;color:var(--t3);margin-bottom:4px}
+.xb2{height:10px;background:var(--bgg);border-radius:5px;overflow:hidden}.xbf{height:100%;background:var(--gm);border-radius:5px;transition:width 1s ease}
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px}
+.sc{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rs);padding:14px 8px;text-align:center}
+.scn{font-size:1.4rem;font-weight:900}.scl{font-size:.65rem;color:var(--t3);margin-top:2px}
+.bg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bi2{text-align:center;padding:12px 4px;background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rs);transition:.3s}
+.bi2.e{border-color:var(--a4);box-shadow:0 0 12px rgba(253,203,110,.15)}.bi2.l{opacity:.35}
+.bie{font-size:1.7rem}.bin{font-size:.6rem;margin-top:3px;color:var(--t3)}
 
-.activity-list { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
-.activity-item {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius-sm); padding:12px 14px;
-  display:flex; align-items:center; gap:12px;
-  cursor:pointer; transition:all 0.2s;
-}
-.activity-item:hover { border-color:var(--accent-blue); }
-.activity-emoji { font-size:1.5rem; }
-.activity-info { flex:1; }
-.activity-title { font-weight:600; font-size:0.85rem; }
-.activity-sub { font-size:0.72rem; color:var(--text-muted); margin-top:2px; }
-.activity-xp { color:var(--accent-gold); font-weight:700; font-size:0.8rem; }
+.dg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.dc{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:16px}
+.dcl{font-size:.72rem;color:var(--t3);margin-bottom:3px}.dcv{font-size:1.8rem;font-weight:900}
+.sr{display:flex;align-items:center;gap:8px;padding:10px 12px;background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rs);margin-bottom:5px}
+.srk{font-weight:900;font-size:.85rem;color:var(--a4);width:22px}.srn{flex:1;font-weight:600;font-size:.84rem}
+.sp{width:90px}.spb{height:5px;background:var(--bgg);border-radius:3px;overflow:hidden}.spf{height:100%;background:var(--a5);border-radius:3px}
+.srs{font-weight:700;font-size:.78rem;color:var(--a1);width:40px;text-align:right}
 
-/* ═══ CURRICULUM PAGE ═══ */
-.book-selector {
-  display:flex; gap:8px; margin-bottom:16px;
-  background:var(--bg-card); border-radius:var(--radius);
-  padding:6px; border:1px solid var(--border);
-}
-.book-tab {
-  flex:1; text-align:center; padding:10px;
-  border-radius:var(--radius-sm); cursor:pointer;
-  font-weight:600; font-size:0.85rem;
-  transition:all 0.2s; color:var(--text-muted);
-}
-.book-tab.active {
-  background:var(--accent-blue); color:#fff;
-}
+.stg{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.sti{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--bd)}
+.sti:last-child{border-bottom:none}.stl{display:flex;align-items:center;gap:10px;font-size:.88rem}
+.tg{width:44px;height:24px;border-radius:12px;background:var(--bgg);border:1px solid var(--bd);position:relative;cursor:pointer;transition:.3s}
+.tg.on{background:var(--a1);border-color:var(--a1)}
+.tgk{width:20px;height:20px;border-radius:50%;background:#fff;position:absolute;top:1px;left:1px;transition:.3s}
+.tg.on .tgk{left:21px}
+.fc{display:flex;align-items:center;gap:8px}
+.fb{width:32px;height:32px;border-radius:8px;background:var(--bgg);border:1px solid var(--bd);color:var(--t1);cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:700}
 
-.unit-card {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); margin-bottom:12px;
-  overflow:hidden; transition:all 0.3s;
-}
-.unit-card:hover { border-color:var(--accent-blue); }
-.unit-header {
-  padding:16px; cursor:pointer; display:flex;
-  align-items:center; gap:12px;
-}
-.unit-num {
-  width:44px; height:44px; border-radius:12px;
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.4rem; flex-shrink:0;
-}
-.unit-info { flex:1; }
-.unit-title { font-weight:700; font-size:0.95rem; line-height:1.3; }
-.unit-era { font-size:0.72rem; color:var(--text-muted); margin-top:3px; }
-.unit-arrow { color:var(--text-muted); transition:transform 0.3s; font-size:0.8rem; }
-.unit-card.open .unit-arrow { transform:rotate(180deg); }
+.tl-f{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:6px;-webkit-overflow-scrolling:touch}
+.tlf{padding:8px 16px;border-radius:20px;white-space:nowrap;font-size:.75rem;font-weight:600;cursor:pointer;background:var(--bgc);border:1px solid var(--bd);color:var(--t3);transition:.2s;font-family:inherit}
+.tlf.a{background:var(--a1);color:#fff;border-color:var(--a1)}
+.tw{position:relative;padding-left:28px}
+.tll{position:absolute;left:12px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--a1),var(--a2),var(--a3),var(--a4))}
+.tle{position:relative;margin-bottom:14px;animation:fadeUp .5s ease forwards;opacity:0}
+.tld{position:absolute;left:-20px;top:14px;width:12px;height:12px;border-radius:50%;border:3px solid var(--bg);z-index:2}
+.tld.k{background:var(--a4)}.tld.w{background:var(--a1)}
+.tlc{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rs);padding:12px 14px;cursor:pointer;transition:.2s}
+.tlc:hover{border-color:var(--a1);transform:translateX(4px)}
+.tly{font-size:.7rem;font-weight:800;margin-bottom:3px}.tly.k{color:var(--a4)}.tly.w{color:var(--a1)}
+.tlt{font-weight:700;font-size:.88rem;margin-bottom:3px}.tlds{font-size:.76rem;color:var(--t2)}
+.tltg{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.62rem;font-weight:700;margin-top:5px}
+.tltg.k{background:rgba(253,203,110,.12);color:var(--a4)}.tltg.w{background:rgba(108,92,231,.12);color:var(--a1)}
 
-.unit-body { display:none; padding:0 16px 16px; }
-.unit-card.open .unit-body { display:block; animation:fadeUp 0.3s ease; }
+.pfw{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
+.pfh{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
+.pft{font-weight:700;font-size:.88rem}
+.pff{width:100%;height:calc(100vh - 210px);min-height:500px}
+.pff iframe{width:100%;height:100%;border:0}
 
-.topic-item {
-  background:var(--bg-secondary); border-radius:var(--radius-sm);
-  padding:14px; margin-bottom:8px; cursor:pointer;
-  border-left:3px solid var(--accent-blue);
-  transition:all 0.2s;
-}
-.topic-item:hover { background:var(--bg-card-hover); transform:translateX(4px); }
-.topic-title { font-weight:600; font-size:0.88rem; margin-bottom:6px; }
-.topic-summary { font-size:0.78rem; color:var(--text-secondary); line-height:1.6; }
-
-.topic-actions {
-  display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;
-}
-.topic-btn {
-  padding:6px 12px; border-radius:20px;
-  font-size:0.7rem; font-weight:600; border:none;
-  cursor:pointer; transition:all 0.2s;
-  display:flex; align-items:center; gap:4px;
-}
-.topic-btn.youtube { background:rgba(255,0,0,0.15); color:#ff4444; }
-.topic-btn.quiz { background:rgba(46,204,113,0.15); color:var(--accent-green); }
-.topic-btn.chat { background:rgba(74,144,217,0.15); color:var(--accent-blue); }
-.topic-btn:hover { transform:scale(1.05); }
-
-/* ═══ TOPIC DETAIL MODAL ═══ */
-.modal-overlay {
-  display:none; position:fixed; top:0; left:0; right:0; bottom:0;
-  background:rgba(0,0,0,0.7); z-index:200;
-  backdrop-filter:blur(4px);
-}
-.modal-overlay.active { display:flex; align-items:flex-end; justify-content:center; }
-.modal-content {
-  background:var(--bg-secondary); border-radius:var(--radius) var(--radius) 0 0;
-  width:100%; max-width:800px; max-height:85vh;
-  overflow-y:auto; animation:fadeUp 0.3s ease;
-  padding-bottom: env(safe-area-inset-bottom, 16px);
-}
-.modal-header {
-  position:sticky; top:0; z-index:10;
-  background:var(--bg-secondary); padding:16px;
-  border-bottom:1px solid var(--border);
-  display:flex; justify-content:space-between; align-items:center;
-}
-.modal-close {
-  width:32px; height:32px; border-radius:50%;
-  background:var(--bg-card); border:1px solid var(--border);
-  color:var(--text-secondary); cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.1rem;
-}
-.modal-body { padding:16px; }
-.modal-section { margin-bottom:20px; }
-.modal-section-title {
-  font-weight:700; font-size:0.9rem; margin-bottom:10px;
-  display:flex; align-items:center; gap:6px;
-  color:var(--accent-gold);
-}
-.modal-text { font-size:0.85rem; line-height:1.8; color:var(--text-secondary); }
-.modal-text p { margin-bottom:10px; }
-
-/* YouTube Embed */
-.video-container {
-  position:relative; padding-bottom:56.25%;
-  border-radius:var(--radius-sm); overflow:hidden;
-  margin-bottom:12px; background:#000;
-}
-.video-container iframe {
-  position:absolute; top:0; left:0;
-  width:100%; height:100%; border:0;
-}
-.video-placeholder {
-  position:absolute; top:0; left:0; width:100%; height:100%;
-  display:flex; flex-direction:column;
-  align-items:center; justify-content:center;
-  background:linear-gradient(135deg, #1a1a2e, #2d1b69);
-  cursor:pointer; transition:all 0.3s;
-}
-.video-placeholder:hover { background:linear-gradient(135deg, #2a2a3e, #3d2b79); }
-.video-placeholder .play-icon { font-size:3rem; margin-bottom:8px; }
-.video-placeholder .play-text { font-size:0.85rem; color:var(--text-secondary); }
-
-/* ═══ TIMELINE PAGE ═══ */
-.timeline-controls {
-  display:flex; gap:6px; margin-bottom:16px; overflow-x:auto;
-  padding-bottom:8px; -webkit-overflow-scrolling:touch;
-}
-.timeline-filter {
-  padding:8px 16px; border-radius:20px; white-space:nowrap;
-  font-size:0.78rem; font-weight:600; cursor:pointer;
-  background:var(--bg-card); border:1px solid var(--border);
-  color:var(--text-muted); transition:all 0.2s;
-}
-.timeline-filter.active { background:var(--accent-blue); color:#fff; border-color:var(--accent-blue); }
-
-.timeline-container { position:relative; padding-left:30px; }
-.timeline-line {
-  position:absolute; left:14px; top:0; bottom:0;
-  width:2px; background:linear-gradient(to bottom, var(--accent-blue), var(--accent-purple), var(--accent-gold));
-}
-.timeline-event {
-  position:relative; margin-bottom:16px;
-  animation:fadeUp 0.5s ease forwards;
-  opacity:0;
-}
-.timeline-event:nth-child(1) { animation-delay:0.05s; }
-.timeline-event:nth-child(2) { animation-delay:0.1s; }
-.timeline-event:nth-child(3) { animation-delay:0.15s; }
-.timeline-event:nth-child(4) { animation-delay:0.2s; }
-.timeline-event:nth-child(5) { animation-delay:0.25s; }
-.timeline-event:nth-child(6) { animation-delay:0.3s; }
-.timeline-event:nth-child(7) { animation-delay:0.35s; }
-
-.timeline-dot {
-  position:absolute; left:-22px; top:16px;
-  width:14px; height:14px; border-radius:50%;
-  background:var(--accent-blue); border:3px solid var(--bg-primary);
-  z-index:2;
-}
-.timeline-dot.korean { background:var(--accent-gold); }
-.timeline-dot.world { background:var(--accent-purple); }
-
-.timeline-card {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius-sm); padding:14px;
-  cursor:pointer; transition:all 0.2s;
-}
-.timeline-card:hover { border-color:var(--accent-blue); transform:translateX(4px); }
-.timeline-year { font-size:0.72rem; color:var(--accent-blue); font-weight:700; margin-bottom:4px; }
-.timeline-title { font-weight:700; font-size:0.9rem; margin-bottom:4px; }
-.timeline-desc { font-size:0.78rem; color:var(--text-secondary); line-height:1.5; }
-.timeline-tag {
-  display:inline-block; padding:2px 8px; border-radius:10px;
-  font-size:0.65rem; font-weight:600; margin-top:6px;
-}
-.timeline-tag.korean { background:rgba(240,192,64,0.15); color:var(--accent-gold); }
-.timeline-tag.world { background:rgba(155,89,182,0.15); color:var(--accent-purple); }
-
-/* ═══ TEXTBOOK PDF PAGE ═══ */
-.pdf-viewer-container {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); overflow:hidden;
-  margin-bottom:16px;
-}
-.pdf-header {
-  padding:14px 16px; border-bottom:1px solid var(--border);
-  display:flex; align-items:center; justify-content:space-between;
-}
-.pdf-title { font-weight:700; font-size:0.9rem; }
-.pdf-iframe-wrap {
-  width:100%; height:calc(100vh - 220px);
-  min-height:500px;
-}
-.pdf-iframe-wrap iframe { width:100%; height:100%; border:0; }
-
-/* ═══ AI CHAT PAGE ═══ */
-.chat-container {
-  display:flex; flex-direction:column;
-  height:calc(100vh - var(--nav-height) - var(--bottom-nav-height) - 32px);
-}
-.chat-header-bar {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:12px 16px;
-  margin-bottom:12px; display:flex; align-items:center; gap:10px;
-}
-.chat-avatar {
-  width:40px; height:40px; border-radius:50%;
-  background:linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
-  display:flex; align-items:center; justify-content:center;
-  font-size:1.3rem;
-}
-.chat-bot-info { flex:1; }
-.chat-bot-name { font-weight:700; font-size:0.9rem; }
-.chat-bot-status { font-size:0.72rem; color:var(--accent-green); }
-
-.chat-messages {
-  flex:1; overflow-y:auto; padding:8px 0;
-  display:flex; flex-direction:column; gap:12px;
-}
-.chat-msg {
-  display:flex; gap:8px; max-width:85%;
-  animation:fadeUp 0.3s ease;
-}
-.chat-msg.bot { align-self:flex-start; }
-.chat-msg.user { align-self:flex-end; flex-direction:row-reverse; }
-.chat-msg-avatar {
-  width:30px; height:30px; border-radius:50%;
-  display:flex; align-items:center; justify-content:center;
-  font-size:0.9rem; flex-shrink:0;
-}
-.chat-msg.bot .chat-msg-avatar { background:linear-gradient(135deg, var(--accent-gold), var(--accent-orange)); }
-.chat-msg.user .chat-msg-avatar { background:var(--accent-blue); }
-.chat-msg-bubble {
-  padding:10px 14px; border-radius:16px;
-  font-size:0.85rem; line-height:1.6;
-}
-.chat-msg.bot .chat-msg-bubble { 
-  background:var(--bg-card); border:1px solid var(--border);
-  border-bottom-left-radius:4px;
-}
-.chat-msg.user .chat-msg-bubble {
-  background:var(--accent-blue); color:#fff;
-  border-bottom-right-radius:4px;
-}
-
-.chat-quick-btns {
-  display:flex; gap:6px; flex-wrap:wrap; padding:8px 0;
-}
-.chat-quick-btn {
-  padding:6px 14px; border-radius:20px;
-  background:var(--bg-card); border:1px solid var(--border);
-  color:var(--text-secondary); font-size:0.75rem;
-  cursor:pointer; transition:all 0.2s; white-space:nowrap;
-}
-.chat-quick-btn:hover { border-color:var(--accent-blue); color:var(--accent-blue); }
-
-.chat-input-bar {
-  display:flex; gap:8px; padding:12px 0 4px;
-  border-top:1px solid var(--border);
-}
-.chat-input {
-  flex:1; padding:12px 16px; border-radius:24px;
-  background:var(--bg-card); border:1px solid var(--border);
-  color:var(--text-primary); font-size:0.88rem;
-  font-family:inherit; outline:none; resize:none;
-  max-height:100px;
-}
-.chat-input:focus { border-color:var(--accent-blue); }
-.chat-input::placeholder { color:var(--text-muted); }
-.chat-send-btn {
-  width:44px; height:44px; border-radius:50%;
-  background:var(--accent-blue); border:none;
-  color:#fff; cursor:pointer; font-size:1.1rem;
-  display:flex; align-items:center; justify-content:center;
-  transition:all 0.2s; flex-shrink:0;
-}
-.chat-send-btn:hover { background:#3a80c9; transform:scale(1.05); }
-.chat-send-btn:disabled { opacity:0.5; cursor:not-allowed; }
-
-.typing-indicator {
-  display:flex; gap:4px; padding:8px 14px;
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:16px; border-bottom-left-radius:4px;
-  width:fit-content;
-}
-.typing-dot {
-  width:6px; height:6px; border-radius:50%;
-  background:var(--text-muted);
-  animation:pulse 1.4s ease-in-out infinite;
-}
-.typing-dot:nth-child(2) { animation-delay:0.2s; }
-.typing-dot:nth-child(3) { animation-delay:0.4s; }
-
-/* ═══ QUIZ PAGE ═══ */
-.quiz-setup {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:20px;
-  margin-bottom:16px;
-}
-.quiz-setup-title { font-weight:700; font-size:1rem; margin-bottom:16px; text-align:center; }
-
-.quiz-option-grid {
-  display:grid; grid-template-columns:repeat(2,1fr);
-  gap:8px; margin-bottom:16px;
-}
-.quiz-opt {
-  padding:12px; border-radius:var(--radius-sm);
-  background:var(--bg-secondary); border:2px solid var(--border);
-  text-align:center; cursor:pointer; transition:all 0.2s;
-  font-size:0.82rem; font-weight:500;
-}
-.quiz-opt:hover { border-color:var(--accent-blue); }
-.quiz-opt.selected { border-color:var(--accent-blue); background:rgba(74,144,217,0.1); }
-.quiz-opt-emoji { font-size:1.5rem; display:block; margin-bottom:4px; }
-
-.quiz-start-btn {
-  width:100%; padding:14px; border-radius:var(--radius-sm);
-  background:linear-gradient(135deg, var(--accent-blue), var(--accent-purple));
-  color:#fff; font-weight:700; font-size:0.95rem;
-  border:none; cursor:pointer; transition:all 0.2s;
-}
-.quiz-start-btn:hover { transform:scale(1.02); }
-.quiz-start-btn:disabled { opacity:0.5; }
-
-/* Quiz in progress */
-.quiz-progress-bar {
-  height:6px; background:var(--bg-card); border-radius:3px;
-  margin-bottom:16px; overflow:hidden;
-}
-.quiz-progress-fill {
-  height:100%; background:linear-gradient(90deg, var(--accent-blue), var(--accent-green));
-  border-radius:3px; transition:width 0.5s ease;
-}
-.quiz-question-card {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:24px 20px;
-  margin-bottom:12px;
-}
-.quiz-q-num { font-size:0.75rem; color:var(--accent-blue); font-weight:700; margin-bottom:8px; }
-.quiz-q-text { font-size:1rem; font-weight:600; line-height:1.6; margin-bottom:20px; }
-.quiz-answers { display:flex; flex-direction:column; gap:8px; }
-.quiz-answer {
-  padding:14px 16px; border-radius:var(--radius-sm);
-  background:var(--bg-secondary); border:2px solid var(--border);
-  cursor:pointer; transition:all 0.2s; font-size:0.88rem;
-  display:flex; align-items:center; gap:10px;
-}
-.quiz-answer:hover { border-color:var(--accent-blue); }
-.quiz-answer.selected { border-color:var(--accent-blue); background:rgba(74,144,217,0.1); }
-.quiz-answer.correct { border-color:var(--accent-green); background:rgba(46,204,113,0.1); }
-.quiz-answer.wrong { border-color:var(--accent-red); background:rgba(231,76,60,0.1); }
-.quiz-answer-label {
-  width:28px; height:28px; border-radius:50%;
-  background:var(--bg-card); border:1px solid var(--border);
-  display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:0.8rem; flex-shrink:0;
-}
-.quiz-explanation {
-  background:rgba(74,144,217,0.08); border:1px solid rgba(74,144,217,0.2);
-  border-radius:var(--radius-sm); padding:14px;
-  margin-top:12px; font-size:0.82rem; line-height:1.6;
-  color:var(--text-secondary);
-}
-.quiz-next-btn {
-  width:100%; padding:14px; border-radius:var(--radius-sm);
-  background:var(--accent-blue); color:#fff;
-  font-weight:700; border:none; cursor:pointer;
-  margin-top:12px; font-size:0.9rem; transition:all 0.2s;
-}
-
-/* Quiz Results */
-.quiz-result {
-  text-align:center; padding:30px 20px;
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius);
-}
-.quiz-result-emoji { font-size:4rem; margin-bottom:12px; }
-.quiz-result-score { font-size:2.5rem; font-weight:900; color:var(--accent-gold); }
-.quiz-result-label { font-size:0.9rem; color:var(--text-secondary); margin-bottom:16px; }
-.quiz-result-xp {
-  padding:8px 20px; border-radius:20px;
-  background:rgba(240,192,64,0.15); color:var(--accent-gold);
-  font-weight:700; display:inline-block; margin-bottom:16px;
-  font-size:0.9rem;
-}
-
-/* ═══ PROFILE / GAMIFICATION PAGE ═══ */
-.profile-header {
-  text-align:center; padding:24px;
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); margin-bottom:16px;
-}
-.profile-avatar-large {
-  width:80px; height:80px; border-radius:50%;
-  background:linear-gradient(135deg, var(--accent-gold), var(--accent-orange));
-  display:flex; align-items:center; justify-content:center;
-  font-size:2.5rem; margin:0 auto 12px;
-  border:3px solid var(--accent-gold);
-}
-.profile-name { font-weight:700; font-size:1.2rem; margin-bottom:4px; }
-.profile-level { color:var(--accent-blue); font-weight:600; font-size:0.85rem; }
-
-.xp-bar-container { margin:16px 0; }
-.xp-bar-label { display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; }
-.xp-bar { height:10px; background:var(--bg-secondary); border-radius:5px; overflow:hidden; }
-.xp-bar-fill { height:100%; background:linear-gradient(90deg, var(--accent-blue), var(--accent-purple)); border-radius:5px; transition:width 1s ease; }
-
-.stats-grid {
-  display:grid; grid-template-columns:repeat(3,1fr);
-  gap:10px; margin-bottom:20px;
-}
-.stat-card {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius-sm); padding:14px 10px;
-  text-align:center;
-}
-.stat-card-num { font-size:1.5rem; font-weight:900; }
-.stat-card-label { font-size:0.68rem; color:var(--text-muted); margin-top:2px; }
-
-.badges-section { margin-bottom:20px; }
-.badges-grid {
-  display:grid; grid-template-columns:repeat(4,1fr);
-  gap:10px;
-}
-.badge-item {
-  text-align:center; padding:12px 6px;
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius-sm);
-}
-.badge-item.earned { border-color:var(--accent-gold); animation:glow 3s infinite; }
-.badge-item.locked { opacity:0.4; }
-.badge-emoji { font-size:1.8rem; }
-.badge-name { font-size:0.65rem; margin-top:4px; color:var(--text-muted); }
-
-/* ═══ TEACHER DASHBOARD ═══ */
-.teacher-login {
-  max-width:400px; margin:40px auto;
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:30px;
-  text-align:center;
-}
-.teacher-login input {
-  width:100%; padding:12px 16px; border-radius:var(--radius-sm);
-  background:var(--bg-secondary); border:1px solid var(--border);
-  color:var(--text-primary); font-size:0.9rem;
-  margin-bottom:12px; font-family:inherit; outline:none;
-}
-.teacher-login input:focus { border-color:var(--accent-blue); }
-.teacher-login button {
-  width:100%; padding:12px; border-radius:var(--radius-sm);
-  background:var(--accent-blue); color:#fff; font-weight:700;
-  border:none; cursor:pointer; font-size:0.9rem;
-}
-
-.dashboard-grid {
-  display:grid; grid-template-columns:repeat(2,1fr);
-  gap:12px; margin-bottom:16px;
-}
-.dash-card {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); padding:16px;
-}
-.dash-card-label { font-size:0.75rem; color:var(--text-muted); margin-bottom:4px; }
-.dash-card-value { font-size:1.8rem; font-weight:900; }
-.dash-card-change { font-size:0.72rem; margin-top:2px; }
-.dash-card-change.up { color:var(--accent-green); }
-.dash-card-change.down { color:var(--accent-red); }
-
-.student-list { margin-bottom:16px; }
-.student-row {
-  display:flex; align-items:center; gap:10px;
-  padding:12px 14px; background:var(--bg-card);
-  border:1px solid var(--border); border-radius:var(--radius-sm);
-  margin-bottom:6px;
-}
-.student-rank { font-weight:900; font-size:0.9rem; color:var(--accent-gold); width:24px; }
-.student-name { flex:1; font-weight:600; font-size:0.88rem; }
-.student-progress { width:100px; }
-.student-progress-bar { height:6px; background:var(--bg-secondary); border-radius:3px; overflow:hidden; }
-.student-progress-fill { height:100%; background:var(--accent-green); border-radius:3px; }
-.student-score { font-weight:700; font-size:0.8rem; color:var(--accent-blue); width:45px; text-align:right; }
-
-/* ═══ SETTINGS ═══ */
-.settings-group {
-  background:var(--bg-card); border:1px solid var(--border);
-  border-radius:var(--radius); margin-bottom:12px; overflow:hidden;
-}
-.settings-item {
-  display:flex; align-items:center; justify-content:space-between;
-  padding:14px 16px; border-bottom:1px solid var(--border);
-}
-.settings-item:last-child { border-bottom:none; }
-.settings-label { display:flex; align-items:center; gap:10px; font-size:0.88rem; }
-.settings-label span:first-child { font-size:1.2rem; }
-
-.toggle-switch {
-  width:44px; height:24px; border-radius:12px;
-  background:var(--bg-secondary); border:1px solid var(--border);
-  position:relative; cursor:pointer; transition:all 0.3s;
-}
-.toggle-switch.on { background:var(--accent-blue); border-color:var(--accent-blue); }
-.toggle-knob {
-  width:20px; height:20px; border-radius:50%;
-  background:#fff; position:absolute; top:1px; left:1px;
-  transition:all 0.3s;
-}
-.toggle-switch.on .toggle-knob { left:21px; }
-
-.font-size-control {
-  display:flex; align-items:center; gap:8px;
-}
-.font-btn {
-  width:32px; height:32px; border-radius:8px;
-  background:var(--bg-secondary); border:1px solid var(--border);
-  color:var(--text-primary); cursor:pointer;
-  display:flex; align-items:center; justify-content:center;
-  font-weight:700;
-}
-.font-size-label { font-size:0.8rem; color:var(--text-muted); min-width:30px; text-align:center; }
-
-/* ═══ RESPONSIVE ═══ */
-@media (min-width:768px) {
-  .quick-actions { grid-template-columns:repeat(4,1fr); }
-  .quiz-option-grid { grid-template-columns:repeat(3,1fr); }
-  .dashboard-grid { grid-template-columns:repeat(4,1fr); }
-  .badges-grid { grid-template-columns:repeat(6,1fr); }
-}
-
-/* ═══ LOADING SKELETON ═══ */
-.skeleton {
-  background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%);
-  background-size:200% 100%;
-  animation:shimmer 1.5s infinite;
-  border-radius:var(--radius-sm);
-}
-
-/* ═══ API KEY CONFIG ═══ */
-.api-config {
-  background:rgba(74,144,217,0.08); border:1px solid rgba(74,144,217,0.2);
-  border-radius:var(--radius-sm); padding:12px; margin-bottom:12px;
-  font-size:0.8rem;
-}
-.api-config input {
-  width:100%; padding:8px 12px; border-radius:var(--radius-xs);
-  background:var(--bg-card); border:1px solid var(--border);
-  color:var(--text-primary); font-size:0.82rem; margin-top:6px;
-  font-family:monospace; outline:none;
-}
+.toast{position:fixed;top:76px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FDCB6E,#E17055);color:#1a1a2e;padding:12px 24px;border-radius:30px;font-weight:700;font-size:.88rem;z-index:999;animation:fadeUp .4s ease;box-shadow:0 8px 30px rgba(253,203,110,.3);white-space:nowrap}
+@media(min-width:768px){.qg{grid-template-columns:repeat(4,1fr)}.dg{grid-template-columns:repeat(4,1fr)}.bg{grid-template-columns:repeat(6,1fr)}}
 </style>
 </head>
 <body data-theme="dark">
+<div id="loginScreen"><div class="lc">
+<div class="ll">📜</div><div class="lt">오성역사톡!!</div><div class="ls">역사가 재미있어지는 순간 · 오성중학교</div>
+<div class="ltabs"><button class="ltab active" onclick="slt('s',this)">🧑‍🎓 학생</button><button class="ltab" onclick="slt('t',this)">👩‍🏫 교사</button></div>
+<div class="lform" id="sf"><select class="lsel" id="lc"><option value="">반 선택</option><option value="1-1">1학년 1반</option><option value="1-2">1학년 2반</option><option value="2-1">2학년 1반</option><option value="2-2">2학년 2반</option><option value="3-1">3학년 1반</option><option value="3-2">3학년 2반</option></select><input class="lin" id="lsn" placeholder="번호" type="number" autocomplete="off"><input class="lin" id="ln" placeholder="이름" autocomplete="off"><button class="lbtn" onclick="sLogin()">시작하기 🚀</button></div>
+<div class="lform" id="tf" style="display:none"><input class="lin" id="tp" type="password" placeholder="비밀번호 입력" autocomplete="off"><button class="lbtn" onclick="tLogin()">교사 로그인</button><div style="margin-top:12px;font-size:.75rem;color:var(--t3)">※ 비밀번호는 관리자에게 문의하세요</div></div>
+</div></div>
 
-<!-- ═══ TOP NAV ═══ -->
-<nav class="top-nav">
-  <div class="top-nav-logo" onclick="navigateTo('home')">
-    <span>📜</span> 오성역사톡!!
-  </div>
-  <div class="top-nav-actions">
-    <div class="streak-badge" id="streakBadge">🔥 <span id="streakCount">0</span>일</div>
-    <div class="xp-badge" id="xpBadge">⭐ <span id="xpCount">0</span> XP</div>
-    <button class="nav-icon-btn" onclick="navigateTo('settings')" title="설정">⚙️</button>
-  </div>
-</nav>
+<nav class="tn" id="tn" style="display:none"><div class="tn-l" onclick="go('home')"><div class="tn-i">📜</div><div class="tn-t">오성역사톡</div></div><div class="tn-r"><div class="tn-b sb">🔥 <span id="ns">0</span>일</div><div class="tn-b xb">⭐ <span id="nx">0</span></div><div class="tn-ic" onclick="go('settings')">⚙️</div></div></nav>
 
-<!-- ═══ MAIN CONTENT ═══ -->
-<main class="main-content">
+<main class="mn" id="ma" style="display:none">
+<section class="pg a" id="p-home">
+<div class="hero"><div class="hg">안녕, <span id="hn">탐험가</span>! 👋</div><div class="hm">오늘도 역사 속으로 떠나볼까요?</div>
+<div class="hs"><div class="hsi"><div class="hsn" style="color:var(--a4)" id="hk">0</div><div class="hsl">🔥 연속</div></div><div class="hsi"><div class="hsn" style="color:var(--a5)" id="hq">0</div><div class="hsl">🎯 퀴즈</div></div><div class="hsi"><div class="hsn" style="color:var(--a1)" id="hx">0</div><div class="hsl">⭐ XP</div></div></div></div>
+<div class="qg"><div class="qc" onclick="go('curriculum')"><div class="qce">📚</div><div class="qct">교과서 학습</div><div class="qcd">단원별 핵심 내용</div></div><div class="qc" onclick="go('quiz')"><div class="qce">🎯</div><div class="qct">AI 퀴즈</div><div class="qcd">AI가 출제하는 5지선다</div></div><div class="qc" onclick="go('chat')"><div class="qce">🤖</div><div class="qct">AI 역사쌤</div><div class="qcd">뭐든지 물어봐!</div></div><div class="qc" onclick="go('textbook')"><div class="qce">📖</div><div class="qct">교과서 보기</div><div class="qcd">PDF 원문 직접 보기</div></div></div>
+<div class="mc"><div class="mch"><span style="font-size:1.2rem">🎯</span><span class="mctg">오늘의 미션</span></div><div class="mctx" id="mt">AI 퀴즈 5문제 풀고 50 XP!</div><button class="mcbt" onclick="go('quiz')">미션 시작 →</button></div>
+<div class="sh"><div class="st">📝 최근 활동</div></div><div class="al" id="al"><div class="ai"><div class="aie">🌟</div><div class="aii"><div class="ait">학습을 시작해보세요!</div><div class="ais">교과서 학습에서 단원을 선택하세요</div></div></div></div>
+</section>
 
-  <!-- ═══ HOME PAGE ═══ -->
-  <section class="page active" id="page-home">
-    <div class="hero-section">
-      <div class="hero-title">오성역사톡!! 📜</div>
-      <div class="hero-subtitle">역사가 재미있어지는 순간, 오성중학교</div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="totalStudyDays">0</div>
-          <div class="hero-stat-label">학습일</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="totalQuizzes">0</div>
-          <div class="hero-stat-label">퀴즈 완료</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num" id="totalUnits">12</div>
-          <div class="hero-stat-label">전체 단원</div>
-        </div>
-      </div>
-    </div>
+<section class="pg" id="p-curriculum"><div class="sh" style="margin-bottom:14px"><div class="st">📚 교과서 학습</div></div>
+<div class="bt"><button class="btb a" onclick="sb('history1',this)">역사① 세계사</button><button class="btb" onclick="sb('history2',this)">역사② 한국사</button></div><div id="ul"></div></section>
 
-    <div class="quick-actions">
-      <div class="quick-card" onclick="navigateTo('curriculum')">
-        <div class="quick-card-emoji">📚</div>
-        <div class="quick-card-title">교과서 학습</div>
-        <div class="quick-card-desc">단원별 핵심 내용 정리</div>
-      </div>
-      <div class="quick-card" onclick="navigateTo('quiz')">
-        <div class="quick-card-emoji">🎯</div>
-        <div class="quick-card-title">AI 퀴즈</div>
-        <div class="quick-card-desc">맞춤형 문제 풀기</div>
-      </div>
-      <div class="quick-card" onclick="navigateTo('chat')">
-        <div class="quick-card-emoji">🤖</div>
-        <div class="quick-card-title">AI 역사 챗봇</div>
-        <div class="quick-card-desc">궁금한 건 바로 질문!</div>
-      </div>
-      <div class="quick-card" onclick="navigateTo('textbook')">
-        <div class="quick-card-emoji">📖</div>
-        <div class="quick-card-title">교과서 원문</div>
-        <div class="quick-card-desc">PDF 교과서 보기</div>
-      </div>
-    </div>
+<section class="pg" id="p-timeline"><div class="sh" style="margin-bottom:14px"><div class="st">⏳ 역사 타임라인</div></div>
+<div class="tl-f"><button class="tlf a" onclick="tf('all',this)">전체</button><button class="tlf" onclick="tf('korean',this)">🇰🇷 한국사</button><button class="tlf" onclick="tf('world',this)">🌍 세계사</button><button class="tlf" onclick="tf('ancient',this)">고대</button><button class="tlf" onclick="tf('medieval',this)">중세</button><button class="tlf" onclick="tf('modern',this)">근현대</button></div><div class="tw" id="tw"></div></section>
 
-    <div class="daily-mission" id="dailyMission">
-      <div class="daily-mission-header">
-        <span style="font-size:1.2rem">🎯</span>
-        <div class="daily-mission-title">오늘의 미션</div>
-      </div>
-      <div class="daily-mission-content" id="dailyMissionText">
-        AI 퀴즈에서 고대 문명 단원 5문제 풀기! 완료하면 50 XP를 획득해요.
-      </div>
-      <button class="daily-mission-btn" onclick="navigateTo('quiz')">미션 시작하기 →</button>
-    </div>
+<section class="pg" id="p-textbook"><div class="sh" style="margin-bottom:14px"><div class="st">📖 교과서 원문</div></div>
+<div class="bt"><button class="btb a" onclick="lp('h1',this)">역사① 세계사</button><button class="btb" onclick="lp('h2',this)">역사② 한국사</button></div>
+<div class="pfw"><div class="pfh"><div class="pft" id="pt">📕 역사① 교과서</div></div><div class="pff"><iframe id="pf" src="https://drive.google.com/file/d/18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T/preview" allow="autoplay" loading="lazy"></iframe></div></div>
+<div style="font-size:.72rem;color:var(--t3);text-align:center;padding:10px">💡 교과서를 직접 읽을 수 있어요. 확대/축소, 페이지 이동 모두 가능!</div></section>
 
-    <div class="section-header">
-      <div class="section-title">📊 최근 학습 활동</div>
-    </div>
-    <div class="activity-list" id="activityList">
-      <div class="activity-item" onclick="navigateTo('curriculum')">
-        <div class="activity-emoji">📚</div>
-        <div class="activity-info">
-          <div class="activity-title">학습을 시작해보세요!</div>
-          <div class="activity-sub">교과서 학습 탭에서 단원을 선택하세요</div>
-        </div>
-        <div class="activity-xp">🌟</div>
-      </div>
-    </div>
-  </section>
+<section class="pg" id="p-chat"><div class="cw"><div class="ct"><div class="cav">🤖</div><div><div class="cbn">역사박사 AI</div><div class="cbs">● 항상 대기 중</div></div></div>
+<div class="cms" id="cm"><div class="cm b"><div class="cma">🤖</div><div class="cmb">안녕! 나는 <b>역사박사 AI</b>야! 🎓<br>역사 궁금한 거 뭐든 물어봐! 😊</div></div></div>
+<div class="cqb"><button class="cq" onclick="qc('고조선은 어떻게 건국되었어?')">🏛️ 고조선</button><button class="cq" onclick="qc('삼국시대 정리해줘')">⚔️ 삼국시대</button><button class="cq" onclick="qc('프랑스 혁명 원인이 뭐야?')">🇫🇷 프랑스혁명</button><button class="cq" onclick="qc('임진왜란에 대해 알려줘')">🛡️ 임진왜란</button></div>
+<div class="cb"><input class="ci" id="ci" placeholder="역사에 대해 물어보세요!" onkeydown="if(event.key==='Enter')sm()"><button class="csb" onclick="sm()">➤</button></div></div></section>
 
-  <!-- ═══ CURRICULUM PAGE ═══ -->
-  <section class="page" id="page-curriculum">
-    <div class="section-header" style="margin-bottom:16px">
-      <div class="section-title">📚 교과서 학습</div>
-    </div>
+<section class="pg" id="p-quiz"><div id="qa2"></div></section>
 
-    <div class="book-selector">
-      <div class="book-tab active" onclick="selectBook('history1', this)">역사① 세계사</div>
-      <div class="book-tab" onclick="selectBook('history2', this)">역사② 한국사</div>
-    </div>
+<section class="pg" id="p-profile"><div class="ph"><div class="pav">🎓</div><div class="pn" id="ppn">탐험가</div><div class="plv" id="ppv">Lv.1 역사 입문자</div>
+<div class="xw"><div class="xl"><span id="xc">0 XP</span><span id="xn">100 XP</span></div><div class="xb2"><div class="xbf" id="xf" style="width:0%"></div></div></div></div>
+<div class="sg"><div class="sc"><div class="scn" style="color:var(--a4)" id="ps">0</div><div class="scl">🔥 연속</div></div><div class="sc"><div class="scn" style="color:var(--a5)" id="pa">0%</div><div class="scl">📊 정답률</div></div><div class="sc"><div class="scn" style="color:var(--a1)" id="pt2">0</div><div class="scl">🎯 퀴즈</div></div></div>
+<div class="sh"><div class="st">🏆 뱃지 컬렉션</div></div><div class="bg" id="bg2"></div></section>
 
-    <div id="unitList"></div>
-  </section>
+<section class="pg" id="p-teacher"><div id="ta"></div></section>
 
-  <!-- ═══ TIMELINE PAGE ═══ -->
-  <section class="page" id="page-timeline">
-    <div class="section-header" style="margin-bottom:16px">
-      <div class="section-title">⏳ 인터랙티브 타임라인</div>
-    </div>
-
-    <div class="timeline-controls">
-      <div class="timeline-filter active" onclick="filterTimeline('all', this)">전체</div>
-      <div class="timeline-filter" onclick="filterTimeline('korean', this)">한국사</div>
-      <div class="timeline-filter" onclick="filterTimeline('world', this)">세계사</div>
-      <div class="timeline-filter" onclick="filterTimeline('ancient', this)">고대</div>
-      <div class="timeline-filter" onclick="filterTimeline('medieval', this)">중세</div>
-      <div class="timeline-filter" onclick="filterTimeline('modern', this)">근현대</div>
-    </div>
-
-    <div class="timeline-container" id="timelineContainer"></div>
-  </section>
-
-  <!-- ═══ TEXTBOOK PDF PAGE ═══ -->
-  <section class="page" id="page-textbook">
-    <div class="section-header" style="margin-bottom:16px">
-      <div class="section-title">📖 교과서 원문 보기</div>
-    </div>
-
-    <div class="book-selector">
-      <div class="book-tab active" onclick="loadPDF('history1', this)">역사① 세계사</div>
-      <div class="book-tab" onclick="loadPDF('history2', this)">역사② 한국사</div>
-    </div>
-
-    <div class="pdf-viewer-container">
-      <div class="pdf-header">
-        <div class="pdf-title" id="pdfTitle">📕 [비상교육] 중등 역사①(이병인) 교과서</div>
-      </div>
-      <div class="pdf-iframe-wrap">
-        <iframe id="pdfFrame" src="https://drive.google.com/file/d/18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T/preview" allow="autoplay"></iframe>
-      </div>
-    </div>
-    <div style="font-size:0.75rem; color:var(--text-muted); text-align:center; padding:8px;">
-      💡 Google Drive로 교과서 원문을 직접 볼 수 있어요. 확대/축소, 페이지 이동이 가능합니다.
-    </div>
-  </section>
-
-  <!-- ═══ AI CHAT PAGE ═══ -->
-  <section class="page" id="page-chat">
-    <div class="chat-container">
-      <div class="chat-header-bar">
-        <div class="chat-avatar">📜</div>
-        <div class="chat-bot-info">
-          <div class="chat-bot-name">역사박사 AI</div>
-          <div class="chat-bot-status">● 항상 대기 중</div>
-        </div>
-      </div>
-
-      <div class="api-config" id="apiConfig">
-        💡 AI 기능을 사용하려면 Anthropic API 키가 필요합니다.
-        <input type="password" id="apiKeyInput" placeholder="sk-ant-... API 키 입력" 
-               onchange="saveApiKey(this.value)">
-      </div>
-
-      <div class="chat-messages" id="chatMessages">
-        <div class="chat-msg bot">
-          <div class="chat-msg-avatar">📜</div>
-          <div class="chat-msg-bubble">
-            안녕! 나는 <strong>역사박사 AI</strong>야! 🎓<br><br>
-            역사에 대해 궁금한 건 뭐든지 물어봐! 고대 문명부터 현대사까지, 세계사와 한국사 모두 도와줄 수 있어요. 😊
-          </div>
-        </div>
-      </div>
-
-      <div class="chat-quick-btns">
-        <div class="chat-quick-btn" onclick="sendQuickChat('고조선은 어떻게 건국되었어?')">🏛️ 고조선 건국</div>
-        <div class="chat-quick-btn" onclick="sendQuickChat('프랑스 혁명은 왜 일어났어?')">🇫🇷 프랑스 혁명</div>
-        <div class="chat-quick-btn" onclick="sendQuickChat('삼국시대에 대해 알려줘')">⚔️ 삼국시대</div>
-        <div class="chat-quick-btn" onclick="sendQuickChat('제2차 세계대전 정리해줘')">🌍 세계대전</div>
-      </div>
-
-      <div class="chat-input-bar">
-        <input class="chat-input" id="chatInput" placeholder="역사에 대해 궁금한 걸 물어보세요!" 
-               onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}">
-        <button class="chat-send-btn" id="chatSendBtn" onclick="sendChat()">➤</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ═══ QUIZ PAGE ═══ -->
-  <section class="page" id="page-quiz">
-    <div id="quizArea"></div>
-  </section>
-
-  <!-- ═══ PROFILE / GAMIFICATION PAGE ═══ -->
-  <section class="page" id="page-profile">
-    <div class="profile-header">
-      <div class="profile-avatar-large">🎓</div>
-      <div class="profile-name" id="profileName">역사 탐험가</div>
-      <div class="profile-level" id="profileLevel">Lv. 1 역사 입문자</div>
-      <div class="xp-bar-container">
-        <div class="xp-bar-label">
-          <span id="currentXP">0 XP</span>
-          <span id="nextLevelXP">100 XP</span>
-        </div>
-        <div class="xp-bar">
-          <div class="xp-bar-fill" id="xpBarFill" style="width:0%"></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="stats-grid">
-      <div class="stat-card">
-        <div class="stat-card-num" style="color:var(--accent-gold)" id="statStreak">0</div>
-        <div class="stat-card-label">🔥 연속 학습</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-num" style="color:var(--accent-green)" id="statQuizScore">0%</div>
-        <div class="stat-card-label">📊 평균 정답률</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card-num" style="color:var(--accent-blue)" id="statTotalQuiz">0</div>
-        <div class="stat-card-label">🎯 퀴즈 완료</div>
-      </div>
-    </div>
-
-    <div class="badges-section">
-      <div class="section-header">
-        <div class="section-title">🏆 획득한 뱃지</div>
-      </div>
-      <div class="badges-grid" id="badgesGrid"></div>
-    </div>
-  </section>
-
-  <!-- ═══ TEACHER DASHBOARD PAGE ═══ -->
-  <section class="page" id="page-teacher">
-    <div id="teacherArea"></div>
-  </section>
-
-  <!-- ═══ SETTINGS PAGE ═══ -->
-  <section class="page" id="page-settings">
-    <div class="section-header" style="margin-bottom:16px">
-      <div class="section-title">⚙️ 설정</div>
-    </div>
-
-    <div class="settings-group">
-      <div class="settings-item">
-        <div class="settings-label"><span>🌙</span> 다크모드</div>
-        <div class="toggle-switch on" id="darkModeToggle" onclick="toggleDarkMode()">
-          <div class="toggle-knob"></div>
-        </div>
-      </div>
-      <div class="settings-item">
-        <div class="settings-label"><span>🔤</span> 글씨 크기</div>
-        <div class="font-size-control">
-          <button class="font-btn" onclick="changeFontSize(-1)">A-</button>
-          <span class="font-size-label" id="fontSizeLabel">중</span>
-          <button class="font-btn" onclick="changeFontSize(1)">A+</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="settings-group">
-      <div class="settings-item" onclick="navigateTo('teacher')" style="cursor:pointer">
-        <div class="settings-label"><span>👩‍🏫</span> 교사 대시보드</div>
-        <span style="color:var(--text-muted)">→</span>
-      </div>
-    </div>
-
-    <div class="settings-group">
-      <div class="settings-item">
-        <div class="settings-label"><span>🔑</span> AI API 키 설정</div>
-      </div>
-      <div style="padding:0 16px 14px">
-        <input type="password" id="settingsApiKey" placeholder="sk-ant-... Anthropic API 키"
-               style="width:100%;padding:10px 14px;border-radius:var(--radius-xs);background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);font-size:0.82rem;font-family:monospace;outline:none;"
-               onchange="saveApiKey(this.value)">
-        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:6px;">
-          AI 챗봇과 AI 퀴즈 기능에 필요합니다. 키는 브라우저에만 저장됩니다.
-        </div>
-      </div>
-    </div>
-
-    <div class="settings-group">
-      <div class="settings-item">
-        <div class="settings-label"><span>🏫</span> 학생 이름 설정</div>
-      </div>
-      <div style="padding:0 16px 14px">
-        <input type="text" id="studentNameInput" placeholder="이름을 입력하세요"
-               style="width:100%;padding:10px 14px;border-radius:var(--radius-xs);background:var(--bg-secondary);border:1px solid var(--border);color:var(--text-primary);font-size:0.88rem;font-family:inherit;outline:none;"
-               onchange="saveStudentName(this.value)">
-      </div>
-    </div>
-
-    <div style="text-align:center; padding:20px; color:var(--text-muted); font-size:0.75rem;">
-      오성역사톡!! v1.0 | 오성중학교<br>
-      Powered by Anthropic Claude AI
-    </div>
-  </section>
+<section class="pg" id="p-settings"><div class="sh" style="margin-bottom:14px"><div class="st">⚙️ 설정</div></div>
+<div class="stg"><div class="sti"><div class="stl"><span>🌙</span> 다크모드</div><div class="tg on" id="dt" onclick="td()"><div class="tgk"></div></div></div>
+<div class="sti"><div class="stl"><span>🔤</span> 글씨 크기</div><div class="fc"><button class="fb" onclick="cf(-1)">A-</button><span id="fl" style="font-size:.8rem;color:var(--t3);min-width:24px;text-align:center">중</span><button class="fb" onclick="cf(1)">A+</button></div></div></div>
+<div class="stg"><div class="sti" style="cursor:pointer" onclick="lo()"><div class="stl"><span>🚪</span> 로그아웃</div><span style="color:var(--a6)">→</span></div></div>
+<div style="text-align:center;padding:20px;color:var(--t3);font-size:.72rem">오성역사톡!! v2.0 | 오성중학교<br>Powered by Google Gemini AI</div></section>
 </main>
 
-<!-- ═══ TOPIC DETAIL MODAL ═══ -->
-<div class="modal-overlay" id="topicModal">
-  <div class="modal-content">
-    <div class="modal-header">
-      <div style="font-weight:700; font-size:1rem;" id="modalTitle">주제</div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <div class="modal-body" id="modalBody"></div>
-  </div>
-</div>
+<div class="mo" id="mo"><div class="ms"><div class="mha"></div><div class="mh"><div class="mti" id="mti2"></div><button class="mx" onclick="cm2()">✕</button></div><div class="mb" id="mb2"></div></div></div>
 
-<!-- ═══ BOTTOM NAVIGATION ═══ -->
-<nav class="bottom-nav">
-  <div class="bottom-nav-item active" onclick="navigateTo('home')">
-    <span class="nav-emoji">🏠</span>
-    <span>홈</span>
-  </div>
-  <div class="bottom-nav-item" onclick="navigateTo('curriculum')">
-    <span class="nav-emoji">📚</span>
-    <span>학습</span>
-  </div>
-  <div class="bottom-nav-item" onclick="navigateTo('timeline')">
-    <span class="nav-emoji">⏳</span>
-    <span>타임라인</span>
-  </div>
-  <div class="bottom-nav-item" onclick="navigateTo('chat')">
-    <span class="nav-emoji">🤖</span>
-    <span>AI챗봇</span>
-  </div>
-  <div class="bottom-nav-item" onclick="navigateTo('profile')">
-    <span class="nav-emoji">🏆</span>
-    <span>내정보</span>
-  </div>
+<nav class="bn" id="bn" style="display:none">
+<div class="bni a" onclick="go('home')"><span class="be">🏠</span><span>홈</span></div>
+<div class="bni" onclick="go('curriculum')"><span class="be">📚</span><span>학습</span></div>
+<div class="bni" onclick="go('timeline')"><span class="be">⏳</span><span>타임라인</span></div>
+<div class="bni" onclick="go('chat')"><span class="be">🤖</span><span>AI챗봇</span></div>
+<div class="bni" onclick="go('profile')"><span class="be">🏆</span><span>내정보</span></div>
 </nav>
 
 <script>
-// ═══════════════════════════════════════════
-// 📚 DATA: 비상교육 역사 교과서 커리큘럼
-// ═══════════════════════════════════════════
-
-const CURRICULUM_DATA = {
-  history1: {
-    title: "역사 ① (세계사)", driveId: "18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T",
-    units: [
-      { id:"h1-1", num:"Ⅰ", emoji:"🏛️", title:"문명의 발생과 고대 세계의 형성", era:"BC 3500~BC 200",
-        color:"#e67e22",
-        topics:[
-          { title:"인류의 출현과 선사 문화",
-            summary:"약 700만 년 전 아프리카에서 인류가 출현했습니다. 구석기 시대에는 뗀석기를 사용하고 사냥과 채집으로 생활했으며, 신석기 시대에는 농경과 목축이 시작되어 정착 생활을 하게 되었습니다.",
-            detail:"구석기 시대 사람들은 주먹도끼, 찍개 등의 뗀석기를 사용하여 사냥과 채집 활동을 했습니다. 무리를 이루어 동굴이나 바위 그늘에서 이동 생활을 했죠. 약 1만 년 전 신석기 혁명이 일어나면서 농경과 목축이 시작되었고, 간석기와 빗살무늬 토기를 사용하게 됩니다. 이때부터 정착 생활이 시작되어 마을이 형성되었습니다.",
-            youtubeId:"dGXFfOM4SLs", youtubeTitle:"인류의 출현과 선사 문화" },
-          { title:"문명의 발생 - 메소포타미아, 이집트, 인더스, 중국",
-            summary:"큰 강 유역에서 농경이 발달하면서 4대 문명이 발생했습니다. 각 문명은 고유한 문자, 법률, 종교를 발전시켰습니다.",
-            detail:"메소포타미아 문명은 티그리스·유프라테스 강 유역에서 발생하여 쐐기 문자와 함무라비 법전을 만들었습니다. 이집트 문명은 나일 강 유역에서 발생하여 상형 문자와 피라미드를 남겼습니다. 인더스 문명은 인더스 강 유역의 모헨조다로와 하라파 등 계획도시가 특징이며, 중국 문명은 황허 강 유역에서 은(상)나라의 갑골 문자로 시작됩니다.",
-            youtubeId:"L_Hbr1FBTGQ", youtubeTitle:"4대 문명의 발생" },
-          { title:"고대 제국의 등장 - 페르시아, 그리스, 로마",
-            summary:"고대 세계에서는 페르시아, 그리스, 로마 등 거대 제국이 등장하여 광대한 영토를 지배하고 독자적인 문화를 발전시켰습니다.",
-            detail:"페르시아 제국은 다리우스 1세 때 최대 영토를 확보하고 '왕의 눈과 귀' 제도로 통치했습니다. 그리스는 아테네의 민주정치와 스파르타의 군사 국가로 나뉘었고, 소크라테스·플라톤·아리스토텔레스 등 위대한 철학자를 배출했습니다. 로마는 공화정에서 제정으로 발전하며 팍스 로마나(로마의 평화) 시대를 이루었습니다.",
-            youtubeId:"K0bsyMqEEoM", youtubeTitle:"고대 그리스와 로마" }
-        ]},
-      { id:"h1-2", num:"Ⅱ", emoji:"⛪", title:"세계 종교의 확산과 지역 문화의 형성", era:"1~15세기",
-        color:"#9b59b6",
-        topics:[
-          { title:"불교의 확산과 동아시아 문화",
-            summary:"인도에서 시작된 불교는 동남아시아와 동아시아로 전파되어 각 지역의 문화 형성에 큰 영향을 미쳤습니다.",
-            detail:"석가모니가 창시한 불교는 아소카왕 때 인도 전역에 전파되었고, 이후 중국·한국·일본 등 동아시아로 확산되었습니다. 각 나라에서 불교는 토착 문화와 결합하여 독자적인 불교 문화를 발전시켰습니다. 중국의 돈황 석굴, 한국의 불국사와 석굴암, 일본의 호류지 등이 대표적인 불교 문화유산입니다.",
-            youtubeId:"", youtubeTitle:"불교의 확산" },
-          { title:"크리스트교와 이슬람교의 형성과 확산",
-            summary:"크리스트교는 로마 제국을 중심으로, 이슬람교는 아라비아반도에서 시작되어 각각 유럽과 서아시아·북아프리카 지역의 문화를 형성했습니다.",
-            detail:"예수의 가르침에서 시작된 크리스트교는 313년 밀라노 칙령으로 공인된 후 유럽 전역으로 확산되었습니다. 무함마드가 창시한 이슬람교는 아라비아반도에서 시작하여 빠르게 서아시아와 북아프리카로 퍼져나갔습니다. 두 종교는 각각 유럽의 봉건 사회와 이슬람 제국의 형성에 핵심적인 역할을 했습니다.",
-            youtubeId:"", youtubeTitle:"세계 종교의 확산" },
-          { title:"유럽 봉건 사회의 형성과 발전",
-            summary:"서로마 제국 멸망 후 유럽에서는 봉건제도가 성립되었고, 크리스트교 교회가 중세 문화의 중심이 되었습니다.",
-            detail:"게르만족의 이동으로 서로마 제국이 멸망한 후, 유럽에는 봉건 제도가 자리 잡았습니다. 왕·영주·기사·농노로 이루어진 신분 사회가 형성되었고, 교황과 교회가 정신적·정치적으로 큰 영향력을 행사했습니다. 십자군 전쟁은 동서 문화 교류를 촉진하는 계기가 되었습니다.",
-            youtubeId:"", youtubeTitle:"유럽 봉건 사회" }
-        ]},
-      { id:"h1-3", num:"Ⅲ", emoji:"🛳️", title:"지역 세계의 교류와 변화", era:"10~18세기",
-        color:"#3498db",
-        topics:[
-          { title:"동서 교역의 확대와 교류",
-            summary:"비단길(실크로드)과 바닷길을 통해 동서양의 교역이 활발해지면서 문물 교류가 이루어졌습니다.",
-            detail:"비단길을 통해 중국의 비단, 종이, 화약 등이 서양에 전해졌고, 서양의 유리, 보석 등이 동양으로 유입되었습니다. 몽골 제국의 등장으로 동서 교역이 더욱 활발해졌으며, 마르코 폴로의 동방 여행기가 유럽에 동양에 대한 관심을 불러일으켰습니다.",
-            youtubeId:"", youtubeTitle:"동서 교역과 실크로드" },
-          { title:"신항로 개척과 유럽의 팽창",
-            summary:"15세기 이후 유럽인들은 새로운 항로를 개척하여 아메리카, 아시아, 아프리카로 진출했습니다.",
-            detail:"포르투갈과 에스파냐를 중심으로 신항로 개척이 이루어졌습니다. 콜럼버스의 아메리카 도달, 바스코 다 가마의 인도 항로 개척, 마젤란의 세계 일주가 대표적입니다. 이로 인해 유럽의 식민 지배가 시작되었고, 아메리카 원주민 문명이 파괴되는 비극도 일어났습니다.",
-            youtubeId:"", youtubeTitle:"신항로 개척" }
-        ]},
-      { id:"h1-4", num:"Ⅳ", emoji:"🏭", title:"제국주의 침략과 국민 국가 건설 운동", era:"18~19세기",
-        color:"#e74c3c",
-        topics:[
-          { title:"시민 혁명의 전개",
-            summary:"영국 혁명, 미국 독립 혁명, 프랑스 혁명을 통해 절대 왕정이 무너지고 시민의 자유와 권리가 확대되었습니다.",
-            detail:"1688년 영국 명예혁명으로 입헌 군주제가 확립되었고, 1776년 미국은 독립 선언서를 발표하며 독립 전쟁을 시작했습니다. 1789년 프랑스 혁명은 인권 선언을 통해 자유·평등·박애의 이념을 전 세계에 확산시켰습니다.",
-            youtubeId:"", youtubeTitle:"시민 혁명" },
-          { title:"산업 혁명과 자본주의의 발전",
-            summary:"18세기 영국에서 시작된 산업 혁명은 경제·사회 전반에 큰 변화를 가져왔습니다.",
-            detail:"증기 기관의 발명과 방직 기계의 개량으로 공장제 기계 공업이 발달했습니다. 산업 혁명은 자본주의 경제 체제를 확립시켰지만, 노동 문제와 빈부 격차라는 새로운 사회 문제도 만들어냈습니다.",
-            youtubeId:"", youtubeTitle:"산업 혁명" }
-        ]},
-      { id:"h1-5", num:"Ⅴ", emoji:"💣", title:"세계 대전과 사회 변동", era:"20세기 전반",
-        color:"#2c3e50",
-        topics:[
-          { title:"제1차 세계 대전과 전후 질서",
-            summary:"유럽 열강의 대립으로 제1차 세계 대전이 발발하고, 전후 새로운 국제 질서가 수립되었습니다.",
-            detail:"삼국 동맹과 삼국 협상의 대립, 발칸반도의 긴장 속에서 사라예보 사건을 계기로 제1차 세계 대전(1914~1918)이 발발했습니다. 전쟁 후 베르사유 조약이 체결되고 국제 연맹이 창설되었으나, 독일에 대한 가혹한 배상금 부과는 제2차 세계 대전의 원인이 됩니다.",
-            youtubeId:"", youtubeTitle:"제1차 세계대전" },
-          { title:"제2차 세계 대전과 냉전",
-            summary:"전체주의 국가의 팽창으로 제2차 세계 대전이 일어났고, 전후 미국과 소련 중심의 냉전 체제가 형성되었습니다.",
-            detail:"독일의 히틀러, 이탈리아의 무솔리니, 일본의 군국주의가 전쟁을 일으켰습니다. 6년간의 전쟁 끝에 연합군이 승리했고, 유엔이 창설되었습니다. 그러나 미국과 소련은 이념 대립으로 냉전 시대에 돌입했습니다.",
-            youtubeId:"", youtubeTitle:"제2차 세계대전" }
-        ]},
-      { id:"h1-6", num:"Ⅵ", emoji:"🌐", title:"현대 세계의 전개와 과제", era:"20세기 후반~현재",
-        color:"#16a085",
-        topics:[
-          { title:"냉전의 전개와 해체",
-            summary:"약 40년간 지속된 냉전은 소련의 해체와 함께 종식되었고, 세계는 새로운 국제 질서를 모색하게 되었습니다.",
-            detail:"미·소 두 강대국의 이념 대립으로 한국 전쟁, 쿠바 미사일 위기, 베트남 전쟁 등이 발생했습니다. 1989년 베를린 장벽 붕괴와 1991년 소련 해체로 냉전이 종식되었습니다.",
-            youtubeId:"", youtubeTitle:"냉전과 해체" },
-          { title:"21세기 세계의 과제",
-            summary:"세계화, 환경 문제, 인권, 갈등과 분쟁 등 현대 세계가 직면한 다양한 과제들을 살펴봅니다.",
-            detail:"세계화로 경제적 교류가 활발해졌지만 빈부 격차와 문화 갈등도 심화되었습니다. 기후 변화, 테러리즘, 난민 문제 등 국제 사회가 함께 해결해야 할 과제가 산적해 있습니다.",
-            youtubeId:"", youtubeTitle:"현대 세계의 과제" }
-        ]}
-    ]
-  },
-  history2: {
-    title: "역사 ② (한국사)", driveId: "13PmJUuMXgtrjHU91BBx_TvpVSaxx2XCJ",
-    units: [
-      { id:"h2-1", num:"Ⅰ", emoji:"🗿", title:"선사 문화와 고대 국가의 형성", era:"~7세기",
-        color:"#d4a574",
-        topics:[
-          { title:"선사 문화의 전개",
-            summary:"한반도와 만주 지역에서 구석기·신석기·청동기 시대를 거치며 독자적인 선사 문화가 발전했습니다.",
-            detail:"한반도에서는 약 70만 년 전부터 구석기인이 살기 시작했습니다. 신석기 시대에는 빗살무늬 토기를 사용하고 농경을 시작했습니다. 청동기 시대에는 비파형 동검과 고인돌 같은 독자적 문화가 나타났고, 계급이 분화되면서 국가 형성의 기반이 마련되었습니다.",
-            youtubeId:"", youtubeTitle:"한반도 선사 문화" },
-          { title:"고조선의 성립과 발전",
-            summary:"우리 역사 최초의 국가인 고조선은 단군왕검이 건국하였으며, 8조법을 통해 사회 모습을 엿볼 수 있습니다.",
-            detail:"기원전 2333년 단군왕검이 고조선을 건국했다고 전해집니다. 고조선은 청동기 문화를 기반으로 성장하였고, 8조법은 생명 존중, 사유 재산 보호, 노동력 중시 등을 보여줍니다. 위만이 집권한 후 한과 대립하다 기원전 108년 멸망했습니다.",
-            youtubeId:"", youtubeTitle:"고조선" },
-          { title:"삼국의 성장과 발전",
-            summary:"고구려·백제·신라 삼국이 각각 독자적인 통치 체제를 갖추고 영토를 확장하며 발전했습니다.",
-            detail:"고구려는 광개토 대왕과 장수왕 때 만주와 한반도 북부를 지배했습니다. 백제는 근초고왕 때 전성기를 이루었고, 일본에 문화를 전파했습니다. 신라는 법흥왕 때 불교를 공인하고 진흥왕 때 한강 유역을 차지하며 삼국 통일의 기반을 마련했습니다.",
-            youtubeId:"", youtubeTitle:"삼국의 성장" },
-          { title:"삼국의 문화와 대외 교류",
-            summary:"삼국은 각각 고유한 문화를 발전시켰으며, 중국·일본 등과 활발한 문화 교류를 했습니다.",
-            detail:"고구려의 고분 벽화는 당시 생활상과 힘찬 기상을 보여줍니다. 백제의 금동 대향로는 세련된 예술 감각을 드러내며, 신라의 금관은 화려한 금속 공예 기술을 보여줍니다. 삼국은 중국 문화를 수용하면서도 독자적 문화를 발전시켰고, 특히 일본에 불교와 학문, 기술을 전파했습니다.",
-            youtubeId:"", youtubeTitle:"삼국의 문화" }
-        ]},
-      { id:"h2-2", num:"Ⅱ", emoji:"🏯", title:"남북국 시대의 전개", era:"7~10세기",
-        color:"#2ecc71",
-        topics:[
-          { title:"통일 신라의 발전",
-            summary:"신라는 삼국을 통일한 후 왕권을 강화하고 불교문화의 꽃을 피웠습니다.",
-            detail:"676년 신라가 삼국을 통일한 후 신문왕은 녹읍을 폐지하고 9주 5소경 체제를 정비하여 중앙 집권 체제를 강화했습니다. 불국사, 석굴암, 성덕대왕 신종 등 찬란한 불교 문화유산을 남겼습니다.",
-            youtubeId:"", youtubeTitle:"통일 신라" },
-          { title:"발해의 건국과 발전",
-            summary:"대조영이 건국한 발해는 고구려를 계승한 국가로, '해동성국'이라 불릴 만큼 발전했습니다.",
-            detail:"698년 대조영이 동모산에서 발해를 건국했습니다. 발해는 고구려 유민과 말갈인을 아우르며 성장했고, 무왕·문왕 때 전성기를 맞아 '해동성국'이라 불렸습니다. 통일 신라와 함께 남북국 시대를 이루었습니다.",
-            youtubeId:"", youtubeTitle:"발해" }
-        ]},
-      { id:"h2-3", num:"Ⅲ", emoji:"🏰", title:"고려의 성립과 변천", era:"10~14세기",
-        color:"#3498db",
-        topics:[
-          { title:"고려의 건국과 통치 체제",
-            summary:"왕건이 고려를 건국하고 후삼국을 통일한 뒤, 독자적인 통치 제도를 마련했습니다.",
-            detail:"918년 왕건이 고려를 건국하고 936년 후삼국을 통일했습니다. 고려는 2성 6부의 중앙 관제, 과거제, 음서제 등을 시행했고, 호족 세력과의 관계를 조절하며 정치적 안정을 추구했습니다.",
-            youtubeId:"", youtubeTitle:"고려의 건국" },
-          { title:"고려의 대외 관계와 문화",
-            summary:"고려는 거란·여진·몽골의 침입에 맞서 싸우면서도 독자적인 문화를 발전시켰습니다.",
-            detail:"고려는 거란의 3차 침입을 물리쳤고(귀주대첩), 몽골의 침입에 강화도로 천도하며 항전했습니다. 팔만대장경, 고려청자, 금속 활자 인쇄술 등 세계적 수준의 문화유산을 남겼습니다.",
-            youtubeId:"", youtubeTitle:"고려의 문화" }
-        ]},
-      { id:"h2-4", num:"Ⅳ", emoji:"📜", title:"조선의 성립과 발전", era:"14~17세기",
-        color:"#f39c12",
-        topics:[
-          { title:"조선의 건국과 통치 체제",
-            summary:"이성계가 조선을 건국하고 유교 이념에 기반한 정치 체제를 수립했습니다.",
-            detail:"1392년 이성계가 조선을 건국하고 한양을 수도로 정했습니다. 경국대전을 편찬하여 법치의 기반을 마련했고, 의정부와 6조 체제로 국정을 운영했습니다. 세종 때는 훈민정음을 창제하고 과학 기술을 크게 발전시켰습니다.",
-            youtubeId:"", youtubeTitle:"조선의 건국" },
-          { title:"조선 전기의 대외 관계와 문화",
-            summary:"조선은 사대교린 정책으로 주변국과 관계를 맺었으며, 독자적인 문화를 꽃피웠습니다.",
-            detail:"조선은 명나라에 대해서는 사대 외교를, 여진과 일본에 대해서는 교린 정책을 펼쳤습니다. 세종 시기에는 훈민정음, 측우기, 해시계 등 세계적인 문화·과학 업적을 이루었습니다. 임진왜란(1592)은 조선 사회에 큰 변화를 가져왔습니다.",
-            youtubeId:"", youtubeTitle:"조선 전기 문화" }
-        ]},
-      { id:"h2-5", num:"Ⅴ", emoji:"🔄", title:"조선 사회의 변동", era:"17~19세기",
-        color:"#9b59b6",
-        topics:[
-          { title:"조선 후기 사회·경제 변화",
-            summary:"조선 후기에는 농업·상업·수공업이 발달하고 신분제가 동요하는 등 사회 전반에 변화가 나타났습니다.",
-            detail:"모내기법의 보급으로 농업 생산력이 높아졌고, 상평통보 등 화폐가 유통되며 상업이 발달했습니다. 서민 문화가 성장하고 실학이 등장했으며, 양반 중심 신분 질서가 흔들리기 시작했습니다.",
-            youtubeId:"", youtubeTitle:"조선 후기 변화" },
-          { title:"세도 정치와 사회 변혁 운동",
-            summary:"세도 정치로 정치가 문란해지자 농민 봉기가 일어나고, 새로운 사상이 확산되었습니다.",
-            detail:"순조·헌종·철종 시기 안동 김씨, 풍양 조씨 등 외척 세력이 권력을 독점하는 세도 정치가 이어졌습니다. 삼정의 문란으로 농민들의 불만이 커져 홍경래의 난(1811), 임술 농민 봉기(1862) 등이 일어났습니다. 동학이 창시되어 새로운 사회를 꿈꾸는 움직임이 나타났습니다.",
-            youtubeId:"", youtubeTitle:"세도 정치와 농민 봉기" }
-        ]},
-      { id:"h2-6", num:"Ⅵ", emoji:"🇰🇷", title:"근·현대 사회의 전개", era:"19세기~현재",
-        color:"#e74c3c",
-        topics:[
-          { title:"근대 국가 수립 운동",
-            summary:"외세의 침략에 맞서 근대 국가를 수립하려는 다양한 노력이 전개되었습니다.",
-            detail:"흥선 대원군의 개혁과 통상 수교 거부 정책, 강화도 조약(1876)으로 문호 개방, 갑신정변(1884), 동학 농민 운동(1894), 갑오개혁, 대한제국 수립(1897), 독립 협회 활동 등 근대 국가를 향한 다양한 노력이 있었습니다.",
-            youtubeId:"", youtubeTitle:"근대 국가 수립 운동" },
-          { title:"일제 강점과 독립운동",
-            summary:"일제 강점기에 한국인들은 다양한 방법으로 독립을 위해 투쟁했습니다.",
-            detail:"1910년 국권 피탈 후 3·1 운동(1919)이 일어나 대한민국 임시 정부가 수립되었습니다. 무장 독립 투쟁(봉오동·청산리 전투), 의열 투쟁, 한글·역사 연구 등 문화 운동, 학생 운동 등 다양한 독립운동이 전개되었습니다.",
-            youtubeId:"", youtubeTitle:"일제 강점과 독립운동" },
-          { title:"대한민국의 발전",
-            summary:"광복 이후 대한민국은 분단과 전쟁의 아픔을 딛고 민주화와 경제 성장을 이루어냈습니다.",
-            detail:"1945년 광복, 1948년 대한민국 정부 수립, 6·25 전쟁(1950~1953), 4·19 혁명, 5·18 민주화 운동, 6월 민주 항쟁 등을 거치며 민주주의가 발전했습니다. 한강의 기적이라 불리는 경제 성장을 이루었고, 남북 평화 통일을 위한 노력이 계속되고 있습니다.",
-            youtubeId:"", youtubeTitle:"대한민국의 발전" }
-        ]}
-    ]
-  }
-};
-
-// ═══ TIMELINE DATA ═══
-const TIMELINE_DATA = [
-  { year:"BC 700만년", title:"인류의 출현", desc:"아프리카에서 최초 인류 출현", type:"world", period:"ancient" },
-  { year:"BC 70만년", title:"한반도 구석기", desc:"한반도에서 구석기인 생활 시작", type:"korean", period:"ancient" },
-  { year:"BC 3500", title:"메소포타미아 문명", desc:"티그리스·유프라테스 강 유역에서 문명 발생", type:"world", period:"ancient" },
-  { year:"BC 2333", title:"고조선 건국", desc:"단군왕검이 우리 역사 최초의 국가 고조선 건국", type:"korean", period:"ancient" },
-  { year:"BC 500", title:"그리스 민주정치", desc:"아테네에서 직접 민주정치 실시", type:"world", period:"ancient" },
-  { year:"BC 221", title:"진(秦) 통일", desc:"진시황이 중국 최초의 통일 국가 수립", type:"world", period:"ancient" },
-  { year:"BC 57", title:"신라 건국", desc:"박혁거세가 신라 건국", type:"korean", period:"ancient" },
-  { year:"BC 37", title:"고구려 건국", desc:"주몽이 졸본에서 고구려 건국", type:"korean", period:"ancient" },
-  { year:"BC 18", title:"백제 건국", desc:"온조가 위례성에서 백제 건국", type:"korean", period:"ancient" },
-  { year:"313", title:"밀라노 칙령", desc:"로마에서 크리스트교 공인", type:"world", period:"ancient" },
-  { year:"391", title:"광개토대왕 즉위", desc:"고구려 최대 영토 확장 시작", type:"korean", period:"ancient" },
-  { year:"476", title:"서로마 제국 멸망", desc:"게르만족의 침입으로 서로마 멸망", type:"world", period:"medieval" },
-  { year:"612", title:"살수대첩", desc:"고구려 을지문덕, 수나라 대군 격퇴", type:"korean", period:"medieval" },
-  { year:"676", title:"신라 삼국통일", desc:"신라가 당나라를 물리치고 삼국 통일", type:"korean", period:"medieval" },
-  { year:"698", title:"발해 건국", desc:"대조영이 동모산에서 발해 건국", type:"korean", period:"medieval" },
-  { year:"918", title:"고려 건국", desc:"왕건이 고려를 건국", type:"korean", period:"medieval" },
-  { year:"1019", title:"귀주대첩", desc:"강감찬이 거란군 격퇴", type:"korean", period:"medieval" },
-  { year:"1096", title:"십자군 전쟁 시작", desc:"유럽 기독교 세력의 성지 회복 전쟁", type:"world", period:"medieval" },
-  { year:"1392", title:"조선 건국", desc:"이성계가 조선을 건국하고 한양 천도", type:"korean", period:"medieval" },
-  { year:"1443", title:"훈민정음 창제", desc:"세종대왕이 한글을 만듦", type:"korean", period:"medieval" },
-  { year:"1492", title:"콜럼버스 항해", desc:"아메리카 대륙에 도달", type:"world", period:"medieval" },
-  { year:"1592", title:"임진왜란", desc:"일본의 조선 침략, 이순신 활약", type:"korean", period:"medieval" },
-  { year:"1776", title:"미국 독립선언", desc:"영국으로부터 독립 선언", type:"world", period:"modern" },
-  { year:"1789", title:"프랑스 혁명", desc:"시민 혁명으로 절대 왕정 붕괴", type:"world", period:"modern" },
-  { year:"1863", title:"흥선대원군 집권", desc:"쇄국 정책과 개혁 추진", type:"korean", period:"modern" },
-  { year:"1876", title:"강화도 조약", desc:"조선 최초의 근대적 조약 체결", type:"korean", period:"modern" },
-  { year:"1894", title:"동학 농민 운동", desc:"반봉건·반외세 농민 운동", type:"korean", period:"modern" },
-  { year:"1910", title:"국권 피탈", desc:"일제에 의한 한일 강제 병합", type:"korean", period:"modern" },
-  { year:"1914", title:"제1차 세계대전", desc:"유럽 열강의 대규모 전쟁 발발", type:"world", period:"modern" },
-  { year:"1919", title:"3·1 운동", desc:"전국적 독립만세 운동, 임시정부 수립", type:"korean", period:"modern" },
-  { year:"1939", title:"제2차 세계대전", desc:"전체주의 국가의 팽창으로 세계대전 발발", type:"world", period:"modern" },
-  { year:"1945", title:"광복", desc:"일제 강점에서 해방", type:"korean", period:"modern" },
-  { year:"1948", title:"대한민국 정부 수립", desc:"8·15 대한민국 정부 공식 수립", type:"korean", period:"modern" },
-  { year:"1950", title:"6·25 전쟁", desc:"북한의 남침으로 한국전쟁 발발", type:"korean", period:"modern" },
-  { year:"1960", title:"4·19 혁명", desc:"학생·시민의 민주화 혁명", type:"korean", period:"modern" },
-  { year:"1987", title:"6월 민주 항쟁", desc:"직선제 개헌을 이끌어낸 민주화 운동", type:"korean", period:"modern" },
-  { year:"1989", title:"베를린 장벽 붕괴", desc:"냉전 종식의 상징적 사건", type:"world", period:"modern" },
-];
-
-// ═══ BADGES DATA ═══
-const BADGES = [
-  { id:"first_login", emoji:"🌟", name:"첫 발걸음", desc:"처음 접속" },
-  { id:"quiz_1", emoji:"🎯", name:"첫 퀴즈", desc:"퀴즈 1회 완료" },
-  { id:"quiz_10", emoji:"🏅", name:"퀴즈 마스터", desc:"퀴즈 10회 완료" },
-  { id:"streak_3", emoji:"🔥", name:"3일 연속", desc:"3일 연속 학습" },
-  { id:"streak_7", emoji:"💪", name:"7일 연속", desc:"7일 연속 학습" },
-  { id:"streak_30", emoji:"👑", name:"30일 왕", desc:"30일 연속 학습" },
-  { id:"perfect", emoji:"💯", name:"만점왕", desc:"퀴즈 만점" },
-  { id:"chat_10", emoji:"💬", name:"호기심왕", desc:"챗봇 10회 대화" },
-  { id:"all_units", emoji:"🎓", name:"완전 정복", desc:"전 단원 학습" },
-  { id:"timeline", emoji:"⏳", name:"시간 여행자", desc:"타임라인 탐험" },
-  { id:"night", emoji:"🦉", name:"밤의 학자", desc:"밤 10시 이후 학습" },
-  { id:"early", emoji:"🌅", name:"얼리버드", desc:"아침 7시 이전 학습" },
-];
-
-// ═══ QUIZ BANK ═══
-const QUIZ_BANK = {
-  "h1-1": [
-    { q:"인류가 처음 출현한 대륙은?", a:["아프리카","아시아","유럽","아메리카"], correct:0, exp:"인류는 약 700만 년 전 아프리카 대륙에서 최초로 출현했습니다." },
-    { q:"메소포타미아 문명에서 만든 최초의 성문법은?", a:["함무라비 법전","12표법","마그나 카르타","나폴레옹 법전"], correct:0, exp:"함무라비 법전은 바빌로니아의 함무라비 왕이 만든 최초의 성문법입니다." },
-    { q:"이집트 문명에서 사용한 문자는?", a:["쐐기 문자","갑골 문자","상형 문자","페니키아 문자"], correct:2, exp:"이집트에서는 상형 문자(히에로글리프)를 사용했습니다." },
-    { q:"아테네에서 발전한 정치 제도는?", a:["왕정","귀족정","민주정","제정"], correct:2, exp:"아테네에서는 시민이 직접 국정에 참여하는 직접 민주 정치가 발전했습니다." },
-    { q:"'팍스 로마나'의 의미는?", a:["로마의 전쟁","로마의 평화","로마의 멸망","로마의 건국"], correct:1, exp:"팍스 로마나는 '로마의 평화'라는 뜻으로, 약 200년간의 안정기를 말합니다." },
-  ],
-  "h1-2": [
-    { q:"불교를 창시한 인물은?", a:["공자","노자","석가모니","무함마드"], correct:2, exp:"석가모니(싯다르타)가 인도에서 불교를 창시했습니다." },
-    { q:"크리스트교를 공인한 로마의 칙령은?", a:["밀라노 칙령","낭트 칙령","포츠담 칙령","카노사 칙령"], correct:0, exp:"313년 밀라노 칙령으로 크리스트교가 로마에서 공인되었습니다." },
-    { q:"이슬람교를 창시한 인물은?", a:["예수","무함마드","석가모니","모세"], correct:1, exp:"무함마드가 7세기 아라비아반도에서 이슬람교를 창시했습니다." },
-    { q:"중세 유럽의 사회 제도는?", a:["민주주의","봉건제","공산주의","공화정"], correct:1, exp:"중세 유럽은 왕-영주-기사-농노로 구성된 봉건제 사회였습니다." },
-  ],
-  "h2-1": [
-    { q:"고조선의 건국 연도는?", a:["BC 2333","BC 57","BC 37","BC 18"], correct:0, exp:"고조선은 단군왕검이 기원전 2333년에 건국했다고 전해집니다." },
-    { q:"고조선의 사회상을 알 수 있는 법은?", a:["경국대전","8조법","함무라비 법전","12표법"], correct:1, exp:"8조법을 통해 생명 존중, 사유 재산 보호 등 고조선의 사회 모습을 알 수 있습니다." },
-    { q:"고구려를 건국한 인물은?", a:["박혁거세","온조","주몽","왕건"], correct:2, exp:"주몽(동명성왕)이 졸본에서 고구려를 건국했습니다." },
-    { q:"고구려 최대 영토를 이룬 왕은?", a:["광개토대왕","장수왕","을지문덕","연개소문"], correct:0, exp:"광개토대왕 때 고구려는 만주와 한반도 북부의 넓은 영토를 확보했습니다." },
-    { q:"신라에서 불교를 공인한 왕은?", a:["진흥왕","법흥왕","무열왕","선덕여왕"], correct:1, exp:"법흥왕이 이차돈의 순교를 계기로 신라에서 불교를 공인했습니다." },
-  ],
-  "h2-2": [
-    { q:"신라가 삼국을 통일한 해는?", a:["660년","668년","676년","698년"], correct:2, exp:"676년 신라가 당나라 세력을 한반도에서 몰아내고 삼국 통일을 완성했습니다." },
-    { q:"발해를 건국한 인물은?", a:["왕건","대조영","궁예","견훤"], correct:1, exp:"대조영이 698년 동모산에서 발해를 건국했습니다." },
-    { q:"발해의 별칭은?", a:["해동성국","동방예의지국","은자의 나라","아침의 나라"], correct:0, exp:"발해는 전성기에 '해동성국'(바다 동쪽의 번성한 나라)이라 불렸습니다." },
-  ],
-  "h2-3": [
-    { q:"고려를 건국한 인물은?", a:["이성계","왕건","궁예","견훤"], correct:1, exp:"왕건이 918년 고려를 건국했습니다." },
-    { q:"거란의 침입을 물리친 전투는?", a:["귀주대첩","살수대첩","한산도대첩","행주대첩"], correct:0, exp:"1019년 강감찬이 귀주에서 거란군을 크게 물리쳤습니다." },
-    { q:"고려의 대표적 문화유산이 아닌 것은?", a:["팔만대장경","고려청자","훈민정음","금속활자"], correct:2, exp:"훈민정음은 조선 세종 때 만들어진 것입니다." },
-  ],
-  "h2-4": [
-    { q:"조선을 건국한 인물은?", a:["왕건","이성계","정도전","이방원"], correct:1, exp:"이성계가 1392년 조선을 건국했습니다." },
-    { q:"훈민정음을 만든 왕은?", a:["태조","태종","세종","성종"], correct:2, exp:"세종대왕이 1443년 훈민정음을 창제했습니다." },
-    { q:"임진왜란이 일어난 해는?", a:["1392년","1443년","1592년","1636년"], correct:2, exp:"1592년 일본이 조선을 침략한 임진왜란이 발발했습니다." },
-  ],
-  "h2-5": [
-    { q:"조선 후기에 유통된 화폐는?", a:["상평통보","대동미","엽전","은화"], correct:0, exp:"조선 후기에 상평통보가 전국적으로 유통되었습니다." },
-    { q:"홍경래의 난이 일어난 해는?", a:["1801년","1811년","1862년","1894년"], correct:1, exp:"1811년 평안도 지역에서 홍경래의 난이 일어났습니다." },
-  ],
-  "h2-6": [
-    { q:"조선이 맺은 최초의 근대적 조약은?", a:["강화도 조약","한일 의정서","을사늑약","시모노세키 조약"], correct:0, exp:"1876년 일본과 맺은 강화도 조약(조일수호조규)이 최초의 근대적 조약입니다." },
-    { q:"3·1 운동이 일어난 해는?", a:["1910년","1919년","1945년","1948년"], correct:1, exp:"1919년 3월 1일 전국적으로 독립만세 운동이 일어났습니다." },
-    { q:"대한민국 정부가 수립된 해는?", a:["1945년","1948년","1950년","1953년"], correct:1, exp:"1948년 8월 15일 대한민국 정부가 공식 수립되었습니다." },
-    { q:"6월 민주 항쟁이 일어난 해는?", a:["1960년","1979년","1980년","1987년"], correct:3, exp:"1987년 6월 민주 항쟁으로 대통령 직선제 개헌이 이루어졌습니다." },
-  ],
-};
-
-// ═══════════════════════════════════════════
-// 🔧 APP STATE & UTILITIES
-// ═══════════════════════════════════════════
-
-let state = {
-  currentPage: 'home',
-  currentBook: 'history1',
-  apiKey: '',
-  studentName: '역사 탐험가',
-  xp: 0,
-  streak: 0,
-  lastStudyDate: null,
-  quizzesCompleted: 0,
-  quizAvgScore: 0,
-  totalQuizScoreSum: 0,
-  badges: ['first_login'],
-  chatCount: 0,
-  studiedTopics: [],
-  darkMode: true,
-  fontSize: 1, // 0=small, 1=medium, 2=large
-  activities: [],
-  // Quiz state
-  quizPhase: 'setup', // setup, playing, result
-  quizUnit: null,
-  quizQuestions: [],
-  quizCurrent: 0,
-  quizScore: 0,
-  quizAnswered: false,
-};
-
-function loadState() {
-  try {
-    const saved = localStorage.getItem('oseong_history_state');
-    if (saved) {
-      const parsed = JSON.parse(saved);
-      state = { ...state, ...parsed };
-    }
-  } catch(e) { console.log('State load error:', e); }
-}
-
-function saveState() {
-  try {
-    localStorage.setItem('oseong_history_state', JSON.stringify(state));
-  } catch(e) { console.log('State save error:', e); }
-}
-
-function checkStreak() {
-  const today = new Date().toDateString();
-  if (state.lastStudyDate !== today) {
-    const yesterday = new Date(Date.now() - 86400000).toDateString();
-    if (state.lastStudyDate === yesterday) {
-      state.streak++;
-    } else if (state.lastStudyDate) {
-      state.streak = 1;
-    } else {
-      state.streak = 1;
-    }
-    state.lastStudyDate = today;
-    saveState();
-  }
-}
-
-function addXP(amount, reason) {
-  state.xp += amount;
-  checkStreak();
-  addActivity(reason, `+${amount} XP`);
-  checkBadges();
-  saveState();
-  updateUI();
-}
-
-function addActivity(title, xp) {
-  state.activities.unshift({ title, xp, time: new Date().toLocaleTimeString('ko-KR', {hour:'2-digit', minute:'2-digit'}) });
-  if (state.activities.length > 20) state.activities.pop();
-}
-
-function checkBadges() {
-  if (state.quizzesCompleted >= 1 && !state.badges.includes('quiz_1')) { state.badges.push('quiz_1'); showBadgeNotif('첫 퀴즈 뱃지 획득!'); }
-  if (state.quizzesCompleted >= 10 && !state.badges.includes('quiz_10')) { state.badges.push('quiz_10'); showBadgeNotif('퀴즈 마스터 뱃지 획득!'); }
-  if (state.streak >= 3 && !state.badges.includes('streak_3')) { state.badges.push('streak_3'); showBadgeNotif('3일 연속 학습 뱃지!'); }
-  if (state.streak >= 7 && !state.badges.includes('streak_7')) { state.badges.push('streak_7'); showBadgeNotif('7일 연속 학습 뱃지!'); }
-  if (state.chatCount >= 10 && !state.badges.includes('chat_10')) { state.badges.push('chat_10'); showBadgeNotif('호기심왕 뱃지 획득!'); }
-  const hour = new Date().getHours();
-  if (hour >= 22 && !state.badges.includes('night')) { state.badges.push('night'); showBadgeNotif('밤의 학자 뱃지!'); }
-  if (hour < 7 && !state.badges.includes('early')) { state.badges.push('early'); showBadgeNotif('얼리버드 뱃지!'); }
-}
-
-function showBadgeNotif(msg) {
-  const div = document.createElement('div');
-  div.style.cssText = 'position:fixed;top:80px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#f0c040,#ff8c00);color:#1a1a2e;padding:12px 24px;border-radius:30px;font-weight:700;font-size:0.9rem;z-index:999;animation:fadeUp 0.5s ease;box-shadow:0 4px 20px rgba(240,192,64,0.4);';
-  div.textContent = '🏆 ' + msg;
-  document.body.appendChild(div);
-  setTimeout(() => div.remove(), 3000);
-}
-
-function getLevel() {
-  if (state.xp < 100) return { level:1, title:'역사 입문자', next:100 };
-  if (state.xp < 300) return { level:2, title:'역사 탐험가', next:300 };
-  if (state.xp < 600) return { level:3, title:'역사 연구원', next:600 };
-  if (state.xp < 1000) return { level:4, title:'역사 박사', next:1000 };
-  if (state.xp < 2000) return { level:5, title:'역사 마스터', next:2000 };
-  return { level:6, title:'역사의 신', next:5000 };
-}
-
-// ═══════════════════════════════════════════
-// 🧭 NAVIGATION
-// ═══════════════════════════════════════════
-
-function navigateTo(page) {
-  state.currentPage = page;
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  const target = document.getElementById('page-' + page);
-  if (target) target.classList.add('active');
-
-  document.querySelectorAll('.bottom-nav-item').forEach((item, i) => {
-    const pages = ['home','curriculum','timeline','chat','profile'];
-    item.classList.toggle('active', pages[i] === page);
-  });
-
-  // Init pages on navigate
-  if (page === 'curriculum') renderCurriculum();
-  if (page === 'timeline') renderTimeline();
-  if (page === 'quiz') renderQuizSetup();
-  if (page === 'profile') renderProfile();
-  if (page === 'teacher') renderTeacherDashboard();
-
-  checkStreak();
-  saveState();
-  window.scrollTo(0, 0);
-}
-
-// ═══════════════════════════════════════════
-// 📚 CURRICULUM RENDERING
-// ═══════════════════════════════════════════
-
-function selectBook(book, el) {
-  state.currentBook = book;
-  document.querySelectorAll('#page-curriculum .book-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  renderCurriculum();
-}
-
-function renderCurriculum() {
-  const data = CURRICULUM_DATA[state.currentBook];
-  const container = document.getElementById('unitList');
-  container.innerHTML = data.units.map(unit => `
-    <div class="unit-card" id="unit-${unit.id}">
-      <div class="unit-header" onclick="toggleUnit('${unit.id}')">
-        <div class="unit-num" style="background:${unit.color}22;color:${unit.color}">${unit.emoji}</div>
-        <div class="unit-info">
-          <div class="unit-title">${unit.num}. ${unit.title}</div>
-          <div class="unit-era">${unit.era}</div>
-        </div>
-        <div class="unit-arrow">▼</div>
-      </div>
-      <div class="unit-body">
-        ${unit.topics.map((topic, ti) => `
-          <div class="topic-item" onclick="openTopic('${unit.id}', ${ti})">
-            <div class="topic-title">${ti+1}. ${topic.title}</div>
-            <div class="topic-summary">${topic.summary}</div>
-            <div class="topic-actions">
-              ${topic.youtubeId ? `<button class="topic-btn youtube" onclick="event.stopPropagation();openYoutube('${topic.youtubeId}','${topic.youtubeTitle}')">▶ 영상보기</button>` : ''}
-              <button class="topic-btn quiz" onclick="event.stopPropagation();startUnitQuiz('${unit.id}')">🎯 퀴즈</button>
-              <button class="topic-btn chat" onclick="event.stopPropagation();askAboutTopic('${topic.title}')">💬 질문하기</button>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
-}
-
-function toggleUnit(unitId) {
-  const card = document.getElementById('unit-' + unitId);
-  card.classList.toggle('open');
-}
-
-function openTopic(unitId, topicIndex) {
-  const book = state.currentBook;
-  const unit = CURRICULUM_DATA[book].units.find(u => u.id === unitId);
-  const topic = unit.topics[topicIndex];
-
-  document.getElementById('modalTitle').textContent = topic.title;
-  document.getElementById('modalBody').innerHTML = `
-    <div class="modal-section">
-      <div class="modal-section-title">📖 핵심 내용</div>
-      <div class="modal-text">${topic.detail || topic.summary}</div>
-    </div>
-    ${topic.youtubeId ? `
-    <div class="modal-section">
-      <div class="modal-section-title">🎬 관련 영상</div>
-      <div class="video-container">
-        <div class="video-placeholder" onclick="this.outerHTML='<iframe src=\\'https://www.youtube.com/embed/${topic.youtubeId}?rel=0\\' allowfullscreen></iframe>'">
-          <div class="play-icon">▶️</div>
-          <div class="play-text">${topic.youtubeTitle || '관련 영상 보기'}</div>
-        </div>
-      </div>
-    </div>` : `
-    <div class="modal-section">
-      <div class="modal-section-title">🎬 관련 영상</div>
-      <div style="text-align:center;padding:20px;color:var(--text-muted);font-size:0.85rem;">
-        <div style="font-size:2rem;margin-bottom:8px;">🔍</div>
-        유튜브에서 "${topic.title}" 검색하기
-        <br><br>
-        <a href="https://www.youtube.com/results?search_query=중학교+역사+${encodeURIComponent(topic.title)}" 
-           target="_blank" rel="noopener" 
-           style="color:var(--accent-blue);text-decoration:none;font-weight:600;">
-           유튜브에서 검색 →
-        </a>
-      </div>
-    </div>`}
-    <div class="modal-section">
-      <div class="topic-actions" style="justify-content:center">
-        <button class="topic-btn quiz" onclick="closeModal();startUnitQuiz('${unitId}')" style="padding:10px 24px;font-size:0.85rem;">🎯 이 단원 퀴즈 풀기</button>
-        <button class="topic-btn chat" onclick="closeModal();askAboutTopic('${topic.title}')" style="padding:10px 24px;font-size:0.85rem;">💬 AI에게 질문하기</button>
-      </div>
-    </div>
-  `;
-
-  document.getElementById('topicModal').classList.add('active');
-
-  if (!state.studiedTopics.includes(unitId + '-' + topicIndex)) {
-    state.studiedTopics.push(unitId + '-' + topicIndex);
-    addXP(10, `${topic.title} 학습`);
-  }
-}
-
-function closeModal() {
-  document.getElementById('topicModal').classList.remove('active');
-}
-
-function openYoutube(videoId, title) {
-  if (videoId) {
-    window.open(`https://www.youtube.com/watch?v=${videoId}`, '_blank');
-  } else {
-    window.open(`https://www.youtube.com/results?search_query=중학교+역사+${encodeURIComponent(title)}`, '_blank');
-  }
-}
-
-function askAboutTopic(title) {
-  navigateTo('chat');
-  setTimeout(() => {
-    document.getElementById('chatInput').value = `"${title}"에 대해서 중학생이 이해하기 쉽게 설명해줘!`;
-    sendChat();
-  }, 300);
-}
-
-// ═══════════════════════════════════════════
-// ⏳ TIMELINE
-// ═══════════════════════════════════════════
-
-function filterTimeline(filter, el) {
-  document.querySelectorAll('.timeline-filter').forEach(f => f.classList.remove('active'));
-  if (el) el.classList.add('active');
-  renderTimeline(filter);
-}
-
-function renderTimeline(filter='all') {
-  let events = [...TIMELINE_DATA];
-  if (filter === 'korean') events = events.filter(e => e.type === 'korean');
-  if (filter === 'world') events = events.filter(e => e.type === 'world');
-  if (filter === 'ancient') events = events.filter(e => e.period === 'ancient');
-  if (filter === 'medieval') events = events.filter(e => e.period === 'medieval');
-  if (filter === 'modern') events = events.filter(e => e.period === 'modern');
-
-  document.getElementById('timelineContainer').innerHTML = `
-    <div class="timeline-line"></div>
-    ${events.map(e => `
-      <div class="timeline-event">
-        <div class="timeline-dot ${e.type}"></div>
-        <div class="timeline-card" onclick="askAboutTopic('${e.title}')">
-          <div class="timeline-year">${e.year}</div>
-          <div class="timeline-title">${e.title}</div>
-          <div class="timeline-desc">${e.desc}</div>
-          <span class="timeline-tag ${e.type}">${e.type === 'korean' ? '🇰🇷 한국사' : '🌍 세계사'}</span>
-        </div>
-      </div>
-    `).join('')}
-  `;
-
-  if (!state.badges.includes('timeline')) {
-    state.badges.push('timeline');
-    showBadgeNotif('시간 여행자 뱃지 획득!');
-    saveState();
-  }
-}
-
-// ═══════════════════════════════════════════
-// 📖 TEXTBOOK PDF
-// ═══════════════════════════════════════════
-
-function loadPDF(book, el) {
-  document.querySelectorAll('#page-textbook .book-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  const data = CURRICULUM_DATA[book];
-  document.getElementById('pdfTitle').textContent = book === 'history1' ? '📕 [비상교육] 중등 역사①(이병인) 교과서' : '📗 [비상교육] 중등 역사②(이병인) 교과서';
-  document.getElementById('pdfFrame').src = `https://drive.google.com/file/d/${data.driveId}/preview`;
-}
-
-// ═══════════════════════════════════════════
-// 🤖 AI CHAT
-// ═══════════════════════════════════════════
-
-function saveApiKey(key) {
-  state.apiKey = key.trim();
-  document.getElementById('apiKeyInput').value = key;
-  document.getElementById('settingsApiKey').value = key;
-  if (key) {
-    document.getElementById('apiConfig').style.display = 'none';
-  }
-  saveState();
-}
-
-function sendQuickChat(text) {
-  document.getElementById('chatInput').value = text;
-  sendChat();
-}
-
-async function sendChat() {
-  const input = document.getElementById('chatInput');
-  const text = input.value.trim();
-  if (!text) return;
-
-  const msgs = document.getElementById('chatMessages');
-  
-  // Add user message
-  msgs.innerHTML += `
-    <div class="chat-msg user">
-      <div class="chat-msg-avatar">🧑‍🎓</div>
-      <div class="chat-msg-bubble">${escapeHtml(text)}</div>
-    </div>
-  `;
-  input.value = '';
-  msgs.scrollTop = msgs.scrollHeight;
-
-  // Typing indicator
-  const typingId = 'typing-' + Date.now();
-  msgs.innerHTML += `
-    <div class="chat-msg bot" id="${typingId}">
-      <div class="chat-msg-avatar">📜</div>
-      <div class="typing-indicator">
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-        <div class="typing-dot"></div>
-      </div>
-    </div>
-  `;
-  msgs.scrollTop = msgs.scrollHeight;
-
-  let response = '';
-
-  if (state.apiKey) {
-    try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-api-key': state.apiKey, 'anthropic-version': '2023-06-01', 'anthropic-dangerous-direct-browser-access': 'true' },
-        body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 1024,
-          system: `당신은 '역사박사 AI'라는 이름의 중학교 역사 교육용 AI 튜터입니다.
-- 비상교육 역사 ①(세계사)과 역사 ②(한국사) 교과서 내용을 기반으로 답변합니다.
-- 중학생 눈높이에 맞춰 쉽고 재미있게 설명합니다.
-- 이모지를 적절히 사용하고 친근한 말투로 대화합니다.
-- 역사적 사건의 원인-전개-결과를 체계적으로 설명합니다.
-- 답변은 간결하되 핵심을 놓치지 않습니다.
-- 다른 과목이나 역사와 무관한 질문에는 정중히 역사 관련 질문을 유도합니다.`,
-          messages: [{ role: 'user', content: text }]
-        })
-      });
-      const data = await res.json();
-      response = data.content?.[0]?.text || '죄송해요, 응답을 받지 못했어요. 다시 시도해주세요!';
-    } catch(e) {
-      response = '⚠️ API 연결에 문제가 있어요. API 키를 확인해주세요!';
-    }
-  } else {
-    // Fallback: keyword-based response
-    response = getLocalResponse(text);
-  }
-
-  // Remove typing, add response
-  document.getElementById(typingId)?.remove();
-  msgs.innerHTML += `
-    <div class="chat-msg bot">
-      <div class="chat-msg-avatar">📜</div>
-      <div class="chat-msg-bubble">${formatChatResponse(response)}</div>
-    </div>
-  `;
-  msgs.scrollTop = msgs.scrollHeight;
-
-  state.chatCount++;
-  addXP(5, 'AI 챗봇 대화');
-}
-
-function getLocalResponse(text) {
-  const t = text.toLowerCase();
-  if (t.includes('고조선')) return '🏛️ 고조선은 우리 역사 최초의 국가예요!\n\n단군왕검이 기원전 2333년에 건국했다고 전해져요. 청동기 문화를 바탕으로 성장했고, 8조법을 통해 당시 사회의 모습을 알 수 있답니다.\n\n8조법에는 사람을 죽이면 사형에 처한다, 남에게 상해를 입히면 곡물로 배상한다, 도둑질하면 노비가 된다는 내용이 있어요.\n\n💡 더 자세한 내용은 교과서 학습 탭의 "역사② - Ⅰ단원"에서 확인할 수 있어요!';
-  if (t.includes('삼국') || t.includes('고구려') || t.includes('백제') || t.includes('신라')) return '⚔️ 삼국시대에 대해 알려줄게요!\n\n• 고구려 (BC 37): 주몽이 건국, 광개토대왕 때 최대 영토\n• 백제 (BC 18): 온조가 건국, 근초고왕 때 전성기\n• 신라 (BC 57): 박혁거세가 건국, 법흥왕 때 불교 공인\n\n세 나라는 각각 독특한 문화를 발전시켰고, 676년 신라가 삼국을 통일했어요! 🎯';
-  if (t.includes('프랑스') && t.includes('혁명')) return '🇫🇷 프랑스 혁명 (1789년)!\n\n절대 왕정에 대한 시민들의 불만이 폭발한 사건이에요.\n\n📌 원인: 신분제 모순, 재정 위기, 계몽사상의 영향\n📌 전개: 바스티유 감옥 습격 → 인권 선언 발표\n📌 결과: "자유·평등·박애"의 이념이 전 세계로 확산!\n\n이 혁명은 민주주의 발전에 아주 큰 영향을 미쳤답니다. ✨';
-  if (t.includes('세계대전') || t.includes('세계 대전')) return '💣 세계 대전 정리!\n\n🔹 제1차 세계대전 (1914-1918)\n- 원인: 제국주의 대립, 사라예보 사건\n- 결과: 베르사유 조약, 국제연맹 창설\n\n🔹 제2차 세계대전 (1939-1945)\n- 원인: 전체주의(히틀러, 무솔리니) 팽창\n- 결과: UN 창설, 냉전 시작\n\n두 차례의 세계대전은 인류 역사에서 가장 비극적인 사건이었어요. 😢';
-  if (t.includes('고려')) return '🏰 고려(918-1392)에 대해 알려줄게요!\n\n왕건이 918년에 건국하고 936년에 후삼국을 통일했어요.\n\n주요 업적:\n• 팔만대장경 - 몽골 침입 때 부처의 힘으로 나라를 지키려 제작\n• 고려청자 - 세계적으로 인정받는 아름다운 도자기\n• 금속 활자 - 세계 최초의 금속 활자 인쇄!\n\n거란의 침입을 귀주대첩으로 물리친 것도 유명하답니다. 💪';
-  if (t.includes('조선')) return '📜 조선(1392-1897)은 500년 넘게 이어진 나라예요!\n\n이성계가 건국하고 한양을 수도로 정했어요.\n\n✨ 대표적 업적:\n• 훈민정음 창제 (세종대왕, 1443)\n• 측우기, 해시계 등 과학 발명\n• 경국대전으로 법치 확립\n\n임진왜란(1592), 병자호란(1636) 등의 전란도 겪었지만 끈질기게 이겨냈답니다!';
-
-  return `📚 좋은 질문이에요! "${text}"에 대해 알고 싶군요!\n\n더 정확하고 자세한 답변을 받으려면 설정에서 AI API 키를 입력해주세요. API 키가 있으면 역사에 대한 모든 질문에 상세하게 답변해드릴 수 있어요!\n\n그동안 교과서 학습 탭에서 관련 단원을 찾아보는 것도 좋은 방법이에요! 📖`;
-}
-
-function formatChatResponse(text) {
-  return escapeHtml(text).replace(/\n/g, '<br>');
-}
-
-function escapeHtml(str) {
-  const div = document.createElement('div');
-  div.textContent = str;
-  return div.innerHTML;
-}
-
-// ═══════════════════════════════════════════
-// 🎯 QUIZ
-// ═══════════════════════════════════════════
-
-function renderQuizSetup() {
-  const area = document.getElementById('quizArea');
-  if (state.quizPhase === 'playing') { renderQuizQuestion(); return; }
-  if (state.quizPhase === 'result') { renderQuizResult(); return; }
-
-  const allUnits = [...CURRICULUM_DATA.history1.units, ...CURRICULUM_DATA.history2.units];
-
-  area.innerHTML = `
-    <div class="quiz-setup">
-      <div class="quiz-setup-title">🎯 AI 퀴즈 - 단원 선택</div>
-      <div class="quiz-option-grid">
-        ${allUnits.filter(u => QUIZ_BANK[u.id]).map(u => `
-          <div class="quiz-opt ${state.quizUnit === u.id ? 'selected' : ''}" onclick="selectQuizUnit('${u.id}', this)">
-            <span class="quiz-opt-emoji">${u.emoji}</span>
-            ${u.num}. ${u.title.length > 10 ? u.title.substring(0,10)+'...' : u.title}
-          </div>
-        `).join('')}
-        <div class="quiz-opt ${state.quizUnit === 'random' ? 'selected' : ''}" onclick="selectQuizUnit('random', this)">
-          <span class="quiz-opt-emoji">🎲</span>
-          랜덤 혼합
-        </div>
-      </div>
-      <button class="quiz-start-btn" onclick="startQuiz()" ${!state.quizUnit ? 'disabled' : ''}>
-        퀴즈 시작하기! 🚀
-      </button>
-    </div>
-  `;
-}
-
-function selectQuizUnit(unitId, el) {
-  state.quizUnit = unitId;
-  document.querySelectorAll('.quiz-opt').forEach(o => o.classList.remove('selected'));
-  el.classList.add('selected');
-  document.querySelector('.quiz-start-btn').disabled = false;
-}
-
-function startUnitQuiz(unitId) {
-  state.quizUnit = unitId;
-  navigateTo('quiz');
-  setTimeout(() => startQuiz(), 100);
-}
-
-function startQuiz() {
-  if (!state.quizUnit) return;
-
-  let questions = [];
-  if (state.quizUnit === 'random') {
-    const allQ = Object.values(QUIZ_BANK).flat();
-    questions = shuffleArray(allQ).slice(0, 5);
-  } else {
-    questions = shuffleArray([...(QUIZ_BANK[state.quizUnit] || [])]).slice(0, 5);
-  }
-
-  if (questions.length === 0) {
-    alert('이 단원의 퀴즈가 아직 준비되지 않았어요!');
-    return;
-  }
-
-  state.quizPhase = 'playing';
-  state.quizQuestions = questions;
-  state.quizCurrent = 0;
-  state.quizScore = 0;
-  state.quizAnswered = false;
-  renderQuizQuestion();
-}
-
-function renderQuizQuestion() {
-  const area = document.getElementById('quizArea');
-  const q = state.quizQuestions[state.quizCurrent];
-  const total = state.quizQuestions.length;
-  const progress = ((state.quizCurrent) / total) * 100;
-  const labels = ['①','②','③','④'];
-
-  area.innerHTML = `
-    <div class="quiz-progress-bar">
-      <div class="quiz-progress-fill" style="width:${progress}%"></div>
-    </div>
-    <div style="display:flex;justify-content:space-between;margin-bottom:12px;font-size:0.8rem;color:var(--text-muted);">
-      <span>문제 ${state.quizCurrent + 1} / ${total}</span>
-      <span>맞은 수: ${state.quizScore}</span>
-    </div>
-    <div class="quiz-question-card">
-      <div class="quiz-q-num">Q${state.quizCurrent + 1}</div>
-      <div class="quiz-q-text">${q.q}</div>
-      <div class="quiz-answers">
-        ${q.a.map((a, i) => `
-          <div class="quiz-answer" id="qa-${i}" onclick="answerQuiz(${i})">
-            <div class="quiz-answer-label">${labels[i]}</div>
-            <span>${a}</span>
-          </div>
-        `).join('')}
-      </div>
-      <div id="quizExplanation"></div>
-      <div id="quizNextBtn"></div>
-    </div>
-  `;
-}
-
-function answerQuiz(selected) {
-  if (state.quizAnswered) return;
-  state.quizAnswered = true;
-
-  const q = state.quizQuestions[state.quizCurrent];
-  const isCorrect = selected === q.correct;
-  if (isCorrect) state.quizScore++;
-
-  document.getElementById('qa-' + selected).classList.add(isCorrect ? 'correct' : 'wrong');
-  document.getElementById('qa-' + q.correct).classList.add('correct');
-
-  document.getElementById('quizExplanation').innerHTML = `
-    <div class="quiz-explanation">
-      <strong>${isCorrect ? '✅ 정답!' : '❌ 오답!'}</strong><br>
-      ${q.exp}
-    </div>
-  `;
-
-  const isLast = state.quizCurrent >= state.quizQuestions.length - 1;
-  document.getElementById('quizNextBtn').innerHTML = `
-    <button class="quiz-next-btn" onclick="${isLast ? 'finishQuiz()' : 'nextQuizQuestion()'}">
-      ${isLast ? '결과 보기 →' : '다음 문제 →'}
-    </button>
-  `;
-}
-
-function nextQuizQuestion() {
-  state.quizCurrent++;
-  state.quizAnswered = false;
-  renderQuizQuestion();
-}
-
-function finishQuiz() {
-  state.quizPhase = 'result';
-  state.quizzesCompleted++;
-  const scorePercent = Math.round((state.quizScore / state.quizQuestions.length) * 100);
-  state.totalQuizScoreSum += scorePercent;
-  state.quizAvgScore = Math.round(state.totalQuizScoreSum / state.quizzesCompleted);
-
-  const xpEarned = state.quizScore * 20;
-  addXP(xpEarned, `퀴즈 완료 (${scorePercent}%)`);
-
-  if (scorePercent === 100 && !state.badges.includes('perfect')) {
-    state.badges.push('perfect');
-    showBadgeNotif('만점왕 뱃지 획득! 💯');
-  }
-
-  renderQuizResult();
-}
-
-function renderQuizResult() {
-  const area = document.getElementById('quizArea');
-  const total = state.quizQuestions.length;
-  const percent = Math.round((state.quizScore / total) * 100);
-  let emoji = '😢', msg = '다시 도전해봐요!';
-  if (percent >= 80) { emoji = '🎉'; msg = '대단해요!'; }
-  else if (percent >= 60) { emoji = '😊'; msg = '잘했어요!'; }
-  else if (percent >= 40) { emoji = '🤔'; msg = '조금 더 노력해봐요!'; }
-
-  area.innerHTML = `
-    <div class="quiz-result">
-      <div class="quiz-result-emoji">${emoji}</div>
-      <div class="quiz-result-score">${state.quizScore} / ${total}</div>
-      <div class="quiz-result-label">${msg} 정답률 ${percent}%</div>
-      <div class="quiz-result-xp">+${state.quizScore * 20} XP 획득!</div>
-      <br>
-      <button class="quiz-start-btn" onclick="state.quizPhase='setup';state.quizUnit=null;renderQuizSetup();" style="max-width:300px;margin:0 auto;">
-        다시 도전하기 🔄
-      </button>
-    </div>
-  `;
-}
-
-function shuffleArray(arr) {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
-
-// ═══════════════════════════════════════════
-// 🏆 PROFILE & GAMIFICATION
-// ═══════════════════════════════════════════
-
-function renderProfile() {
-  const lvl = getLevel();
-  document.getElementById('profileName').textContent = state.studentName;
-  document.getElementById('profileLevel').textContent = `Lv. ${lvl.level} ${lvl.title}`;
-  document.getElementById('currentXP').textContent = `${state.xp} XP`;
-  document.getElementById('nextLevelXP').textContent = `${lvl.next} XP`;
-  const prevLevelXP = lvl.level === 1 ? 0 : [0,0,100,300,600,1000,2000][lvl.level];
-  const progress = Math.min(100, ((state.xp - prevLevelXP) / (lvl.next - prevLevelXP)) * 100);
-  document.getElementById('xpBarFill').style.width = progress + '%';
-
-  document.getElementById('statStreak').textContent = state.streak;
-  document.getElementById('statQuizScore').textContent = state.quizAvgScore + '%';
-  document.getElementById('statTotalQuiz').textContent = state.quizzesCompleted;
-
-  // Badges
-  document.getElementById('badgesGrid').innerHTML = BADGES.map(b => `
-    <div class="badge-item ${state.badges.includes(b.id) ? 'earned' : 'locked'}">
-      <div class="badge-emoji">${b.emoji}</div>
-      <div class="badge-name">${b.name}</div>
-    </div>
-  `).join('');
-}
-
-// ═══════════════════════════════════════════
-// 👩‍🏫 TEACHER DASHBOARD
-// ═══════════════════════════════════════════
-
-function renderTeacherDashboard() {
-  const area = document.getElementById('teacherArea');
-  const isLoggedIn = localStorage.getItem('teacher_logged_in');
-
-  if (!isLoggedIn) {
-    area.innerHTML = `
-      <div class="teacher-login">
-        <div style="font-size:3rem;margin-bottom:12px;">👩‍🏫</div>
-        <div style="font-weight:700;font-size:1.1rem;margin-bottom:4px;">교사 대시보드</div>
-        <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:20px;">교사 비밀번호를 입력하세요</div>
-        <input type="password" id="teacherPw" placeholder="비밀번호 입력" onkeydown="if(event.key==='Enter')teacherLogin()">
-        <button onclick="teacherLogin()">로그인</button>
-        <div style="font-size:0.72rem;color:var(--text-muted);margin-top:10px;">기본 비밀번호: oseong2025</div>
-      </div>
-    `;
-    return;
-  }
-
-  // Generate mock student data
-  const students = generateMockStudents();
-  const avgProgress = Math.round(students.reduce((s,st) => s + st.progress, 0) / students.length);
-  const avgScore = Math.round(students.reduce((s,st) => s + st.score, 0) / students.length);
-  const activeToday = students.filter(s => s.active).length;
-
-  area.innerHTML = `
-    <div class="section-header" style="margin-bottom:16px">
-      <div class="section-title">👩‍🏫 교사 대시보드</div>
-      <span style="color:var(--accent-red);cursor:pointer;font-size:0.8rem;" onclick="teacherLogout()">로그아웃</span>
-    </div>
-
-    <div class="dashboard-grid">
-      <div class="dash-card">
-        <div class="dash-card-label">전체 학생 수</div>
-        <div class="dash-card-value" style="color:var(--accent-blue)">${students.length}</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-label">오늘 활동</div>
-        <div class="dash-card-value" style="color:var(--accent-green)">${activeToday}</div>
-        <div class="dash-card-change up">↑ 활발</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-label">평균 진도율</div>
-        <div class="dash-card-value" style="color:var(--accent-purple)">${avgProgress}%</div>
-      </div>
-      <div class="dash-card">
-        <div class="dash-card-label">평균 정답률</div>
-        <div class="dash-card-value" style="color:var(--accent-gold)">${avgScore}%</div>
-      </div>
-    </div>
-
-    <div class="section-header">
-      <div class="section-title">📊 학생별 학습 현황</div>
-    </div>
-    <div class="student-list">
-      ${students.sort((a,b) => b.xp - a.xp).map((st, i) => `
-        <div class="student-row">
-          <div class="student-rank">${i+1}</div>
-          <div style="font-size:1.2rem">${st.active ? '🟢' : '⚪'}</div>
-          <div class="student-name">${st.name}</div>
-          <div class="student-progress">
-            <div class="student-progress-bar">
-              <div class="student-progress-fill" style="width:${st.progress}%"></div>
-            </div>
-          </div>
-          <div class="student-score">${st.score}%</div>
-        </div>
-      `).join('')}
-    </div>
-
-    <div style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:16px;">
-      <div style="font-weight:700;margin-bottom:10px;">📢 학습 알림 보내기</div>
-      <div style="font-size:0.82rem;color:var(--text-muted);margin-bottom:10px;">학습이 부진한 학생에게 격려 메시지를 보낼 수 있습니다.</div>
-      <button class="quiz-start-btn" onclick="alert('🔔 학습 부진 학생 ${students.filter(s=>s.progress<30).length}명에게 알림을 보냈습니다!\\n\\n(실제 서비스에서는 앱 내 푸시 알림으로 전송됩니다)')">
-        학습 부진 학생에게 알림 보내기 📩
-      </button>
-    </div>
-  `;
-}
-
-function teacherLogin() {
-  const pw = document.getElementById('teacherPw').value;
-  if (pw === 'oseong2025') {
-    localStorage.setItem('teacher_logged_in', 'true');
-    renderTeacherDashboard();
-  } else {
-    alert('비밀번호가 틀렸습니다.');
-  }
-}
-
-function teacherLogout() {
-  localStorage.removeItem('teacher_logged_in');
-  renderTeacherDashboard();
-}
-
-function generateMockStudents() {
-  const names = ['김서준','이하은','박도윤','최수아','정예준','강지유','조시우','윤하율','장민준','임서윤',
-                 '한지호','오유나','신도현','권나윤','황지안','서은우','전하린','송준서','문채은','양건우'];
-  return names.map(name => ({
-    name,
-    xp: Math.floor(Math.random() * 2000),
-    progress: Math.floor(Math.random() * 100),
-    score: Math.floor(30 + Math.random() * 70),
-    active: Math.random() > 0.4,
-    streak: Math.floor(Math.random() * 15)
-  }));
-}
-
-// ═══════════════════════════════════════════
-// ⚙️ SETTINGS
-// ═══════════════════════════════════════════
-
-function toggleDarkMode() {
-  state.darkMode = !state.darkMode;
-  document.body.setAttribute('data-theme', state.darkMode ? 'dark' : 'light');
-  document.getElementById('darkModeToggle').classList.toggle('on', state.darkMode);
-  saveState();
-}
-
-function changeFontSize(dir) {
-  state.fontSize = Math.max(0, Math.min(2, state.fontSize + dir));
-  const sizes = [13, 15, 18];
-  const labels = ['소', '중', '대'];
-  document.documentElement.style.setProperty('--font-size-base', sizes[state.fontSize] + 'px');
-  document.getElementById('fontSizeLabel').textContent = labels[state.fontSize];
-  saveState();
-}
-
-function saveStudentName(name) {
-  state.studentName = name || '역사 탐험가';
-  saveState();
-}
-
-// ═══════════════════════════════════════════
-// 🔄 UI UPDATE
-// ═══════════════════════════════════════════
-
-function updateUI() {
-  document.getElementById('streakCount').textContent = state.streak;
-  document.getElementById('xpCount').textContent = state.xp;
-  document.getElementById('totalStudyDays').textContent = state.streak;
-  document.getElementById('totalQuizzes').textContent = state.quizzesCompleted;
-
-  // Activity list on home
-  if (state.activities.length > 0) {
-    document.getElementById('activityList').innerHTML = state.activities.slice(0, 5).map(a => `
-      <div class="activity-item">
-        <div class="activity-emoji">📝</div>
-        <div class="activity-info">
-          <div class="activity-title">${a.title}</div>
-          <div class="activity-sub">${a.time}</div>
-        </div>
-        <div class="activity-xp">${a.xp}</div>
-      </div>
-    `).join('');
-  }
-
-  // Daily missions
-  const missions = [
-    'AI 퀴즈에서 아무 단원 5문제 풀기! 완료하면 50 XP!',
-    '교과서 학습에서 새로운 단원 2개 읽기! 20 XP 획득!',
-    'AI 챗봇에게 역사 질문 3개 하기! 15 XP!',
-    '타임라인에서 한국사 사건 5개 탐험하기! 25 XP!',
-    '퀴즈에서 80% 이상 정답률 달성하기! 100 XP!',
-  ];
-  document.getElementById('dailyMissionText').textContent = missions[new Date().getDay() % missions.length];
-}
-
-// ═══════════════════════════════════════════
-// 🚀 INITIALIZATION
-// ═══════════════════════════════════════════
-
-function init() {
-  loadState();
-
-  // Apply saved settings
-  if (!state.darkMode) {
-    document.body.setAttribute('data-theme', 'light');
-    document.getElementById('darkModeToggle').classList.remove('on');
-  }
-  if (state.fontSize !== 1) {
-    const sizes = [13, 15, 18];
-    const labels = ['소', '중', '대'];
-    document.documentElement.style.setProperty('--font-size-base', sizes[state.fontSize] + 'px');
-    document.getElementById('fontSizeLabel').textContent = labels[state.fontSize];
-  }
-  if (state.apiKey) {
-    document.getElementById('apiKeyInput').value = state.apiKey;
-    document.getElementById('settingsApiKey').value = state.apiKey;
-    document.getElementById('apiConfig').style.display = 'none';
-  }
-  if (state.studentName !== '역사 탐험가') {
-    document.getElementById('studentNameInput').value = state.studentName;
-  }
-
-  checkStreak();
-  updateUI();
-
-  // Preload curriculum for home page
-  renderCurriculum();
-
-  // Modal close on overlay click
-  document.getElementById('topicModal').addEventListener('click', function(e) {
-    if (e.target === this) closeModal();
-  });
-}
-
-// Start app
-document.addEventListener('DOMContentLoaded', init);
+const GK='YOUR_GEMINI_API_KEY_HERE';
+const GU='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
+
+const C={history1:{title:"역사① 세계사",did:"18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T",units:[
+{id:"h1-1",num:"Ⅰ",emoji:"🏛️",title:"문명의 발생과 고대 세계의 형성",era:"BC 3500~BC 200",color:"#E17055",topics:[
+{title:"인류의 출현과 선사 문화",kw:"인류 출현 구석기 신석기",summary:"약 700만 년 전 아프리카에서 인류 출현, 구석기→신석기 발전",content:"▶ 구석기 시대\n• 뗀석기 사용 (주먹도끼, 찍개)\n• 사냥·채집, 동굴 생활\n• 불 사용 시작\n\n▶ 신석기 시대\n• 간석기·빗살무늬 토기\n• 농경·목축 시작 (신석기 혁명)\n• 정착 생활, 움집"},
+{title:"4대 문명의 발생",kw:"메소포타미아 이집트 인더스 황하 4대문명",summary:"큰 강 유역에서 메소포타미아·이집트·인더스·중국 문명 탄생",content:"▶ 메소포타미아 (티그리스·유프라테스)\n• 쐐기 문자, 함무라비 법전, 60진법\n\n▶ 이집트 (나일 강)\n• 상형 문자, 피라미드, 태양력\n\n▶ 인더스 (인더스 강)\n• 모헨조다로 계획도시\n\n▶ 중국 (황허 강)\n• 갑골 문자, 은나라"},
+{title:"고대 제국 - 페르시아·그리스·로마",kw:"페르시아 그리스 로마 민주정치",summary:"고대 3대 제국의 건설과 문화 발전",content:"▶ 페르시아: 다리우스 1세 최대 영토\n▶ 그리스: 아테네 민주정, 소크라테스·플라톤\n▶ 로마: 공화정→제정, 팍스 로마나"}
+]},
+{id:"h1-2",num:"Ⅱ",emoji:"⛪",title:"세계 종교의 확산과 지역 문화의 형성",era:"1~15세기",color:"#6C5CE7",topics:[
+{title:"불교·크리스트교·이슬람교",kw:"불교 크리스트교 이슬람교 세계종교",summary:"3대 세계 종교의 확산과 지역 문화 형성",content:"▶ 불교: 석가모니 창시, 동아시아 전파\n▶ 크리스트교: 313년 밀라노 칙령 공인\n▶ 이슬람교: 무함마드 창시, 서아시아 확산"},
+{title:"유럽 봉건 사회와 십자군",kw:"봉건제 중세유럽 십자군전쟁",summary:"중세 유럽의 봉건 사회와 십자군 전쟁",content:"▶ 봉건 사회: 왕-영주-기사-농노\n▶ 십자군 전쟁 (1096~1291)\n• 성지 탈환 목적, 7차례 원정\n• 결과: 동서 문화 교류 촉진"}
+]},
+{id:"h1-3",num:"Ⅲ",emoji:"🛳️",title:"지역 세계의 교류와 변화",era:"10~18세기",color:"#00CECE",topics:[
+{title:"동서 교역과 신항로 개척",kw:"실크로드 신항로 콜럼버스 대항해시대",summary:"비단길과 신항로 개척으로 세계 연결",content:"▶ 비단길: 중국→유럽 교역로\n▶ 신항로 개척\n• 콜럼버스: 아메리카 도달 (1492)\n• 바스코 다 가마: 인도 항로\n• 마젤란: 세계 일주"}
+]},
+{id:"h1-4",num:"Ⅳ",emoji:"🏭",title:"제국주의와 국민 국가 건설",era:"18~19세기",color:"#FD79A8",topics:[
+{title:"시민 혁명과 산업 혁명",kw:"시민혁명 산업혁명 프랑스혁명 미국독립",summary:"시민 혁명과 산업 혁명으로 근대 사회 형성",content:"▶ 시민 혁명\n• 영국 명예혁명 (1688)\n• 미국 독립 (1776)\n• 프랑스 혁명 (1789): 자유·평등·박애\n\n▶ 산업 혁명\n• 영국 시작, 증기 기관\n• 자본주의 확립, 노동 문제 발생"}
+]},
+{id:"h1-5",num:"Ⅴ",emoji:"💣",title:"세계 대전과 사회 변동",era:"20세기 전반",color:"#636e72",topics:[
+{title:"제1·2차 세계 대전",kw:"제1차세계대전 제2차세계대전 히틀러",summary:"두 차례 세계 대전과 국제 질서 재편",content:"▶ 1차 대전 (1914~1918)\n• 사라예보 사건 계기\n• 결과: 베르사유 조약, 국제연맹\n\n▶ 2차 대전 (1939~1945)\n• 히틀러·무솔리니 전체주의\n• 결과: UN 창설, 냉전 시작"}
+]},
+{id:"h1-6",num:"Ⅵ",emoji:"🌐",title:"현대 세계의 전개와 과제",era:"20세기 후반~현재",color:"#00B894",topics:[
+{title:"냉전과 현대 세계",kw:"냉전 베를린장벽 세계화",summary:"냉전 종식과 현대 세계의 과제",content:"▶ 냉전: 미국 vs 소련\n• 베를린 장벽 붕괴 (1989)\n• 소련 해체 (1991)\n\n▶ 현대 과제\n• 세계화, 기후 변화\n• 테러리즘, 난민 문제"}
+]}
+]},
+history2:{title:"역사② 한국사",did:"13PmJUuMXgtrjHU91BBx_TvpVSaxx2XCJ",units:[
+{id:"h2-1",num:"Ⅰ",emoji:"🗿",title:"선사 문화와 고대 국가의 형성",era:"~7세기",color:"#d4a574",topics:[
+{title:"한반도 선사 문화",kw:"구석기 신석기 청동기 한반도",summary:"한반도의 구석기·신석기·청동기 문화",content:"▶ 구석기: 주먹도끼, 연천 전곡리\n▶ 신석기: 빗살무늬 토기, 서울 암사동\n▶ 청동기: 비파형 동검, 고인돌, 계급 분화"},
+{title:"고조선과 여러 나라",kw:"고조선 단군 8조법 부여 삼한",summary:"최초 국가 고조선과 여러 나라의 성립",content:"▶ 고조선 (BC 2333)\n• 단군왕검 건국\n• 8조법: 생명 존중, 사유 재산 보호\n\n▶ 여러 나라\n• 부여: 영고, 순장\n• 고구려: 동맹, 서옥제\n• 삼한: 소도, 벼농사"},
+{title:"삼국의 성장과 문화",kw:"고구려 백제 신라 광개토대왕",summary:"고구려·백제·신라의 발전과 문화",content:"▶ 고구려: 광개토대왕 영토 확장\n▶ 백제: 근초고왕 전성기, 금동대향로\n▶ 신라: 법흥왕 불교 공인, 금관"}
+]},
+{id:"h2-2",num:"Ⅱ",emoji:"🏯",title:"남북국 시대의 전개",era:"7~10세기",color:"#00B894",topics:[
+{title:"통일 신라와 발해",kw:"통일신라 발해 해동성국 불국사",summary:"신라의 삼국 통일과 발해 건국",content:"▶ 통일 신라 (676)\n• 9주 5소경, 불국사·석굴암\n• 장보고 해상무역\n\n▶ 발해 (698~926)\n• 대조영 건국, 고구려 계승\n• '해동성국'"}
+]},
+{id:"h2-3",num:"Ⅲ",emoji:"🏰",title:"고려의 성립과 변천",era:"10~14세기",color:"#00CECE",topics:[
+{title:"고려의 건국과 문화",kw:"왕건 고려 귀주대첩 팔만대장경 고려청자",summary:"고려 건국, 외침 극복, 찬란한 문화",content:"▶ 건국: 918년 왕건, 과거제\n▶ 대외 항쟁\n• 귀주대첩 (강감찬)\n• 몽골 침입 → 강화도 항전\n\n▶ 문화유산\n• 팔만대장경, 고려청자\n• 금속 활자 (세계 최초)"}
+]},
+{id:"h2-4",num:"Ⅳ",emoji:"📜",title:"조선의 성립과 발전",era:"14~17세기",color:"#FDCB6E",topics:[
+{title:"조선 건국과 세종 시대",kw:"이성계 세종 훈민정음 임진왜란",summary:"조선 건국과 세종의 업적, 임진왜란",content:"▶ 건국: 1392년 이성계, 한양 천도\n▶ 세종: 훈민정음(1443), 측우기, 4군6진\n▶ 임진왜란(1592): 이순신 활약"}
+]},
+{id:"h2-5",num:"Ⅴ",emoji:"🔄",title:"조선 사회의 변동",era:"17~19세기",color:"#6C5CE7",topics:[
+{title:"조선 후기 변화",kw:"실학 상평통보 세도정치 동학",summary:"경제 변화, 실학 등장, 세도 정치",content:"▶ 경제: 상평통보, 대동법\n▶ 실학: 정약용(목민심서), 김정호(대동여지도)\n▶ 세도 정치 → 농민 봉기\n• 홍경래의 난(1811)\n• 동학 창시(최제우)"}
+]},
+{id:"h2-6",num:"Ⅵ",emoji:"🇰🇷",title:"근·현대 사회의 전개",era:"19세기~현재",color:"#E17055",topics:[
+{title:"근대화와 독립운동, 현대",kw:"강화도조약 3.1운동 독립운동 광복 6.25",summary:"근대화, 일제 항쟁, 광복과 현대 발전",content:"▶ 개항: 강화도 조약(1876)\n▶ 독립운동\n• 3·1 운동(1919), 임시정부\n• 봉오동·청산리 전투\n▶ 현대\n• 광복(1945), 정부 수립(1948)\n• 6·25 전쟁, 4·19 혁명\n• 6월 항쟁(1987), 경제 성장"}
+]}
+]}};
+
+const TL=[{y:"BC 700만년",t:"인류의 출현",d:"아프리카에서 최초 인류",tp:"w",pd:"a"},{y:"BC 2333",t:"고조선 건국",d:"단군왕검 건국",tp:"k",pd:"a"},{y:"BC 500",t:"그리스 민주정",d:"아테네 직접 민주정치",tp:"w",pd:"a"},{y:"BC 57",t:"신라 건국",d:"박혁거세",tp:"k",pd:"a"},{y:"BC 37",t:"고구려 건국",d:"주몽",tp:"k",pd:"a"},{y:"391",t:"광개토대왕",d:"고구려 최대 영토",tp:"k",pd:"a"},{y:"476",t:"서로마 멸망",d:"게르만족 침입",tp:"w",pd:"m"},{y:"676",t:"신라 삼국통일",d:"당 축출, 통일 완성",tp:"k",pd:"m"},{y:"698",t:"발해 건국",d:"대조영",tp:"k",pd:"m"},{y:"918",t:"고려 건국",d:"왕건",tp:"k",pd:"m"},{y:"1019",t:"귀주대첩",d:"강감찬, 거란 격퇴",tp:"k",pd:"m"},{y:"1392",t:"조선 건국",d:"이성계, 한양 천도",tp:"k",pd:"m"},{y:"1443",t:"훈민정음",d:"세종대왕",tp:"k",pd:"m"},{y:"1492",t:"콜럼버스",d:"아메리카 도달",tp:"w",pd:"m"},{y:"1592",t:"임진왜란",d:"이순신 활약",tp:"k",pd:"m"},{y:"1789",t:"프랑스 혁명",d:"인권 선언",tp:"w",pd:"n"},{y:"1876",t:"강화도 조약",d:"최초 근대 조약",tp:"k",pd:"n"},{y:"1919",t:"3·1 운동",d:"독립만세 운동",tp:"k",pd:"n"},{y:"1945",t:"광복",d:"해방",tp:"k",pd:"n"},{y:"1948",t:"대한민국 수립",d:"정부 수립",tp:"k",pd:"n"},{y:"1950",t:"6·25 전쟁",d:"한국전쟁",tp:"k",pd:"n"},{y:"1987",t:"6월 항쟁",d:"직선제 쟁취",tp:"k",pd:"n"},{y:"1989",t:"베를린 장벽",d:"냉전 종식",tp:"w",pd:"n"}];
+
+const BD=[{id:"first_login",e:"🌟",n:"첫발걸음"},{id:"quiz_1",e:"🎯",n:"첫퀴즈"},{id:"quiz_10",e:"🏅",n:"퀴즈마스터"},{id:"streak_3",e:"🔥",n:"3일연속"},{id:"streak_7",e:"💪",n:"7일연속"},{id:"perfect",e:"💯",n:"만점왕"},{id:"chat_10",e:"💬",n:"호기심왕"},{id:"timeline",e:"⏳",n:"시간여행자"},{id:"night",e:"🦉",n:"밤학자"},{id:"early",e:"🌅",n:"얼리버드"},{id:"streak_30",e:"👑",n:"30일왕"},{id:"all_units",e:"🎓",n:"완전정복"}];
+
+let S={li:false,rl:'s',nm:'탐험가',cl:'',sn:'',xp:0,sk:0,ls:null,qd:0,qv:0,qs:0,bd:['first_login'],cc:0,st:[],dk:true,fs:1,ac:[],cb:'history1',qp:'setup',qu:null,qq:[],qi:0,qsc:0,qan:false};
+function ld(){try{const s=localStorage.getItem('oh2');if(s)S={...S,...JSON.parse(s)};}catch(e){}}
+function sv(){try{localStorage.setItem('oh2',JSON.stringify(S));}catch(e){}}
+function cs(){const t=new Date().toDateString();if(S.ls!==t){const y=new Date(Date.now()-864e5).toDateString();S.sk=S.ls===y?S.sk+1:1;S.ls=t;sv();}}
+function ax(n,r){S.xp+=n;cs();aa(r,'+'+n+' XP');cb();sv();uu();}
+function aa(t,x){S.ac.unshift({t,x,tm:new Date().toLocaleTimeString('ko',{hour:'2-digit',minute:'2-digit'})});if(S.ac.length>20)S.ac.pop();}
+function cb(){const b=S.bd;if(S.qd>=1&&!b.includes('quiz_1')){b.push('quiz_1');tt('🏆 첫 퀴즈!');}if(S.qd>=10&&!b.includes('quiz_10')){b.push('quiz_10');tt('🏆 퀴즈 마스터!');}if(S.sk>=3&&!b.includes('streak_3')){b.push('streak_3');tt('🔥 3일 연속!');}if(S.sk>=7&&!b.includes('streak_7')){b.push('streak_7');tt('💪 7일 연속!');}if(S.cc>=10&&!b.includes('chat_10')){b.push('chat_10');tt('💬 호기심왕!');}const h=new Date().getHours();if(h>=22&&!b.includes('night')){b.push('night');tt('🦉 밤학자!');}if(h<7&&!b.includes('early')){b.push('early');tt('🌅 얼리버드!');}}
+function tt(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3000);}
+function gl(){if(S.xp<100)return{l:1,t:'역사 입문자',n:100};if(S.xp<300)return{l:2,t:'역사 탐험가',n:300};if(S.xp<600)return{l:3,t:'역사 연구원',n:600};if(S.xp<1000)return{l:4,t:'역사 박사',n:1000};return{l:5,t:'역사 마스터',n:2000};}
+function es(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+
+function slt(r,el){document.querySelectorAll('.ltab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('sf').style.display=r==='s'?'flex':'none';document.getElementById('tf').style.display=r==='t'?'flex':'none';}
+function sLogin(){const c=document.getElementById('lc').value,num=document.getElementById('lsn').value.trim(),n=document.getElementById('ln').value.trim();if(!c){alert('반을 선택하세요!');return;}if(!num){alert('번호를 입력하세요!');return;}if(!n){alert('이름을 입력하세요!');return;}S.li=true;S.rl='s';S.nm=n;S.cl=c;S.sn=num;sv();ea();}
+function tLogin(){const pw=document.getElementById('tp').value;if(pw==='oseong2025'){S.li=true;S.rl='t';S.nm='선생님';sv();ea();go('teacher');}else{alert('비밀번호가 올바르지 않습니다.');}}
+function ea(){document.getElementById('loginScreen').style.display='none';document.getElementById('tn').style.display='flex';document.getElementById('ma').style.display='block';document.getElementById('bn').style.display='flex';cs();uu();}
+function lo(){S.li=false;sv();document.getElementById('loginScreen').style.display='flex';document.getElementById('tn').style.display='none';document.getElementById('ma').style.display='none';document.getElementById('bn').style.display='none';}
+
+function go(p){document.querySelectorAll('.pg').forEach(g=>g.classList.remove('a'));const el=document.getElementById('p-'+p);if(el)el.classList.add('a');const ps=['home','curriculum','timeline','chat','profile'];document.querySelectorAll('.bni').forEach((i,x)=>i.classList.toggle('a',ps[x]===p));if(p==='curriculum')rc();if(p==='timeline')rt();if(p==='quiz')rqs();if(p==='profile')rp();if(p==='teacher')rtd();window.scrollTo(0,0);}
+
+function sb(b,el){S.cb=b;document.querySelectorAll('#p-curriculum .btb').forEach(t=>t.classList.remove('a'));el.classList.add('a');rc();}
+function rc(){const d=C[S.cb];document.getElementById('ul').innerHTML=d.units.map(u=>'<div class="uc" id="u-'+u.id+'"><div class="uh" onclick="tu(\''+u.id+'\')"><div class="ui" style="background:'+u.color+'18;border-color:'+u.color+'40">'+u.emoji+'</div><div class="uif"><div class="ut">'+u.num+'. '+u.title+'</div><div class="ue">'+u.era+'</div></div><div class="ua">▼</div></div><div class="ub">'+u.topics.map((t,i)=>'<div class="tc" onclick="ot(\''+u.id+'\','+i+')"><div class="tcn">'+(i+1)+'. '+t.title+'</div><div class="tcs">'+t.summary+'</div><div class="tbs"><button class="tb tb1" onclick="event.stopPropagation();ot(\''+u.id+'\','+i+')">📖 핵심정리</button><button class="tb tb2" onclick="event.stopPropagation();oy(\''+t.kw+'\')">▶ 영상</button><button class="tb tb3" onclick="event.stopPropagation();suq(\''+u.id+'\')">🎯 퀴즈</button><button class="tb tb4" onclick="event.stopPropagation();at(\''+t.title+'\')">💬 질문</button></div></div>').join('')+'</div></div>').join('');}
+function tu(id){document.getElementById('u-'+id).classList.toggle('o');}
+
+function ot(uid,ti){const bk=C[S.cb],unit=bk.units.find(u=>u.id===uid),topic=unit.topics[ti];document.getElementById('mti2').textContent=topic.title;const ch=topic.content.split('\n').map(l=>{if(l.startsWith('▶'))return'<div style="font-weight:700;color:var(--a1);margin-top:14px;margin-bottom:6px;font-size:.9rem">'+l+'</div>';if(l.startsWith('•'))return'<div style="padding-left:12px;margin-bottom:3px">'+l+'</div>';return l?'<div style="margin-bottom:3px">'+l+'</div>':'';}).join('');
+document.getElementById('mb2').innerHTML='<div class="msc"><div class="msct">📖 핵심 내용 정리</div><div class="msctx">'+ch+'</div></div><div class="msc"><div class="msct">🎬 관련 영상</div><a class="ytl" href="https://www.youtube.com/results?search_query=중학교+역사+'+encodeURIComponent(topic.kw)+'" target="_blank" rel="noopener">▶ 유튜브에서 "'+topic.title+'" 영상 보기 →</a></div><div class="msc" style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap"><button class="tb tb3" onclick="cm2();suq(\''+uid+'\')" style="padding:12px 24px;font-size:.85rem">🎯 AI 퀴즈</button><button class="tb tb4" onclick="cm2();at(\''+topic.title+'\')" style="padding:12px 24px;font-size:.85rem">💬 AI 질문</button></div>';
+document.getElementById('mo').classList.add('a');if(!S.st.includes(uid+'-'+ti)){S.st.push(uid+'-'+ti);ax(10,topic.title+' 학습');}}
+function cm2(){document.getElementById('mo').classList.remove('a');}
+document.getElementById('mo').addEventListener('click',function(e){if(e.target===this)cm2();});
+function oy(kw){window.open('https://www.youtube.com/results?search_query=중학교+역사+'+encodeURIComponent(kw),'_blank');}
+function at(t){go('chat');setTimeout(()=>{document.getElementById('ci').value='"'+t+'" 중학생이 이해하기 쉽게 설명해줘!';sm();},300);}
+
+function tf(f,el){document.querySelectorAll('.tlf').forEach(b=>b.classList.remove('a'));el.classList.add('a');rt(f);}
+function rt(f='all'){let ev=[...TL];if(f==='korean')ev=ev.filter(e=>e.tp==='k');if(f==='world')ev=ev.filter(e=>e.tp==='w');if(f==='ancient')ev=ev.filter(e=>e.pd==='a');if(f==='medieval')ev=ev.filter(e=>e.pd==='m');if(f==='modern')ev=ev.filter(e=>e.pd==='n');
+document.getElementById('tw').innerHTML='<div class="tll"></div>'+ev.map((e,i)=>'<div class="tle" style="animation-delay:'+(i*0.06)+'s"><div class="tld '+(e.tp==='k'?'k':'w')+'"></div><div class="tlc" onclick="at(\''+e.t+'\')"><div class="tly '+(e.tp==='k'?'k':'w')+'">'+e.y+'</div><div class="tlt">'+e.t+'</div><div class="tlds">'+e.d+'</div><span class="tltg '+(e.tp==='k'?'k':'w')+'">'+(e.tp==='k'?'🇰🇷 한국사':'🌍 세계사')+'</span></div></div>').join('');
+if(!S.bd.includes('timeline')){S.bd.push('timeline');tt('⏳ 시간여행자!');sv();}}
+
+function lp(b,el){document.querySelectorAll('#p-textbook .btb').forEach(t=>t.classList.remove('a'));el.classList.add('a');const ids={h1:'18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T',h2:'13PmJUuMXgtrjHU91BBx_TvpVSaxx2XCJ'};document.getElementById('pt').textContent=b==='h1'?'📕 역사① 세계사':'📗 역사② 한국사';document.getElementById('pf').src='https://drive.google.com/file/d/'+ids[b]+'/preview';}
+
+function qc(t){document.getElementById('ci').value=t;sm();}
+async function sm(){const inp=document.getElementById('ci'),text=inp.value.trim();if(!text)return;const ms=document.getElementById('cm');
+ms.innerHTML+='<div class="cm u"><div class="cma">🧑‍🎓</div><div class="cmb">'+es(text)+'</div></div>';inp.value='';ms.scrollTop=ms.scrollHeight;
+const tid='t'+Date.now();ms.innerHTML+='<div class="cm b" id="'+tid+'"><div class="cma">🤖</div><div class="ti"><div class="td"></div><div class="td"></div><div class="td"></div></div></div>';ms.scrollTop=ms.scrollHeight;
+let res='';
+if(GK&&GK!=='YOUR_GEMINI_API_KEY_HERE'){try{const r=await fetch(GU+'?key='+GK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:'당신은 역사박사 AI, 중학교 역사 교육용 AI 튜터입니다. 비상교육 역사 교과서 기반, 중학생 눈높이, 이모지 사용, 친근한 말투, 간결하게. 역사 외 질문은 역사로 유도.\n\n질문: '+text}]}],generationConfig:{maxOutputTokens:1024,temperature:0.7}})});const d=await r.json();res=d.candidates?.[0]?.content?.parts?.[0]?.text||'응답 실패!';}catch(e){res='⚠️ AI 연결 문제!';}}
+else{const t=text.toLowerCase();if(t.includes('고조선'))res='🏛️ 고조선은 우리 역사 최초의 국가!\n\nBC 2333년 단군왕검이 건국했어.\n\n8조법:\n• 사람을 죽이면 사형\n• 다치게 하면 곡물 배상\n• 도둑질하면 노비\n\n💡 역사② Ⅰ단원에서 자세히!';else if(t.includes('삼국')||t.includes('고구려'))res='⚔️ 삼국시대!\n\n🔴 고구려(BC37): 광개토대왕\n🟡 백제(BC18): 근초고왕\n🔵 신라(BC57): 진흥왕\n\n676년 신라가 통일!';else if(t.includes('프랑스'))res='🇫🇷 프랑스 혁명(1789)!\n\n원인: 신분제 모순, 재정 위기\n결과: 자유·평등·박애 확산!';else if(t.includes('임진왜란'))res='🛡️ 임진왜란(1592)\n\n이순신: 한산도 대첩, 거북선\n의병 활약, 조·명 연합 항전';else res='📚 좋은 질문! API 키를 코드에 설정하면 더 자세한 답변을 받을 수 있어요!';}
+document.getElementById(tid)?.remove();ms.innerHTML+='<div class="cm b"><div class="cma">🤖</div><div class="cmb">'+es(res).replace(/\n/g,'<br>')+'</div></div>';ms.scrollTop=ms.scrollHeight;S.cc++;ax(5,'AI 대화');}
+
+function rqs(){const ar=document.getElementById('qa2');if(S.qp==='playing'){rqq();return;}if(S.qp==='result'){rqr();return;}
+const au=[...C.history1.units,...C.history2.units];
+ar.innerHTML='<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:20px"><div style="text-align:center;font-weight:800;font-size:1.05rem;margin-bottom:16px">🎯 AI 퀴즈 - 단원 선택</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px">'+au.map(u=>'<div class="qa'+(S.qu===u.id?' s':'')+'" onclick="squ(\''+u.id+'\',this)" style="text-align:center;padding:14px 8px"><div style="font-size:1.5rem">'+u.emoji+'</div><div style="font-size:.78rem;font-weight:600;margin-top:4px">'+u.num+'. '+(u.title.length>12?u.title.substring(0,12)+'…':u.title)+'</div></div>').join('')+'<div class="qa'+(S.qu==='random'?' s':'')+'" onclick="squ(\'random\',this)" style="text-align:center;padding:14px 8px"><div style="font-size:1.5rem">🎲</div><div style="font-size:.78rem;font-weight:600;margin-top:4px">랜덤</div></div></div><button class="qnb" onclick="sq()" '+(S.qu?'':'disabled style="opacity:.5"')+'>AI 퀴즈 시작! 🚀</button></div>';}
+function squ(id,el){S.qu=id;document.querySelectorAll('#qa2 .qa').forEach(a=>a.classList.remove('s'));el.classList.add('s');const b=document.querySelector('#qa2 .qnb');if(b){b.disabled=false;b.style.opacity='1';}}
+function suq(uid){S.qu=uid;go('quiz');setTimeout(()=>sq(),100);}
+
+async function sq(){if(!S.qu)return;S.qp='playing';S.qi=0;S.qsc=0;S.qan=false;
+document.getElementById('qa2').innerHTML='<div class="qlg"><div class="qls"></div><div style="color:var(--t2);font-size:.88rem">AI가 문제를 만들고 있어요... 🤖</div></div>';
+let uc='';const au=[...C.history1.units,...C.history2.units];
+if(S.qu==='random'){const p=au[Math.floor(Math.random()*au.length)];uc=p.topics.map(t=>t.title+': '+t.content).join('\n');}
+else{const u=au.find(u=>u.id===S.qu);if(u)uc=u.topics.map(t=>t.title+': '+t.content).join('\n');}
+
+if(GK&&GK!=='YOUR_GEMINI_API_KEY_HERE'){try{const r=await fetch(GU+'?key='+GK,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:'다음 역사 내용으로 중학생용 5지선다 퀴즈 5문제를 JSON 배열로 만들어. 다른 텍스트 없이 JSON만 출력해.\n\n내용:\n'+uc+'\n\n형식: [{"q":"문제","a":["①","②","③","④","⑤"],"correct":0,"exp":"해설"}]\n\ncorrect는 정답 인덱스(0~4), 보기 반드시 5개'}]}],generationConfig:{maxOutputTokens:2048,temperature:0.8}})});const d=await r.json();let t=d.candidates?.[0]?.content?.parts?.[0]?.text||'';t=t.replace(/```json|```/g,'').trim();S.qq=JSON.parse(t);}catch(e){S.qq=fb();}}else{S.qq=fb();}
+if(!S.qq||S.qq.length===0)S.qq=fb();rqq();}
+
+function fb(){return[{q:"인류가 최초 출현한 대륙은?",a:["아시아","유럽","아프리카","아메리카","오세아니아"],correct:2,exp:"약 700만 년 전 아프리카에서 출현."},{q:"고조선 건국 시기는?",a:["BC 1000","BC 2333","BC 57","BC 37","BC 108"],correct:1,exp:"단군왕검이 BC 2333년 건국."},{q:"신라 삼국통일 해는?",a:["660","668","676","698","935"],correct:2,exp:"676년 당나라 축출, 통일 완성."},{q:"훈민정음 창제 왕은?",a:["태조","태종","세종","성종","중종"],correct:2,exp:"세종대왕 1443년 창제."},{q:"프랑스 혁명 연도는?",a:["1776","1789","1804","1815","1848"],correct:1,exp:"1789년 프랑스 시민 혁명."}];}
+
+function rqq(){const ar=document.getElementById('qa2'),q=S.qq[S.qi],tot=S.qq.length,lb=['①','②','③','④','⑤'];
+ar.innerHTML='<div class="qp"><div class="qpf" style="width:'+(S.qi/tot*100)+'%"></div></div><div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:.78rem;color:var(--t3)"><span>문제 '+(S.qi+1)+' / '+tot+'</span><span>맞은 수: '+S.qsc+'</span></div><div class="qqc"><div class="qqn">Q'+(S.qi+1)+'</div><div class="qqt">'+q.q+'</div><div class="qas">'+q.a.map((a,i)=>'<div class="qa" id="qa'+i+'" onclick="aq('+i+')"><div class="qal">'+lb[i]+'</div><span>'+a+'</span></div>').join('')+'</div><div id="qe"></div><div id="qn"></div></div>';}
+function aq(s){if(S.qan)return;S.qan=true;const q=S.qq[S.qi],ok=s===q.correct;if(ok)S.qsc++;document.getElementById('qa'+s).classList.add(ok?'c':'w');document.getElementById('qa'+q.correct).classList.add('c');document.getElementById('qe').innerHTML='<div class="qex"><b>'+(ok?'✅ 정답!':'❌ 오답!')+'</b><br>'+q.exp+'</div>';const last=S.qi>=S.qq.length-1;document.getElementById('qn').innerHTML='<button class="qnb" onclick="'+(last?'fq()':'nq()')+'">'+( last?'결과 보기 →':'다음 문제 →')+'</button>';}
+function nq(){S.qi++;S.qan=false;rqq();}
+function fq(){S.qp='result';S.qd++;const p=Math.round(S.qsc/S.qq.length*100);S.qs+=p;S.qv=Math.round(S.qs/S.qd);ax(S.qsc*20,'퀴즈 완료 ('+p+'%)');if(p===100&&!S.bd.includes('perfect')){S.bd.push('perfect');tt('💯 만점왕!');}rqr();}
+function rqr(){const ar=document.getElementById('qa2'),tot=S.qq.length,p=Math.round(S.qsc/tot*100);let e='😢',m='다시 도전!';if(p>=80){e='🎉';m='대단해요!';}else if(p>=60){e='😊';m='잘했어요!';}else if(p>=40){e='🤔';m='조금 더!';}
+ar.innerHTML='<div class="qr"><div class="qre">'+e+'</div><div class="qrs">'+S.qsc+' / '+tot+'</div><div class="qrl">'+m+' 정답률 '+p+'%</div><div class="qrx">+'+S.qsc*20+' XP</div><br><button class="qnb" onclick="S.qp=\'setup\';S.qu=null;rqs();" style="max-width:300px;margin:0 auto">다시 도전 🔄</button></div>';}
+
+function rp(){const lv=gl();document.getElementById('ppn').textContent=S.nm;document.getElementById('ppv').textContent='Lv.'+lv.l+' '+lv.t;document.getElementById('xc').textContent=S.xp+' XP';document.getElementById('xn').textContent=lv.n+' XP';const prev=[0,0,100,300,600,1000][lv.l]||0;document.getElementById('xf').style.width=Math.min(100,(S.xp-prev)/(lv.n-prev)*100)+'%';document.getElementById('ps').textContent=S.sk;document.getElementById('pa').textContent=S.qv+'%';document.getElementById('pt2').textContent=S.qd;document.getElementById('bg2').innerHTML=BD.map(b=>'<div class="bi2 '+(S.bd.includes(b.id)?'e':'l')+'"><div class="bie">'+b.e+'</div><div class="bin">'+b.n+'</div></div>').join('');}
+
+function rtd(){const ar=document.getElementById('ta');if(S.rl!=='t'){ar.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--t3)"><div style="font-size:3rem;margin-bottom:12px">🔒</div><div style="font-weight:700;font-size:1rem;margin-bottom:8px">교사 전용</div><div style="font-size:.85rem">교사 계정으로 로그인하세요.</div></div>';return;}
+const st=['김서준','이하은','박도윤','최수아','정예준','강지유','조시우','윤하율','장민준','임서윤','한지호','오유나','신도현','권나윤','황지안','서은우','전하린','송준서','문채은','양건우'].map(n=>({n,xp:~~(Math.random()*2000),pg:~~(Math.random()*100),sc:~~(30+Math.random()*70),on:Math.random()>.4}));
+const avg=~~(st.reduce((s,x)=>s+x.pg,0)/st.length),avgs=~~(st.reduce((s,x)=>s+x.sc,0)/st.length),act=st.filter(s=>s.on).length;
+ar.innerHTML='<div class="sh" style="margin-bottom:14px"><div class="st">👩‍🏫 학습 관리</div></div><div class="dg"><div class="dc"><div class="dcl">전체 학생</div><div class="dcv" style="color:var(--a1)">'+st.length+'</div></div><div class="dc"><div class="dcl">오늘 활동</div><div class="dcv" style="color:var(--a5)">'+act+'</div></div><div class="dc"><div class="dcl">평균 진도</div><div class="dcv" style="color:var(--a2)">'+avg+'%</div></div><div class="dc"><div class="dcl">평균 정답</div><div class="dcv" style="color:var(--a4)">'+avgs+'%</div></div></div><div class="sh"><div class="st">📊 학생별 현황</div></div><div style="margin-bottom:14px">'+st.sort((a,b)=>b.xp-a.xp).map((s,i)=>'<div class="sr"><div class="srk">'+(i+1)+'</div><div style="font-size:1.1rem">'+(s.on?'🟢':'⚪')+'</div><div class="srn">'+s.n+'</div><div class="sp"><div class="spb"><div class="spf" style="width:'+s.pg+'%"></div></div></div><div class="srs">'+s.sc+'%</div></div>').join('')+'</div><div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:16px"><div style="font-weight:700;margin-bottom:8px">📢 학습 알림</div><button class="qnb" onclick="alert(\'🔔 학습 부진 학생 '+st.filter(s=>s.pg<30).length+'명에게 알림 전송!\')">부진 학생 알림 📩</button></div>';}
+
+function td(){S.dk=!S.dk;document.body.setAttribute('data-theme',S.dk?'dark':'light');document.getElementById('dt').classList.toggle('on',S.dk);sv();}
+function cf(d){S.fs=Math.max(0,Math.min(2,S.fs+d));const sz=[13,15,18],lb=['소','중','대'];document.documentElement.style.setProperty('--fs',sz[S.fs]+'px');document.getElementById('fl').textContent=lb[S.fs];sv();}
+
+function uu(){document.getElementById('ns').textContent=S.sk;document.getElementById('nx').textContent=S.xp;document.getElementById('hn').textContent=S.nm;document.getElementById('hk').textContent=S.sk;document.getElementById('hq').textContent=S.qd;document.getElementById('hx').textContent=S.xp;
+if(S.ac.length>0){document.getElementById('al').innerHTML=S.ac.slice(0,5).map(a=>'<div class="ai"><div class="aie">📝</div><div class="aii"><div class="ait">'+a.t+'</div><div class="ais">'+a.tm+'</div></div><div class="aix">'+a.x+'</div></div>').join('');}
+const ms=['AI 퀴즈 5문제 풀기! +50 XP','새 단원 2개 학습! +20 XP','AI에게 질문 3개!','타임라인 탐험!','퀴즈 80% 달성!'];document.getElementById('mt').textContent=ms[new Date().getDay()%ms.length];}
+
+function init(){ld();if(!S.dk){document.body.setAttribute('data-theme','light');document.getElementById('dt').classList.remove('on');}if(S.fs!==1){const sz=[13,15,18],lb=['소','중','대'];document.documentElement.style.setProperty('--fs',sz[S.fs]+'px');document.getElementById('fl').textContent=lb[S.fs];}if(S.li)ea();}
+document.addEventListener('DOMContentLoaded',init);
 </script>
 </body>
 </html>

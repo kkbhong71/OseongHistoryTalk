@@ -157,7 +157,7 @@ AI 챗봇과 AI 퀴즈의 고급 기능을 사용하려면 Google AI Studio의 A
 const GK='YOUR_GEMINI_API_KEY_HERE';
 
 // 변경 후 (예시)
-const GK='AIzaSyAbCdEfGhIjKlMnOpQrStUvWxYz12345';
+const GK='?';
 ```
 
 > ⚠️ API 키는 코드에 직접 포함되므로, 레포지토리를 **Public**으로 운영할 경우 키 노출에 유의하세요. 필요 시 Private 레포지토리 사용을 권장합니다.

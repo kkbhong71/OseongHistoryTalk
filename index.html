@@ -289,8 +289,9 @@
 <div class="bni" onclick="go('profile')"><span class="be">🏆</span><span>내정보</span></div>
 </nav>
 
+<script src="config.js"></script>
 <script>
-const GK='YOUR_GEMINI_API_KEY_HERE';
+const GK=(typeof CONFIG!=='undefined'&&CONFIG.GEMINI_API_KEY)?CONFIG.GEMINI_API_KEY:'YOUR_GEMINI_API_KEY_HERE';
 const GU='https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent';
 
 const C={history1:{title:"역사① 세계사",did:"18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T",units:[

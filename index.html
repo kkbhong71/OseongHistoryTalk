@@ -211,11 +211,7 @@
 .tltg{display:inline-block;padding:2px 8px;border-radius:10px;font-size:.62rem;font-weight:700;margin-top:5px}
 .tltg.k{background:rgba(253,203,110,.12);color:var(--a4)}.tltg.w{background:rgba(108,92,231,.12);color:var(--a1)}
 
-.pfw{background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);overflow:hidden}
-.pfh{padding:12px 16px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between}
-.pft{font-weight:700;font-size:.88rem}
-.pff{width:100%;height:calc(100vh - 210px);min-height:500px}
-.pff iframe{width:100%;height:100%;border:0}
+
 
 .toast{position:fixed;top:76px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#FDCB6E,#E17055);color:#1a1a2e;padding:12px 24px;border-radius:30px;font-weight:700;font-size:.88rem;z-index:999;animation:fadeUp .4s ease;box-shadow:0 8px 30px rgba(253,203,110,.3);white-space:nowrap}
 @media(min-width:768px){.qg{grid-template-columns:repeat(4,1fr)}.dg{grid-template-columns:repeat(4,1fr)}.bg{grid-template-columns:repeat(6,1fr)}}
@@ -247,9 +243,38 @@
 <div class="tl-f"><button class="tlf a" onclick="tf('all',this)">전체</button><button class="tlf" onclick="tf('korean',this)">🇰🇷 한국사</button><button class="tlf" onclick="tf('world',this)">🌍 세계사</button><button class="tlf" onclick="tf('ancient',this)">고대</button><button class="tlf" onclick="tf('medieval',this)">중세</button><button class="tlf" onclick="tf('modern',this)">근현대</button></div><div class="tw" id="tw"></div></section>
 
 <section class="pg" id="p-textbook"><div class="sh" style="margin-bottom:14px"><div class="st">📖 교과서 원문</div></div>
-<div class="bt"><button class="btb a" onclick="lp('h1',this)">역사① 세계사</button><button class="btb" onclick="lp('h2',this)">역사② 한국사</button></div>
-<div class="pfw"><div class="pfh"><div class="pft" id="pt">📕 역사① 교과서</div><div style="display:flex;gap:6px"><button class="tb tb1" onclick="openPdfNewTab()" style="font-size:.75rem">🔗 새 탭에서 열기</button><button class="tb tb2" onclick="reloadPdf()" style="font-size:.75rem">🔄 새로고침</button></div></div><div class="pff"><iframe id="pf" src="https://docs.google.com/gview?embedded=true&url=https://drive.google.com/uc?id=18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T%26export=download" allow="autoplay" loading="lazy"></iframe></div></div>
-<div style="text-align:center;padding:10px;font-size:.75rem;color:var(--t3)">💡 교과서가 안 보이면 <span style="color:var(--a1);cursor:pointer;font-weight:600" onclick="openPdfNewTab()">'새 탭에서 열기'</span>를 클릭하세요!</div></section>
+<div style="display:flex;flex-direction:column;gap:12px">
+
+<div style="background:linear-gradient(135deg,rgba(108,92,231,.12),rgba(0,206,206,.08));border:1px solid var(--bd);border-radius:var(--r);padding:24px 20px;text-align:center">
+<div style="font-size:3rem;margin-bottom:8px">📕</div>
+<div style="font-weight:800;font-size:1.1rem;margin-bottom:4px">역사① 세계사 교과서</div>
+<div style="font-size:.78rem;color:var(--t2);margin-bottom:16px">비상교육 | 이병인 외</div>
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+<button onclick="window.open('https://drive.google.com/file/d/18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T/view','_blank')" style="padding:12px 28px;border-radius:var(--rs);background:var(--gm);color:#fff;font-weight:700;font-size:.9rem;border:none;cursor:pointer;font-family:inherit;transition:.2s;display:flex;align-items:center;gap:6px" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">📖 교과서 보기</button>
+<button onclick="window.open('https://drive.google.com/uc?export=download&id=18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T','_blank')" style="padding:12px 28px;border-radius:var(--rs);background:var(--bgg);color:var(--t2);font-weight:600;font-size:.85rem;border:1px solid var(--bd);cursor:pointer;font-family:inherit;transition:.2s;display:flex;align-items:center;gap:6px" onmouseover="this.style.borderColor='var(--a1)'" onmouseout="this.style.borderColor='var(--bd)'">⬇ 다운로드</button>
+</div>
+</div>
+
+<div style="background:linear-gradient(135deg,rgba(253,121,168,.1),rgba(253,203,110,.08));border:1px solid var(--bd);border-radius:var(--r);padding:24px 20px;text-align:center">
+<div style="font-size:3rem;margin-bottom:8px">📗</div>
+<div style="font-weight:800;font-size:1.1rem;margin-bottom:4px">역사② 한국사 교과서</div>
+<div style="font-size:.78rem;color:var(--t2);margin-bottom:16px">비상교육 | 이병인 외</div>
+<div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap">
+<button onclick="window.open('https://drive.google.com/file/d/13PmJUuMXgtrjHU91BBx_TvpVSaxx2XCJ/view','_blank')" style="padding:12px 28px;border-radius:var(--rs);background:var(--gw);color:#1a1a2e;font-weight:700;font-size:.9rem;border:none;cursor:pointer;font-family:inherit;transition:.2s;display:flex;align-items:center;gap:6px" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">📖 교과서 보기</button>
+<button onclick="window.open('https://drive.google.com/uc?export=download&id=13PmJUuMXgtrjHU91BBx_TvpVSaxx2XCJ','_blank')" style="padding:12px 28px;border-radius:var(--rs);background:var(--bgg);color:var(--t2);font-weight:600;font-size:.85rem;border:1px solid var(--bd);cursor:pointer;font-family:inherit;transition:.2s;display:flex;align-items:center;gap:6px" onmouseover="this.style.borderColor='var(--a1)'" onmouseout="this.style.borderColor='var(--bd)'">⬇ 다운로드</button>
+</div>
+</div>
+
+<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:16px">
+<div style="font-size:.82rem;color:var(--t2);line-height:1.7;text-align:center">
+💡 <b>"교과서 보기"</b>를 누르면 Google Drive에서 바로 열려요!<br>
+페이지 넘기기, 확대/축소, 텍스트 검색이 모두 가능합니다.<br>
+<span style="color:var(--t3);font-size:.75rem">※ 교과서 파일의 공유 설정이 '링크가 있는 모든 사용자'로 되어 있어야 합니다</span>
+</div>
+</div>
+
+</div>
+</section>
 
 <section class="pg" id="p-chat"><div class="cw"><div class="ct"><div class="cav">🤖</div><div><div class="cbn">역사박사 AI</div><div class="cbs">● 항상 대기 중</div></div></div>
 <div class="cms" id="cm"><div class="cm b"><div class="cma">🤖</div><div class="cmb">안녕! 나는 <b>역사박사 AI</b>야! 🎓<br>역사 궁금한 거 뭐든 물어봐! 😊</div></div></div>
@@ -387,11 +412,7 @@ function rt(f='all'){let ev=[...TL];if(f==='korean')ev=ev.filter(e=>e.tp==='k');
 document.getElementById('tw').innerHTML='<div class="tll"></div>'+ev.map((e,i)=>'<div class="tle" style="animation-delay:'+(i*0.06)+'s"><div class="tld '+(e.tp==='k'?'k':'w')+'"></div><div class="tlc" onclick="at(\''+e.t+'\')"><div class="tly '+(e.tp==='k'?'k':'w')+'">'+e.y+'</div><div class="tlt">'+e.t+'</div><div class="tlds">'+e.d+'</div><span class="tltg '+(e.tp==='k'?'k':'w')+'">'+(e.tp==='k'?'🇰🇷 한국사':'🌍 세계사')+'</span></div></div>').join('');
 if(!S.bd.includes('timeline')){S.bd.push('timeline');tt('⏳ 시간여행자!');sv();}}
 
-const PDF_IDS={h1:'18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T',h2:'13PmJUuMXgtrjHU91BBx_TvpVSaxx2XCJ'};
-let curPdf='h1';
-function lp(b,el){document.querySelectorAll('#p-textbook .btb').forEach(t=>t.classList.remove('a'));el.classList.add('a');curPdf=b;document.getElementById('pt').textContent=b==='h1'?'📕 역사① 세계사':'📗 역사② 한국사';document.getElementById('pf').src='https://docs.google.com/gview?embedded=true&url=https://drive.google.com/uc?id='+PDF_IDS[b]+'%26export=download';}
-function openPdfNewTab(){window.open('https://drive.google.com/file/d/'+PDF_IDS[curPdf]+'/view','_blank');}
-function reloadPdf(){const f=document.getElementById('pf');const src=f.src;f.src='';setTimeout(()=>{f.src=src;},100);}
+
 
 function qc(t){document.getElementById('ci').value=t;sm();}
 async function sm(){const inp=document.getElementById('ci'),text=inp.value.trim();if(!text)return;const ms=document.getElementById('cm');

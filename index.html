@@ -209,7 +209,7 @@
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
 // ═══════════════════════════════════════
-// 📦 상태 관리 시스템 (원본 보존)
+// 📦 상태 관리 시스템 (원본 복원)
 // ═══════════════════════════════════════
 let S = { nm:'', no:'', sk:1, qd:0, xp:0, ac:[], dk:true, fs:1 };
 
@@ -219,6 +219,7 @@ function ld(){
     if(d){ S = {...S, ...JSON.parse(d)}; uu(); }
 }
 
+// 전역 등록
 window.st = function(t){
     document.getElementById('ts').classList.toggle('active', t==='s');
     document.getElementById('tt').classList.toggle('active', t==='t');
@@ -248,40 +249,24 @@ window.go = function(p){
 };
 
 // ═══════════════════════════════════════
-// 🤖 [수정됨] 최신 Gemini API 연동 로직
+// 🤖 [수정됨] AI 연동 로직 (함수명 sa 유지)
 // ═══════════════════════════════════════
 let busy = false;
 
 async function sa(q) {
     try {
         const genAI = new GoogleGenerativeAI(CONFIG.GEMINI_API_KEY);
-        // 모델 설정 및 시스템 인스트럭션 부여
         const model = genAI.getGenerativeModel({ 
             model: "gemini-1.5-flash",
-            systemInstruction: {
-                role: "system",
-                parts: [{ text: "너는 오성중학교 학생들을 위한 아주 친절하고 박학다식한 역사 선생님이야. 질문에 대해 중학생 수준에서 이해하기 쉽게 비유를 들어 설명해줘. 역사적 사실은 정확해야 하며, 답변 끝에는 항상 학생의 호기심을 격려하는 따뜻한 말을 덧붙여줘." }]
-            }
+            systemInstruction: "너는 오성중학교 학생들을 위한 아주 친절하고 박학다식한 역사 선생님이야. 질문에 대해 중학생 수준에서 이해하기 쉽게 비유를 들어 설명해줘. 역사적 사실은 정확해야 하며, 답변 끝에는 항상 학생의 호기심을 격려하는 따뜻한 말을 덧붙여줘."
         });
 
-        // 안전 설정 (역사적 전쟁/갈등 언급 시 차단 방지)
-        const safety = [
-            { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-            { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
-            { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-            { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
-        ];
-
-        const chat = model.startChat({
-            generationConfig: { maxOutputTokens: 1000, temperature: 0.7 },
-            safetySettings: safety
-        });
-
-        const result = await chat.sendMessage(q);
-        return result.response.text();
+        const result = await model.generateContent(q);
+        const response = await result.response;
+        return response.text();
     } catch (e) {
-        console.error("API Error:", e);
-        return "미안해, 지금 역사 책을 정리 중이라 잠시 연결이 끊겼어. 다시 한번 말해줄래? (에러 발생)";
+        console.error(e);
+        return "미안해, 지금 역사 책을 정리 중이라 잠시 연결이 끊겼어. 다시 한번 말해줄래?";
     }
 }
 
@@ -333,7 +318,7 @@ function hl(id){
 }
 
 // ═══════════════════════════════════════
-// ⚙️ UI 업데이트 및 설정 로직 (원본 보존)
+// ⚙️ UI 업데이트 및 설정 로직 (원본 복원)
 // ═══════════════════════════════════════
 window.td = function(){
     S.dk = !S.dk;
@@ -373,7 +358,6 @@ window.uu = function(){
     document.getElementById('mt').textContent = ms[new Date().getDay() % 5];
 };
 
-// 초기화
 window.onload = ld;
 </script>
 </body>

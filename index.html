@@ -6,167 +6,194 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#07070f">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>📜</text></svg>">
-<title>오성역사톡!! v2.1</title>
+<title>오성역사톡!! v2.0</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Black+Han+Sans&display=swap" rel="stylesheet">
 <style>
-/* 🎨 원본 스타일 시스템 100% 복구 */
 :root{--bg:#07070f;--bg2:#111122;--bgc:rgba(22,22,48,0.85);--bgg:rgba(255,255,255,0.04);--bgh:rgba(255,255,255,0.08);--t1:#f0f0ff;--t2:#9898b8;--t3:#5a5a78;--a1:#6C5CE7;--a2:#00CECE;--a3:#FD79A8;--a4:#FDCB6E;--a5:#00B894;--a6:#E17055;--gm:linear-gradient(135deg,#6C5CE7,#00CECE);--gw:linear-gradient(135deg,#FD79A8,#FDCB6E);--bd:rgba(255,255,255,0.06);--sh:0 8px 32px rgba(0,0,0,0.3);--r:20px;--rs:14px;--rx:8px;--nh:60px;--bh:70px;--fs:15px}
 [data-theme=light]{--bg:#f4f2ff;--bg2:#fff;--bgc:rgba(255,255,255,0.9);--bgg:rgba(108,92,231,0.04);--bgh:rgba(108,92,231,0.08);--t1:#1a1a2e;--t2:#555580;--t3:#8888aa;--bd:rgba(108,92,231,0.1);--sh:0 4px 20px rgba(108,92,231,0.08)}
 *{margin:0;padding:0;box-sizing:border-box}html{font-size:var(--fs)}body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;overflow-x:hidden;-webkit-tap-highlight-color:transparent}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--a1);border-radius:3px}
-
-/* 애니메이션 */
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
-
-/* 로그인 화면 */
-#loginScreen{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;align-items:center;justify-content:center}
-.lc{width:90%;max-width:420px;text-align:center;animation:fadeUp .8s ease}
-.ll{font-size:4rem;margin-bottom:8px;animation:float 3s ease-in-out infinite}
+@keyframes fU{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fl{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes ps{0%,100%{transform:scale(1)}50%{transform:scale(1.05)}}
+#ls{position:fixed;inset:0;z-index:1000;background:var(--bg);display:flex;align-items:center;justify-content:center}
+.lc{width:90%;max-width:420px;text-align:center;animation:fU .8s ease}
+.ll{font-size:4rem;margin-bottom:8px;animation:fl 3s ease-in-out infinite}
 .lt{font-family:'Black Han Sans',sans-serif;font-size:2.2rem;background:var(--gm);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px}
 .ls{color:var(--t3);font-size:.85rem;margin-bottom:32px}
 .ltabs{display:flex;gap:4px;background:var(--bg2);border-radius:var(--r);padding:4px;margin-bottom:24px;border:1px solid var(--bd)}
 .ltab{flex:1;padding:12px;border-radius:calc(var(--r) - 4px);border:none;background:0;color:var(--t3);font-weight:600;font-size:.88rem;cursor:pointer;transition:.3s}
 .ltab.active{background:var(--a1);color:#fff}
 .lin{width:100%;padding:14px 18px;border-radius:var(--rs);background:var(--bg2);border:1px solid var(--bd);color:var(--t1);font-size:.92rem;margin-bottom:12px;outline:none;transition:.3s}
-.lin:focus{border-color:var(--a1)}
-.lbtn{width:100%;padding:16px;border-radius:var(--rs);border:none;background:var(--gm);color:#fff;font-weight:700;font-size:1rem;cursor:pointer;transition:.3s}
-.lbtn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(108,92,231,.3)}
-
-/* 상단바 */
-.tn{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);background:rgba(7,7,15,0.8);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 16px}
+.lin:focus{border-color:var(--a1);background:var(--bgh)}
+.lbtn{width:100%;padding:16px;border-radius:var(--rs);border:none;background:var(--gm);color:#fff;font-weight:700;font-size:1rem;cursor:pointer;transition:.3s;box-shadow:0 8px 16px rgba(108,92,231,0.2)}
+.lbtn:hover{transform:translateY(-2px);box-shadow:0 12px 24px rgba(108,92,231,0.3)}
+.tn{position:fixed;top:0;left:0;right:0;z-index:100;height:var(--nh);background:var(--bgc);backdrop-filter:blur(20px);border-bottom:1px solid var(--bd);display:none;align-items:center;justify-content:space-between;padding:0 16px}
+.tn-l{display:flex;align-items:center;gap:10px}
 .tn-t{font-family:'Black Han Sans',sans-serif;font-size:1.15rem;background:var(--gm);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-
-/* 하단바 */
-.bn{position:fixed;bottom:0;left:0;right:0;z-index:100;height:var(--bh);background:rgba(7,7,15,0.9);backdrop-filter:blur(20px);border-top:1px solid var(--bd);display:flex;align-items:center;justify-content:space-around}
-.bni{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--t3);font-size:.65rem;cursor:pointer;transition:.2s}
-.bni.a{color:var(--a1)}
-.be{font-size:1.6rem}
-
-/* 메인 레이아웃 */
-.mn{padding-top:var(--nh);padding-bottom:calc(var(--bh) + 20px);min-height:100vh}
-.pg{display:none;padding:16px;max-width:800px;margin:0 auto}
-.pg.a{display:block;animation:fadeUp .4s ease}
-
-/* 홈 히어로 */
-.hero{padding:30px 20px;background:var(--bgg);border-radius:var(--r);border:1px solid var(--bd);margin-bottom:20px;text-align:center}
-.hg{font-size:1.4rem;font-weight:800;margin-bottom:10px}
-.hs{display:flex;gap:10px;justify-content:center}
-.hsi{background:var(--bg2);padding:10px 15px;border-radius:var(--rs);min-width:80px}
-
-/* 카드 그리드 */
-.qg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px}
-.qc{background:var(--bg2);padding:20px;border-radius:var(--r);border:1px solid var(--bd);text-align:center;cursor:pointer;transition:.3s}
-.qc:hover{border-color:var(--a1);transform:translateY(-4px)}
-.qce{font-size:2.2rem;margin-bottom:8px}
-
-/* 채팅창 */
-.cw{display:flex;flex-direction:column;height:calc(100vh - 180px)}
-.ct{display:flex;align-items:center;gap:10px;padding:10px;background:var(--bgg);border-radius:var(--rs);margin-bottom:10px}
-.cav{width:40px;height:40px;border-radius:50%;background:var(--gm);display:flex;align-items:center;justify-content:center;font-size:1.4rem}
-.cms{flex:1;overflow-y:auto;padding:10px;display:flex;flex-direction:column;gap:12px}
-.cm{display:flex;gap:8px;max-width:85%}
+.tn-r{display:flex;gap:12px}
+.tn-s{display:flex;align-items:center;gap:4px;font-size:.85rem;font-weight:600}
+.bn{position:fixed;bottom:0;left:0;right:0;z-index:100;height:var(--bh);background:var(--bgc);backdrop-filter:blur(20px);border-top:1px solid var(--bd);display:none;align-items:center;justify-content:space-around;padding-bottom:env(safe-area-inset-bottom)}
+.bni{display:flex;flex-direction:column;align-items:center;gap:2px;color:var(--t3);font-size:.65rem;cursor:pointer;transition:.2s;width:20%}
+.bni.active{color:var(--a1)}
+.bni i{font-size:1.5rem;margin-bottom:2px}
+.mn{padding:var(--nh) 0 var(--bh);min-height:100vh}
+.pg{display:none;padding:16px;animation:fU .4s ease}
+.pg.active{display:block}
+.hero{padding:24px;background:var(--bgg);border-radius:var(--r);border:1px solid var(--bd);margin-bottom:20px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;top:-50%;right:-20%;width:150px;height:150px;background:var(--a1);filter:blur(100px);opacity:0.2}
+.hg{font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.hs{color:var(--t2);font-size:.88rem;margin-bottom:20px}
+.hstats{display:flex;gap:10px}
+.hsi{background:var(--bg2);padding:10px 14px;border-radius:var(--rs);border:1px solid var(--bd);flex:1;display:flex;flex-direction:column;gap:2px}
+.hsiv{font-weight:700;color:var(--a2);font-size:1.1rem}
+.hsil{font-size:.7rem;color:var(--t3);text-transform:uppercase}
+.sec-t{font-size:1.1rem;font-weight:700;margin:24px 0 16px;display:flex;align-items:center;justify-content:space-between}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.card{background:var(--bg2);border-radius:var(--r);padding:20px;border:1px solid var(--bd);transition:.3s;cursor:pointer;display:flex;flex-direction:column;gap:12px;position:relative}
+.card:hover{transform:translateY(-4px);border-color:var(--a1);background:var(--bgh)}
+.card-e{font-size:2.2rem;width:50px;height:50px;display:flex;align-items:center;justify-content:center;background:var(--bgg);border-radius:var(--rx)}
+.card-t{font-weight:700;font-size:1rem}
+.card-s{font-size:.75rem;color:var(--t3)}
+.cw{display:flex;flex-direction:column;height:calc(100vh - var(--nh) - var(--bh) - 32px)}
+.ct{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding:4px}
+.cav{width:44px;height:44px;border-radius:50%;background:var(--gm);display:flex;align-items:center;justify-content:center;font-size:1.5rem;box-shadow:var(--sh)}
+.cti-n{font-weight:700;font-size:.95rem}
+.cti-s{font-size:.75rem;color:var(--a5);display:flex;align-items:center;gap:4px}
+.cti-s::before{content:'';width:6px;height:6px;background:currentColor;border-radius:50%}
+.cms{flex:1;overflow-y:auto;padding:8px 4px;display:flex;flex-direction:column;gap:16px}
+.cm{display:flex;gap:8px;max-width:88%}
 .cm.b{align-self:flex-start}
 .cm.u{align-self:flex-end;flex-direction:row-reverse}
-.cmb{padding:12px 16px;border-radius:18px;font-size:.92rem;line-height:1.6}
-.cm.b .cmb{background:var(--bg2);border:1px solid var(--bd);border-bottom-left-radius:4px}
-.cm.u .cmb{background:var(--a1);color:#fff;border-bottom-right-radius:4px}
-.cma{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0}
-.cm.b .cma{background:var(--gm)}
-.cb{display:flex;gap:8px;padding:10px 0}
-.ci{flex:1;padding:12px 20px;border-radius:25px;border:1px solid var(--bd);background:var(--bg2);color:var(--t1);outline:none}
-.csb{width:45px;height:45px;border-radius:50%;border:none;background:var(--gm);color:#fff;cursor:pointer}
-
-/* 타이핑 */
-.ti{display:flex;gap:4px;padding:12px 16px;background:var(--bg2);border-radius:18px;width:fit-content}
-.td{width:6px;height:6px;background:var(--t3);border-radius:50%;animation:bounce 1.4s infinite ease-in-out}
-.td:nth-child(2){animation-delay:.2s}.td:nth-child(3){animation-delay:.4s}
-@keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+.cmb{padding:12px 16px;border-radius:20px;font-size:.92rem;line-height:1.6;position:relative}
+.cm.b .cmb{background:var(--bg2);border:1px solid var(--bd);border-bottom-left-radius:4px;color:var(--t1)}
+.cm.u .cmb{background:var(--a1);color:#fff;border-bottom-right-radius:4px;box-shadow:0 4px 12px rgba(108,92,231,0.2)}
+.cma{width:28px;height:28px;border-radius:50%;background:var(--bg2);border:1px solid var(--bd);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;margin-top:auto}
+.cb{display:flex;gap:8px;padding-top:16px;background:var(--bg)}
+.ci{flex:1;padding:14px 20px;border-radius:25px;border:1px solid var(--bd);background:var(--bg2);color:var(--t1);font-size:.92rem;outline:none;transition:.3s}
+.ci:focus{border-color:var(--a1)}
+.csb{width:48px;height:48px;border-radius:50%;border:none;background:var(--gm);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;box-shadow:var(--sh)}
+.csb:active{transform:scale(.9)}
+.ti{display:flex;gap:4px;padding:12px 16px;background:var(--bg2);border-radius:20px;width:fit-content;border:1px solid var(--bd)}
+.td{width:6px;height:6px;background:var(--t3);border-radius:50%;animation:ps 1.4s infinite ease-in-out}
+.td:nth-child(2){animation-delay:0.2s}.td:nth-child(3){animation-delay:0.4s}
+.al{display:flex;flex-direction:column;gap:10px}
+.ai{background:var(--bg2);padding:14px;border-radius:var(--rs);border:1px solid var(--bd);display:flex;align-items:center;gap:12px}
+.aie{width:40px;height:40px;background:var(--bgg);border-radius:var(--rx);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+.aii{flex:1}.ait{font-weight:700;font-size:.88rem;margin-bottom:2px}.ais{font-size:.7rem;color:var(--t3)}
+.aix{font-weight:800;color:var(--a4);font-size:.9rem}
+.stc{background:var(--bg2);border-radius:var(--r);border:1px solid var(--bd);padding:8px;margin-bottom:12px}
+.sti{display:flex;align-items:center;justify-content:space-between;padding:12px;cursor:pointer}
+.sti:not(:last-child){border-bottom:1px solid var(--bd)}
+.st-l{display:flex;align-items:center;gap:12px;font-weight:600;font-size:.9rem}
+.st-i{width:32px;height:32px;border-radius:var(--rx);background:var(--bgg);display:flex;align-items:center;justify-content:center}
+.tg{width:42px;height:24px;background:var(--bg);border-radius:12px;position:relative;border:1px solid var(--bd);transition:.3s}
+.tg::after{content:'';position:absolute;top:2px;left:2px;width:18px;height:18px;background:var(--t3);border-radius:50%;transition:.3s}
+.tg.on{background:var(--a1);border-color:var(--a1)}
+.tg.on::after{left:20px;background:#fff}
 </style>
 </head>
 <body data-theme="dark">
 
-<div id="loginScreen">
+<div id="ls">
     <div class="lc">
         <div class="ll">📜</div>
         <div class="lt">오성역사톡!!</div>
-        <div class="ls">오성중학교 전용 역사 탐험 서비스</div>
+        <div class="ls">역사가 재미있어지는 순간 · 오성중학교</div>
         <div class="ltabs">
-            <button class="ltab active" onclick="switchLogin('s')">학생</button>
-            <button class="ltab" onclick="switchLogin('t')">교사</button>
+            <button class="ltab active" id="ts" onclick="st('s')">🧑‍🎓 학생</button>
+            <button class="ltab" id="tt" onclick="st('t')">👩‍🏫 교사</button>
         </div>
-        <div id="sForm">
-            <input class="lin" id="ln" placeholder="이름을 입력하세요" autocomplete="off">
-            <button class="lbtn" onclick="login()">역사 여행 시작 🚀</button>
+        <div id="sf">
+            <input class="lin" id="ln" placeholder="이름" autocomplete="off">
+            <input class="lin" id="lnu" type="tel" placeholder="학번 (예: 10101)" maxlength="5">
+            <button class="lbtn" onclick="li()">역사 여행 시작 🚀</button>
         </div>
     </div>
 </div>
 
-<nav class="tn" id="tn" style="display:none">
-    <div class="tn-t">오성역사톡</div>
-    <div style="display:flex; gap:10px;">
-        <span id="ns">🔥 1</span>
-        <span id="nx">⭐ 0</span>
+<nav class="tn" id="tn">
+    <div class="tn-l"><div class="tn-t">오성역사톡</div></div>
+    <div class="tn-r">
+        <div class="tn-s" style="color:var(--a6)"><span id="ns">🔥 1</span></div>
+        <div class="tn-s" style="color:var(--a4)"><span id="nx">⭐ 0</span></div>
     </div>
 </nav>
 
 <main class="mn" id="ma" style="display:none">
-    <section class="pg a" id="p-home">
+    <section id="p-h" class="pg active">
         <div class="hero">
-            <div class="hg"><span id="hn">탐험가</span>님, 환영해요! 👋</div>
-            <div class="hs">
-                <div class="hsi">🔥 연속 1일</div>
-                <div class="hsi">⭐ 0 XP</div>
+            <div class="hg">안녕, <span id="hn">탐험가</span>! 👋</div>
+            <div class="hs">오늘도 역사 속으로 떠나볼까?</div>
+            <div class="hstats">
+                <div class="hsi"><div class="hsiv" id="hk">1</div><div class="hsil">연속 일수</div></div>
+                <div class="hsi"><div class="hsiv" id="hq">0</div><div class="hsil">풀은 문제</div></div>
+                <div class="hsi"><div class="hsiv" id="hx">0</div><div class="hsil">내 경험치</div></div>
             </div>
         </div>
-        <div class="qg">
-            <div class="qc" onclick="go('curriculum')"><div class="qce">📚</div><div>교과서 학습</div></div>
-            <div class="qc" onclick="go('chat')"><div class="qce">🤖</div><div>AI 역사쌤</div></div>
-            <div class="qc" onclick="alert('퀴즈 기능 준비 중!')"><div class="qce">🎯</div><div>역사 퀴즈</div></div>
-            <div class="qc" onclick="go('profile')"><div class="qce">👤</div><div>마이페이지</div></div>
+        <div class="sec-t">오늘의 추천 활동</div>
+        <div class="grid2">
+            <div class="card" onclick="go('c')"><div class="card-e">🤖</div><div><div class="card-t">AI 역사쌤</div><div class="card-s">무엇이든 물어보세요!</div></div></div>
+            <div class="card" onclick="go('q')"><div class="card-e">🎯</div><div><div class="card-t">도전 퀴즈</div><div class="card-s">실력을 뽐내봐요</div></div></div>
+            <div class="card" onclick="go('l')"><div class="card-e">📚</div><div><div class="card-t">교과 학습</div><div class="card-s">단원별 핵심 요약</div></div></div>
+            <div class="card" onclick="go('t')"><div class="card-e">⏳</div><div><div class="card-t">타임라인</div><div class="card-s">시대별 사건 탐험</div></div></div>
+        </div>
+        <div class="sec-t">미션 및 업적</div>
+        <div class="al" id="mtx">
+            <div class="ai"><div class="aie">🎯</div><div class="aii"><div class="ait" id="mt">오늘의 미션 로딩중...</div><div class="ais">매일 새로운 보상!</div></div><div class="aix">+50</div></div>
+        </div>
+        <div class="sec-t">최근 내 활동</div>
+        <div class="al" id="al">
+            <div style="text-align:center; padding:20px; color:var(--t3); font-size:.85rem; width:100%">아직 활동 기록이 없어요.</div>
         </div>
     </section>
 
-    <section class="pg" id="p-curriculum">
-        <h2>📚 단원별 학습</h2>
-        <p style="color:var(--t2); margin-bottom:20px;">공부하고 싶은 시대를 선택하세요.</p>
-        <div style="display:flex; flex-direction:column; gap:10px;">
-            <div class="qc" style="text-align:left; padding:15px;" onclick="alert('데이터를 불러오고 있습니다.')">1. 고대 국가의 성립</div>
-            <div class="qc" style="text-align:left; padding:15px;" onclick="alert('데이터를 불러오고 있습니다.')">2. 고려의 성립과 발전</div>
-            <div class="qc" style="text-align:left; padding:15px;" onclick="alert('데이터를 불러오고 있습니다.')">3. 조선의 성립과 변화</div>
-        </div>
-    </section>
-
-    <section class="pg" id="p-chat">
+    <section id="p-c" class="pg">
         <div class="cw">
-            <div class="ct"><div class="cav">🤖</div><div><b>역사박사 AI</b><br><small style="color:var(--a5)">● 온라인</small></div></div>
-            <div class="cms" id="chatBox">
-                <div class="cm b"><div class="cma">🤖</div><div class="cmb">안녕! 나는 오성중학교 역사 멘토야. 역사에 대해 궁금한 건 뭐든 물어봐! 🎓</div></div>
+            <div class="ct">
+                <div class="cav">🤖</div>
+                <div class="cti"><div class="cti-n">역사박사 AI 쌤</div><div class="cti-s">지금 바로 답변 가능</div></div>
+            </div>
+            <div class="cms" id="cb">
+                <div class="cm b"><div class="cma">🤖</div><div class="cmb">반가워! 오성중학교 역사 멘토야. 📜<br>역사에 대해 궁금한 게 있다면 무엇이든 물어봐! 아주 쉽고 재미있게 알려줄게.</div></div>
             </div>
             <div class="cb">
-                <input class="ci" id="ci" placeholder="질문을 입력하세요..." onkeydown="if(event.key==='Enter')sm()">
+                <input class="ci" id="ci" placeholder="예: 세종대왕은 왜 훈민정음을 만드셨어?" onkeydown="if(event.key==='Enter')sm()">
                 <button class="csb" onclick="sm()">➤</button>
             </div>
         </div>
     </section>
 
-    <section class="pg" id="p-profile">
-        <h2>👤 내 정보</h2>
-        <div class="hero" style="margin-top:20px;">
-            <div style="font-size:3rem;">🏅</div>
-            <h3 id="pn">탐험가</h3>
-            <p>오성중학교 1학년</p>
+    <section id="p-l" class="pg">
+        <div class="sec-t">교과 단원 선택</div>
+        <div class="al">
+            <div class="card" style="flex-direction:row; align-items:center; gap:16px; padding:16px" onclick="alert('곧 업데이트됩니다!')"><div class="card-e" style="width:40px; height:40px; font-size:1.2rem">01</div><div><div class="card-t">선사 시대의 전개</div><div class="card-s">구석기, 신석기, 청동기</div></div></div>
+            <div class="card" style="flex-direction:row; align-items:center; gap:16px; padding:16px" onclick="alert('곧 업데이트됩니다!')"><div class="card-e" style="width:40px; height:40px; font-size:1.2rem">02</div><div><div class="card-t">고대 국가의 성립</div><div class="card-s">고구려, 백제, 신라, 가야</div></div></div>
+            <div class="card" style="flex-direction:row; align-items:center; gap:16px; padding:16px" onclick="alert('곧 업데이트됩니다!')"><div class="card-e" style="width:40px; height:40px; font-size:1.2rem">03</div><div><div class="card-t">고려의 성립과 발전</div><div class="card-s">코리아의 시작, 고려</div></div></div>
         </div>
-        <button class="lbtn" style="background:var(--bg2); border:1px solid var(--bd); margin-top:10px;" onclick="location.reload()">로그아웃</button>
+    </section>
+
+    <section id="p-s" class="pg">
+        <div class="sec-t">앱 설정</div>
+        <div class="stc">
+            <div class="sti" onclick="td()"><div class="st-l"><div class="st-i">🌙</div>다크 모드</div><div class="tg" id="dt"></div></div>
+            <div class="sti" onclick="cf(1)"><div class="st-l"><div class="st-i">Aa</div>글자 크기</div><div style="font-size:.85rem; color:var(--a1); font-weight:700" id="fl">중</div></div>
+        </div>
+        <div class="sec-t">내 계정 정보</div>
+        <div class="stc">
+            <div class="sti"><div class="st-l"><div class="st-i">👤</div>로그인 정보</div><div style="font-size:.85rem; color:var(--t2)" id="ui">-</div></div>
+            <div class="sti" onclick="location.reload()"><div class="st-l"><div class="st-i" style="color:var(--a6)">🚪</div>로그아웃</div></div>
+        </div>
+        <div style="text-align:center; padding:20px; color:var(--t3); font-size:.7rem">오성역사톡!! v2.0 · Made for Ohsung Student</div>
     </section>
 </main>
 
-<nav class="bn" id="bn" style="display:none">
-    <div class="bni a" onclick="go('home')"><span class="be">🏠</span>홈</div>
-    <div class="bni" onclick="go('curriculum')"><span class="be">📚</span>학습</div>
-    <div class="bni" onclick="go('chat')"><span class="be">🤖</span>AI쌤</div>
-    <div class="bni" onclick="go('profile')"><span class="be">👤</span>마이</div>
+<nav class="bn" id="bn">
+    <div class="bni active" onclick="go('h')"><i>🏠</i><span>홈</span></div>
+    <div class="bni" onclick="go('l')"><i>📚</i><span>학습</span></div>
+    <div class="bni" onclick="go('c')"><i>🤖</i><span>AI쌤</span></div>
+    <div class="bni" onclick="go('q')"><i>🎯</i><span>퀴즈</span></div>
+    <div class="bni" onclick="go('s')"><i>⚙️</i><span>설정</span></div>
 </nav>
 
 <script src="config.js"></script>
@@ -181,108 +208,173 @@
 <script type="module">
 import { GoogleGenerativeAI, HarmCategory, HarmBlockThreshold } from "@google/generative-ai";
 
-let isBusy = false;
+// ═══════════════════════════════════════
+// 📦 상태 관리 시스템 (원본 보존)
+// ═══════════════════════════════════════
+let S = { nm:'', no:'', sk:1, qd:0, xp:0, ac:[], dk:true, fs:1 };
 
-// ✅ [수정됨] 400 에러 해결을 위한 정교한 AI 응답 함수
-async function fetchAI(prompt) {
+function sv(){ localStorage.setItem('os_data', JSON.stringify(S)); }
+function ld(){ 
+    const d = localStorage.getItem('os_data'); 
+    if(d){ S = {...S, ...JSON.parse(d)}; uu(); }
+}
+
+window.st = function(t){
+    document.getElementById('ts').classList.toggle('active', t==='s');
+    document.getElementById('tt').classList.toggle('active', t==='t');
+    if(t==='t') alert('교사용 페이지는 승인된 계정만 입장 가능합니다.');
+};
+
+window.li = function(){
+    const n = document.getElementById('ln').value;
+    const u = document.getElementById('lnu').value;
+    if(!n || !u) return alert('이름과 학번을 모두 입력해주세요!');
+    S.nm = n; S.no = u;
+    document.getElementById('ls').style.display = 'none';
+    document.getElementById('tn').style.display = 'flex';
+    document.getElementById('ma').style.display = 'block';
+    document.getElementById('bn').style.display = 'flex';
+    uu(); sv();
+};
+
+window.go = function(p){
+    document.querySelectorAll('.pg').forEach(el=>el.classList.remove('active'));
+    document.getElementById('p-'+p).classList.add('active');
+    document.querySelectorAll('.bni').forEach((el,i)=>{
+        const map = ['h','l','c','q','s'];
+        el.classList.toggle('active', map[i]===p);
+    });
+    if(p==='q' || p==='t') alert('준비 중인 기능입니다! 곧 만나요!');
+};
+
+// ═══════════════════════════════════════
+// 🤖 [수정됨] 최신 Gemini API 연동 로직
+// ═══════════════════════════════════════
+let busy = false;
+
+async function sa(q) {
     try {
         const genAI = new GoogleGenerativeAI(CONFIG.GEMINI_API_KEY);
+        // 모델 설정 및 시스템 인스트럭션 부여
         const model = genAI.getGenerativeModel({ 
             model: "gemini-1.5-flash",
-            // ✅ 시스템 인스트럭션을 API 규격에 맞는 객체 형태로 전달
             systemInstruction: {
                 role: "system",
-                parts: [{ text: "너는 오성중학교 학생들의 역사 학습을 돕는 친절하고 똑똑한 역사 선생님이야. 중학생이 이해하기 쉽게 비유를 들어 설명해줘. 역사적 사실을 정확히 말하되, 말투는 항상 부드럽고 격려하는 태도를 유지해." }]
+                parts: [{ text: "너는 오성중학교 학생들을 위한 아주 친절하고 박학다식한 역사 선생님이야. 질문에 대해 중학생 수준에서 이해하기 쉽게 비유를 들어 설명해줘. 역사적 사실은 정확해야 하며, 답변 끝에는 항상 학생의 호기심을 격려하는 따뜻한 말을 덧붙여줘." }]
             }
         });
 
+        // 안전 설정 (역사적 전쟁/갈등 언급 시 차단 방지)
+        const safety = [
+            { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+            { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
+            { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
+            { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
+        ];
+
         const chat = model.startChat({
             generationConfig: { maxOutputTokens: 1000, temperature: 0.7 },
-            safetySettings: [
-                { category: HarmCategory.HARM_CATEGORY_HARASSMENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-                { category: HarmCategory.HARM_CATEGORY_HATE_SPEECH, threshold: HarmBlockThreshold.BLOCK_NONE },
-                { category: HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT, threshold: HarmBlockThreshold.BLOCK_NONE },
-                { category: HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT, threshold: HarmBlockThreshold.BLOCK_NONE },
-            ]
+            safetySettings: safety
         });
 
-        const result = await chat.sendMessage(prompt);
+        const result = await chat.sendMessage(q);
         return result.response.text();
     } catch (e) {
-        console.error(e);
-        return "미안해, 지금 역사 사료를 정리 중이라 대답이 늦었어. 다시 한번 물어봐 줄래? (오류 발생)";
+        console.error("API Error:", e);
+        return "미안해, 지금 역사 책을 정리 중이라 잠시 연결이 끊겼어. 다시 한번 말해줄래? (에러 발생)";
     }
 }
 
-// ✅ 메시지 전송 로직
-window.sm = async function() {
+window.sm = async function(){
     const input = document.getElementById('ci');
     const msg = input.value.trim();
-    if(!msg || isBusy) return;
+    if(!msg || busy) return;
 
-    isBusy = true;
-    addMsg(msg, 'u');
+    busy = true;
+    am(msg, 'u');
     input.value = '';
-
-    const tid = showLoading();
-    const res = await fetchAI(msg);
     
-    hideLoading(tid);
-    addMsg(res, 'b');
-    isBusy = false;
+    const tid = sl();
+    const res = await sa(msg);
+    
+    hl(tid);
+    am(res, 'b');
+    
+    // 경험치 보상
+    S.xp += 10;
+    S.ac.unshift({t:'AI에게 역사 질문', tm:new Date().toLocaleTimeString(), x:'+10'});
+    uu(); sv();
+    busy = false;
 };
 
-function addMsg(m, t) {
-    const box = document.getElementById('chatBox');
-    const div = document.createElement('div');
-    div.className = `cm ${t}`;
-    div.innerHTML = t==='b' ? `<div class="cma">🤖</div><div class="cmb">${m.replace(/\n/g,'<br>')}</div>` : `<div class="cmb">${m}</div>`;
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
+function am(m, t){
+    const b = document.getElementById('cb');
+    const d = document.createElement('div');
+    d.className = `cm ${t}`;
+    d.innerHTML = t==='b' ? `<div class="cma">🤖</div><div class="cmb">${m.replace(/\n/g,'<br>')}</div>` : `<div class="cmb">${m}</div>`;
+    b.appendChild(d);
+    b.scrollTop = b.scrollHeight;
 }
 
-function showLoading() {
-    const box = document.getElementById('chatBox');
+function sl(){
+    const b = document.getElementById('cb');
     const id = 't-'+Date.now();
-    const div = document.createElement('div');
-    div.id = id; div.className = 'cm b';
-    div.innerHTML = `<div class="cma">🤖</div><div class="ti"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
-    box.appendChild(div);
-    box.scrollTop = box.scrollHeight;
+    const d = document.createElement('div');
+    d.id = id; d.className = 'cm b';
+    d.innerHTML = `<div class="cma">🤖</div><div class="ti"><div class="td"></div><div class="td"></div><div class="td"></div></div>`;
+    b.appendChild(d);
+    b.scrollTop = b.scrollHeight;
     return id;
 }
 
-function hideLoading(id) {
+function hl(id){
     const el = document.getElementById(id);
     if(el) el.remove();
 }
 
-// ✅ 페이지 네비게이션
-window.go = function(p) {
-    document.querySelectorAll('.pg').forEach(s => s.classList.remove('a'));
-    document.getElementById('p-'+p).classList.add('a');
-    document.querySelectorAll('.bni').forEach(b => b.classList.remove('a'));
-    // 버튼 활성화는 인덱스로 찾거나 이벤트 타겟으로 처리 (간소화)
+// ═══════════════════════════════════════
+// ⚙️ UI 업데이트 및 설정 로직 (원본 보존)
+// ═══════════════════════════════════════
+window.td = function(){
+    S.dk = !S.dk;
+    document.body.setAttribute('data-theme', S.dk ? 'dark' : 'light');
+    document.getElementById('dt').classList.toggle('on', S.dk);
+    sv();
 };
 
-// ✅ 로그인 로직
-window.login = function() {
-    const n = document.getElementById('ln').value;
-    if(!n) return alert('이름을 입력해주세요!');
-    document.getElementById('loginScreen').style.display='none';
-    document.getElementById('tn').style.display='flex';
-    document.getElementById('ma').style.display='block';
-    document.getElementById('bn').style.display='flex';
-    document.getElementById('hn').innerText = n;
-    document.getElementById('pn').innerText = n;
+window.cf = function(d){
+    S.fs = (S.fs + 1) % 3;
+    const sz = [13, 15, 18], lb = ['소','중','대'];
+    document.documentElement.style.setProperty('--fs', sz[S.fs] + 'px');
+    document.getElementById('fl').textContent = lb[S.fs];
+    sv();
 };
 
-window.switchLogin = function(type) {
-    const tabs = document.querySelectorAll('.ltab');
-    tabs[0].classList.toggle('active', type==='s');
-    tabs[1].classList.toggle('active', type==='t');
-    if(type==='t') alert('교사용은 현재 준비 중입니다.');
+window.uu = function(){
+    document.getElementById('ns').textContent = '🔥 ' + S.sk;
+    document.getElementById('nx').textContent = '⭐ ' + S.xp;
+    document.getElementById('hn').textContent = S.nm;
+    document.getElementById('hk').textContent = S.sk;
+    document.getElementById('hq').textContent = S.qd;
+    document.getElementById('hx').textContent = S.xp;
+    document.getElementById('ui').textContent = S.nm + ' (' + S.no + ')';
+    
+    if(S.ac.length > 0){
+        document.getElementById('al').innerHTML = S.ac.slice(0,5).map(a=>`
+            <div class="ai">
+                <div class="aie">📝</div>
+                <div class="aii"><div class="ait">${a.t}</div><div class="ais">${a.tm}</div></div>
+                <div class="aix">${a.x}</div>
+            </div>
+        `).join('');
+    }
+    
+    const ms = ['AI 퀴즈 5문제 풀기! +50 XP','새 단원 2개 학습! +20 XP','AI에게 질문 3개!','타임라인 탐험!','퀴즈 80% 달성!'];
+    document.getElementById('mt').textContent = ms[new Date().getDay() % 5];
 };
+
+// 초기화
+window.onload = ld;
 </script>
 </body>
 </html>

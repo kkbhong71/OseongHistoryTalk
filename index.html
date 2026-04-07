@@ -271,7 +271,7 @@
 </div>
 </section>
 
-<section class="pg" id="p-chat"><div class="cw"><div class="ct"><div class="cav">🤖</div><div><div class="cbn">역사박사 AI</div><div class="cbs">● 항상 대기 중</div></div></div>
+<section class="pg" id="p-chat"><div class="cw"><div class="ct"><div class="cav">🤖</div><div style="flex:1"><div class="cbn">역사박사 AI</div><div class="cbs">● 항상 대기 중</div></div><button class="tb tb1" onclick="clearChat()" style="font-size:.68rem;padding:5px 10px">🗑 대화 초기화</button></div>
 <div class="cms" id="cm"><div class="cm b"><div class="cma">🤖</div><div class="cmb">안녕! 나는 <b>역사박사 AI</b>야! 🎓<br>역사 궁금한 거 뭐든 물어봐! 😊</div></div></div>
 <div class="cqb"><button class="cq" onclick="qc('고조선은 어떻게 건국되었어?')">🏛️ 고조선</button><button class="cq" onclick="qc('삼국시대 정리해줘')">⚔️ 삼국시대</button><button class="cq" onclick="qc('프랑스 혁명 원인이 뭐야?')">🇫🇷 프랑스혁명</button><button class="cq" onclick="qc('임진왜란에 대해 알려줘')">🛡️ 임진왜란</button></div>
 <div class="cb"><input class="ci" id="ci" placeholder="역사에 대해 물어보세요!" onkeydown="if(event.key==='Enter')sm()"><button class="csb" onclick="sm()">➤</button></div></div></section>
@@ -281,7 +281,11 @@
 <section class="pg" id="p-profile"><div class="ph"><div class="pav">🎓</div><div class="pn" id="ppn">탐험가</div><div class="plv" id="ppv">Lv.1 역사 입문자</div>
 <div class="xw"><div class="xl"><span id="xc">0 XP</span><span id="xn">100 XP</span></div><div class="xb2"><div class="xbf" id="xf" style="width:0%"></div></div></div></div>
 <div class="sg"><div class="sc"><div class="scn" style="color:var(--a4)" id="ps">0</div><div class="scl">🔥 연속</div></div><div class="sc"><div class="scn" style="color:var(--a5)" id="pa">0%</div><div class="scl">📊 정답률</div></div><div class="sc"><div class="scn" style="color:var(--a1)" id="pt2">0</div><div class="scl">🎯 퀴즈</div></div></div>
-<div class="sh"><div class="st">🏆 뱃지 컬렉션</div></div><div class="bg" id="bg2"></div></section>
+<div class="sh"><div class="st">🏆 뱃지 컬렉션</div></div><div class="bg" id="bg2"></div>
+<div style="height:16px"></div>
+<div class="sh"><div class="st">📊 단원별 학습 진도</div></div><div id="progressBars" style="margin-bottom:16px"></div>
+<div class="sh"><div class="st">📝 오답 노트</div></div><div id="wrongNotes" style="margin-bottom:16px"></div>
+</section>
 
 <section class="pg" id="p-teacher"><div id="ta"></div></section>
 
@@ -364,7 +368,7 @@ const TL=[{y:"BC 700만년",t:"인류의 출현",d:"아프리카에서 최초 �
 
 const BD=[{id:"first_login",e:"🌟",n:"첫발걸음"},{id:"quiz_1",e:"🎯",n:"첫퀴즈"},{id:"quiz_10",e:"🏅",n:"퀴즈마스터"},{id:"streak_3",e:"🔥",n:"3일연속"},{id:"streak_7",e:"💪",n:"7일연속"},{id:"perfect",e:"💯",n:"만점왕"},{id:"chat_10",e:"💬",n:"호기심왕"},{id:"timeline",e:"⏳",n:"시간여행자"},{id:"night",e:"🦉",n:"밤학자"},{id:"early",e:"🌅",n:"얼리버드"},{id:"streak_30",e:"👑",n:"30일왕"},{id:"all_units",e:"🎓",n:"완전정복"}];
 
-let S={li:false,rl:'s',nm:'탐험가',cl:'',sn:'',xp:0,sk:0,ls:null,qd:0,qv:0,qs:0,bd:['first_login'],cc:0,st:[],dk:true,fs:1,ac:[],cb:'history1',qp:'setup',qu:null,qq:[],qi:0,qsc:0,qan:false};
+let S={li:false,rl:'s',nm:'탐험가',cl:'',sn:'',xp:0,sk:0,ls:null,qd:0,qv:0,qs:0,bd:['first_login'],cc:0,st:[],dk:true,fs:1,ac:[],cb:'history1',qp:'setup',qu:null,qq:[],qi:0,qsc:0,qan:false,chatHist:[],qDiff:'normal'};
 function ld(){try{const s=localStorage.getItem('oh2');if(s)S={...S,...JSON.parse(s)};}catch(e){}}
 function sv(){try{localStorage.setItem('oh2',JSON.stringify(S));}catch(e){}}
 function syncToServer(){if(!S.li||S.rl!=='s'||!GAS_URL||GAS_URL==='YOUR_GAS_DEPLOYMENT_URL_HERE')return;
@@ -423,7 +427,7 @@ const pwSec=document.getElementById('pwChangeSection');if(pwSec)pwSec.style.disp
 cs();uu();}
 function lo(){S.li=false;sv();document.getElementById('loginScreen').style.display='flex';document.getElementById('tn').style.display='none';document.getElementById('ma').style.display='none';document.getElementById('bn').style.display='none';}
 
-function go(p){document.querySelectorAll('.pg').forEach(g=>g.classList.remove('a'));const el=document.getElementById('p-'+p);if(el)el.classList.add('a');const ps=['home','curriculum','timeline','chat','profile'];document.querySelectorAll('.bni').forEach((i,x)=>i.classList.toggle('a',ps[x]===p));if(p==='curriculum')rc();if(p==='timeline')rt();if(p==='quiz')rqs();if(p==='profile')rp();if(p==='teacher')rtd();window.scrollTo(0,0);}
+function go(p){document.querySelectorAll('.pg').forEach(g=>g.classList.remove('a'));const el=document.getElementById('p-'+p);if(el)el.classList.add('a');const ps=['home','curriculum','timeline','chat','profile'];document.querySelectorAll('.bni').forEach((i,x)=>i.classList.toggle('a',ps[x]===p));if(p==='curriculum')rc();if(p==='timeline')rt();if(p==='quiz')rqs();if(p==='profile')rp();if(p==='teacher')rtd();if(p==='chat'&&!chatRestored){restoreChat();chatRestored=true;}window.scrollTo(0,0);}
 
 function sb(b,el){S.cb=b;document.querySelectorAll('#p-curriculum .btb').forEach(t=>t.classList.remove('a'));el.classList.add('a');rc();}
 function rc(){const d=C[S.cb];document.getElementById('ul').innerHTML=d.units.map(u=>'<div class="uc" id="u-'+u.id+'"><div class="uh" onclick="tu(\''+u.id+'\')"><div class="ui" style="background:'+u.color+'18;border-color:'+u.color+'40">'+u.emoji+'</div><div class="uif"><div class="ut">'+u.num+'. '+u.title+'</div><div class="ue">'+u.era+'</div></div><div class="ua">▼</div></div><div class="ub">'+u.topics.map((t,i)=>'<div class="tc" onclick="ot(\''+u.id+'\','+i+')"><div class="tcn">'+(i+1)+'. '+t.title+'</div><div class="tcs">'+t.summary+'</div><div class="tbs"><button class="tb tb1" onclick="event.stopPropagation();ot(\''+u.id+'\','+i+')">📖 핵심정리</button><button class="tb tb2" onclick="event.stopPropagation();oy(\''+t.kw+'\')">▶ 영상</button><button class="tb tb3" onclick="event.stopPropagation();suq(\''+u.id+'\')">🎯 퀴즈</button><button class="tb tb4" onclick="event.stopPropagation();at(\''+t.title+'\')">💬 질문</button></div></div>').join('')+'</div></div>').join('');}
@@ -444,6 +448,15 @@ if(!S.bd.includes('timeline')){S.bd.push('timeline');tt('⏳ 시간여행자!');
 
 
 
+function restoreChat(){const ms=document.getElementById('cm');if(!S.chatHist||S.chatHist.length===0)return;
+ms.innerHTML='<div class="cm b"><div class="cma">🤖</div><div class="cmb">안녕! 나는 <b>역사박사 AI</b>야! 🎓<br>역사 궁금한 거 뭐든 물어봐! 😊</div></div>';
+S.chatHist.forEach(m=>{if(m.r==='u'){ms.innerHTML+='<div class="cm u"><div class="cma">🧑‍🎓</div><div class="cmb">'+es(m.t)+'</div></div>';}
+else{ms.innerHTML+='<div class="cm b"><div class="cma">🤖</div><div class="cmb">'+fmt(m.t)+'</div></div>';}});
+ms.scrollTop=ms.scrollHeight;}
+function clearChat(){if(!confirm('대화 기록을 초기화할까요?'))return;S.chatHist=[];sv();
+document.getElementById('cm').innerHTML='<div class="cm b"><div class="cma">🤖</div><div class="cmb">안녕! 나는 <b>역사박사 AI</b>야! 🎓<br>역사 궁금한 거 뭐든 물어봐! 😊</div></div>';tt('🗑 대화 기록 초기화!');}
+let chatRestored=false;
+
 function qc(t){document.getElementById('ci').value=t;sm();}
 async function sm(){const inp=document.getElementById('ci'),text=inp.value.trim();if(!text)return;const ms=document.getElementById('cm');
 ms.innerHTML+='<div class="cm u"><div class="cma">🧑‍🎓</div><div class="cmb">'+es(text)+'</div></div>';inp.value='';ms.scrollTop=ms.scrollHeight;
@@ -451,11 +464,21 @@ const tid='t'+Date.now();ms.innerHTML+='<div class="cm b" id="'+tid+'"><div clas
 let res='';
 if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'chat',message:text})});const d=await r.json();if(d.success){res=d.response;}else{res='⚠️ AI 오류: '+(d.error||'알 수 없는 오류');}}catch(e){console.error('GAS error:',e);res='⚠️ 연결 문제: '+e.message;}}
 else{const t=text.toLowerCase();if(t.includes('고조선'))res='🏛️ 고조선은 우리 역사 최초의 국가!\n\nBC 2333년 단군왕검이 건국했어.\n\n8조법:\n• 사람을 죽이면 사형\n• 다치게 하면 곡물 배상\n• 도둑질하면 노비\n\n💡 역사② Ⅰ단원에서 자세히!';else if(t.includes('삼국')||t.includes('고구려'))res='⚔️ 삼국시대!\n\n🔴 고구려(BC37): 광개토대왕\n🟡 백제(BC18): 근초고왕\n🔵 신라(BC57): 진흥왕\n\n676년 신라가 통일!';else if(t.includes('프랑스'))res='🇫🇷 프랑스 혁명(1789)!\n\n원인: 신분제 모순, 재정 위기\n결과: 자유·평등·박애 확산!';else if(t.includes('임진왜란'))res='🛡️ 임진왜란(1592)\n\n이순신: 한산도 대첩, 거북선\n의병 활약, 조·명 연합 항전';else res='📚 좋은 질문! API 키를 코드에 설정하면 더 자세한 답변을 받을 수 있어요!';}
-document.getElementById(tid)?.remove();ms.innerHTML+='<div class="cm b"><div class="cma">🤖</div><div class="cmb">'+fmt(res)+'</div></div>';ms.scrollTop=ms.scrollHeight;S.cc++;ax(5,'AI 대화');}
+document.getElementById(tid)?.remove();ms.innerHTML+='<div class="cm b"><div class="cma">🤖</div><div class="cmb">'+fmt(res)+'</div></div>';ms.scrollTop=ms.scrollHeight;S.cc++;
+if(!S.chatHist)S.chatHist=[];S.chatHist.push({r:'u',t:text});S.chatHist.push({r:'b',t:res});if(S.chatHist.length>40)S.chatHist.splice(0,S.chatHist.length-40);
+ax(5,'AI 대화');}
 
 function rqs(){const ar=document.getElementById('qa2');if(S.qp==='playing'){rqq();return;}if(S.qp==='result'){rqr();return;}
 const au=[...C.history1.units,...C.history2.units];
-ar.innerHTML='<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:20px"><div style="text-align:center;font-weight:800;font-size:1.05rem;margin-bottom:16px">🎯 AI 퀴즈 - 단원 선택</div><div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px">'+au.map(u=>'<div class="qa'+(S.qu===u.id?' s':'')+'" onclick="squ(\''+u.id+'\',this)" style="text-align:center;padding:14px 8px"><div style="font-size:1.5rem">'+u.emoji+'</div><div style="font-size:.78rem;font-weight:600;margin-top:4px">'+u.num+'. '+(u.title.length>12?u.title.substring(0,12)+'…':u.title)+'</div></div>').join('')+'<div class="qa'+(S.qu==='random'?' s':'')+'" onclick="squ(\'random\',this)" style="text-align:center;padding:14px 8px"><div style="font-size:1.5rem">🎲</div><div style="font-size:.78rem;font-weight:600;margin-top:4px">랜덤</div></div></div><button class="qnb" onclick="sq()" '+(S.qu?'':'disabled style="opacity:.5"')+'>AI 퀴즈 시작! 🚀</button></div>';}
+if(!S.qDiff)S.qDiff='normal';
+ar.innerHTML='<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:20px"><div style="text-align:center;font-weight:800;font-size:1.05rem;margin-bottom:16px">🎯 AI 퀴즈</div>'+
+'<div style="font-size:.82rem;font-weight:600;color:var(--t2);margin-bottom:8px;text-align:center">난이도 선택</div>'+
+'<div style="display:flex;gap:6px;margin-bottom:16px;justify-content:center">'+
+'<button onclick="S.qDiff=\'easy\';rqs()" style="padding:10px 18px;border-radius:20px;border:2px solid '+(S.qDiff==='easy'?'var(--a5)':'var(--bd)')+';background:'+(S.qDiff==='easy'?'rgba(0,184,148,.12)':'var(--bgg)')+';color:'+(S.qDiff==='easy'?'var(--a5)':'var(--t3)')+';font-weight:600;font-size:.82rem;cursor:pointer;font-family:inherit">😊 쉬움</button>'+
+'<button onclick="S.qDiff=\'normal\';rqs()" style="padding:10px 18px;border-radius:20px;border:2px solid '+(S.qDiff==='normal'?'var(--a1)':'var(--bd)')+';background:'+(S.qDiff==='normal'?'rgba(108,92,231,.12)':'var(--bgg)')+';color:'+(S.qDiff==='normal'?'var(--a1)':'var(--t3)')+';font-weight:600;font-size:.82rem;cursor:pointer;font-family:inherit">🤔 보통</button>'+
+'<button onclick="S.qDiff=\'hard\';rqs()" style="padding:10px 18px;border-radius:20px;border:2px solid '+(S.qDiff==='hard'?'var(--a6)':'var(--bd)')+';background:'+(S.qDiff==='hard'?'rgba(225,112,85,.12)':'var(--bgg)')+';color:'+(S.qDiff==='hard'?'var(--a6)':'var(--t3)')+';font-weight:600;font-size:.82rem;cursor:pointer;font-family:inherit">💪 어려움</button></div>'+
+'<div style="font-size:.82rem;font-weight:600;color:var(--t2);margin-bottom:8px;text-align:center">단원 선택</div>'+
+'<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px">'+au.map(u=>'<div class="qa'+(S.qu===u.id?' s':'')+'" onclick="squ(\''+u.id+'\',this)" style="text-align:center;padding:14px 8px"><div style="font-size:1.5rem">'+u.emoji+'</div><div style="font-size:.78rem;font-weight:600;margin-top:4px">'+u.num+'. '+(u.title.length>12?u.title.substring(0,12)+'…':u.title)+'</div></div>').join('')+'<div class="qa'+(S.qu==='random'?' s':'')+'" onclick="squ(\'random\',this)" style="text-align:center;padding:14px 8px"><div style="font-size:1.5rem">🎲</div><div style="font-size:.78rem;font-weight:600;margin-top:4px">랜덤</div></div></div><button class="qnb" onclick="sq()" '+(S.qu?'':'disabled style="opacity:.5"')+'>AI 퀴즈 시작! 🚀</button></div>';}
 function squ(id,el){S.qu=id;document.querySelectorAll('#qa2 .qa').forEach(a=>a.classList.remove('s'));el.classList.add('s');const b=document.querySelector('#qa2 .qnb');if(b){b.disabled=false;b.style.opacity='1';}}
 function suq(uid){S.qu=uid;go('quiz');setTimeout(()=>sq(),100);}
 
@@ -465,7 +488,7 @@ let uc='';const au=[...C.history1.units,...C.history2.units];
 if(S.qu==='random'){const p=au[Math.floor(Math.random()*au.length)];uc=p.topics.map(t=>t.title+': '+t.content).join('\n');}
 else{const u=au.find(u=>u.id===S.qu);if(u)uc=u.topics.map(t=>t.title+': '+t.content).join('\n');}
 
-if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'quiz',unitContent:uc})});const d=await r.json();if(d.success&&d.quiz){S.qq=d.quiz;}else{S.qq=fb();}}catch(e){console.error('Quiz GAS error:',e);S.qq=fb();}}else{S.qq=fb();}
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){try{const diffLabel=S.qDiff==='easy'?'매우 쉬운 기초 수준':S.qDiff==='hard'?'심화 수준으로 어렵게':'중간 난이도';const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'quiz',unitContent:uc+'\n\n※ 난이도: '+diffLabel+'으로 출제해주세요.'})});const d=await r.json();if(d.success&&d.quiz){S.qq=d.quiz;}else{S.qq=fb();}}catch(e){console.error('Quiz GAS error:',e);S.qq=fb();}}else{S.qq=fb();}
 if(!S.qq||S.qq.length===0)S.qq=fb();rqq();}
 
 function fb(){return[{q:"인류가 최초 출현한 대륙은?",a:["아시아","유럽","아프리카","아메리카","오세아니아"],correct:2,exp:"약 700만 년 전 아프리카에서 출현."},{q:"고조선 건국 시기는?",a:["BC 1000","BC 2333","BC 57","BC 37","BC 108"],correct:1,exp:"단군왕검이 BC 2333년 건국."},{q:"신라 삼국통일 해는?",a:["660","668","676","698","935"],correct:2,exp:"676년 당나라 축출, 통일 완성."},{q:"훈민정음 창제 왕은?",a:["태조","태종","세종","성종","중종"],correct:2,exp:"세종대왕 1443년 창제."},{q:"프랑스 혁명 연도는?",a:["1776","1789","1804","1815","1848"],correct:1,exp:"1789년 프랑스 시민 혁명."}];}
@@ -476,12 +499,48 @@ function aq(s){if(S.qan)return;S.qan=true;const q=S.qq[S.qi],ok=s===q.correct;if
 function nq(){S.qi++;S.qan=false;rqq();}
 function fq(){S.qp='result';S.qd++;const p=Math.round(S.qsc/S.qq.length*100);S.qs+=p;S.qv=Math.round(S.qs/S.qd);ax(S.qsc*20,'퀴즈 완료 ('+p+'%)');if(p===100&&!S.bd.includes('perfect')){S.bd.push('perfect');tt('💯 만점왕!');}
 const wrongs=S.qq.filter((q,i)=>S.qWrongs&&S.qWrongs.includes(i)).map(q=>({q:q.q,correct:q.a[q.correct],exp:q.exp}));
+const localWrongs=JSON.parse(localStorage.getItem('oh2_wrongs')||'[]');wrongs.forEach(w=>localWrongs.push(w));if(localWrongs.length>50)localWrongs.splice(0,localWrongs.length-50);localStorage.setItem('oh2_wrongs',JSON.stringify(localWrongs));
 if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'saveQuizRecord',cl:S.cl,num:S.sn,name:S.nm,unit:S.qu||'혼합',score:p,wrongs:wrongs})}).catch(e=>console.log('Quiz record error:',e));}
 rqr();}
 function rqr(){const ar=document.getElementById('qa2'),tot=S.qq.length,p=Math.round(S.qsc/tot*100);let e='😢',m='다시 도전!';if(p>=80){e='🎉';m='대단해요!';}else if(p>=60){e='😊';m='잘했어요!';}else if(p>=40){e='🤔';m='조금 더!';}
 ar.innerHTML='<div class="qr"><div class="qre">'+e+'</div><div class="qrs">'+S.qsc+' / '+tot+'</div><div class="qrl">'+m+' 정답률 '+p+'%</div><div class="qrx">+'+S.qsc*20+' XP</div><br><button class="qnb" onclick="S.qp=\'setup\';S.qu=null;rqs();" style="max-width:300px;margin:0 auto">다시 도전 🔄</button></div>';}
 
-function rp(){const lv=gl();document.getElementById('ppn').textContent=S.nm;document.getElementById('ppv').textContent='Lv.'+lv.l+' '+lv.t;document.getElementById('xc').textContent=S.xp+' XP';document.getElementById('xn').textContent=lv.n+' XP';const prev=[0,0,100,300,600,1000][lv.l]||0;document.getElementById('xf').style.width=Math.min(100,(S.xp-prev)/(lv.n-prev)*100)+'%';document.getElementById('ps').textContent=S.sk;document.getElementById('pa').textContent=S.qv+'%';document.getElementById('pt2').textContent=S.qd;document.getElementById('bg2').innerHTML=BD.map(b=>'<div class="bi2 '+(S.bd.includes(b.id)?'e':'l')+'"><div class="bie">'+b.e+'</div><div class="bin">'+b.n+'</div></div>').join('');}
+function rp(){const lv=gl();document.getElementById('ppn').textContent=S.nm;document.getElementById('ppv').textContent='Lv.'+lv.l+' '+lv.t;document.getElementById('xc').textContent=S.xp+' XP';document.getElementById('xn').textContent=lv.n+' XP';const prev=[0,0,100,300,600,1000][lv.l]||0;document.getElementById('xf').style.width=Math.min(100,(S.xp-prev)/(lv.n-prev)*100)+'%';document.getElementById('ps').textContent=S.sk;document.getElementById('pa').textContent=S.qv+'%';document.getElementById('pt2').textContent=S.qd;document.getElementById('bg2').innerHTML=BD.map(b=>'<div class="bi2 '+(S.bd.includes(b.id)?'e':'l')+'"><div class="bie">'+b.e+'</div><div class="bin">'+b.n+'</div></div>').join('');
+renderProgress();renderWrongNotes();}
+
+function renderProgress(){
+const allU=[...C.history1.units,...C.history2.units];
+const el=document.getElementById('progressBars');
+el.innerHTML=allU.map(u=>{
+const total=u.topics.length;
+const done=u.topics.filter((_,i)=>S.st.includes(u.id+'-'+i)).length;
+const pct=total>0?Math.round((done/total)*100):0;
+const color=pct===100?'var(--a5)':pct>0?'var(--a1)':'var(--t3)';
+return '<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rx);padding:10px 12px;margin-bottom:6px;display:flex;align-items:center;gap:10px">'+
+'<span style="font-size:1.1rem">'+u.emoji+'</span>'+
+'<div style="flex:1;min-width:0"><div style="font-size:.78rem;font-weight:600;margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+u.num+'. '+u.title+'</div>'+
+'<div style="height:6px;background:var(--bgg);border-radius:3px;overflow:hidden"><div style="width:'+pct+'%;height:100%;background:'+color+';border-radius:3px;transition:width .5s"></div></div></div>'+
+'<span style="font-size:.72rem;font-weight:700;color:'+color+';min-width:35px;text-align:right">'+pct+'%</span>'+(pct===100?'<span style="font-size:.8rem">✅</span>':'')+'</div>';
+}).join('');}
+
+async function renderWrongNotes(){
+const el=document.getElementById('wrongNotes');
+const wrongs=JSON.parse(localStorage.getItem('oh2_wrongs')||'[]');
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'&&S.cl&&S.sn){
+try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'getQuizRecords',cl:S.cl,num:S.sn})});const d=await r.json();
+if(d.success&&d.records){const allWrongs=[];d.records.forEach(rec=>{if(rec.wrongs)rec.wrongs.forEach(w=>{w.date=rec.date;w.unit=rec.unit;allWrongs.push(w);});});
+if(allWrongs.length>0){el.innerHTML='<div style="margin-bottom:8px;font-size:.78rem;color:var(--t2)">총 '+allWrongs.length+'개의 오답이 있어요. 다시 확인해보세요!</div>'+
+allWrongs.slice(-10).reverse().map(w=>'<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rx);padding:12px;margin-bottom:6px;border-left:3px solid var(--a6)">'+
+'<div style="font-size:.82rem;font-weight:600;margin-bottom:4px">❌ '+es(w.q)+'</div>'+
+'<div style="font-size:.75rem;color:var(--a5);margin-bottom:2px">✅ 정답: '+es(w.correct)+'</div>'+
+'<div style="font-size:.72rem;color:var(--t3)">💡 '+es(w.exp)+'</div>'+
+'<div style="font-size:.65rem;color:var(--t3);margin-top:4px">'+es(w.date||'')+' · '+es(w.unit||'')+'</div></div>').join('');
+return;}}}catch(e){console.log('Wrong notes error:',e);}}
+if(wrongs.length>0){el.innerHTML=wrongs.slice(-10).reverse().map(w=>'<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--rx);padding:12px;margin-bottom:6px;border-left:3px solid var(--a6)">'+
+'<div style="font-size:.82rem;font-weight:600;margin-bottom:4px">❌ '+es(w.q)+'</div>'+
+'<div style="font-size:.75rem;color:var(--a5);margin-bottom:2px">✅ 정답: '+es(w.correct)+'</div>'+
+'<div style="font-size:.72rem;color:var(--t3)">💡 '+es(w.exp)+'</div></div>').join('');}
+else{el.innerHTML='<div style="text-align:center;padding:20px;color:var(--t3);font-size:.82rem"><div style="font-size:2rem;margin-bottom:6px">📝</div>아직 오답이 없어요! 퀴즈를 풀어보세요.</div>';}}
 
 async function rtd(){const ar=document.getElementById('ta');if(S.rl!=='t'){ar.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--t3)"><div style="font-size:3rem;margin-bottom:12px">🔒</div><div style="font-weight:700;font-size:1rem;margin-bottom:8px">교사 전용</div><div style="font-size:.85rem">교사 계정으로 로그인하세요.</div></div>';return;}
 

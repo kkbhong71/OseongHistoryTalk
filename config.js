@@ -4,5 +4,5 @@
 // ═══════════════════════════════════════
 
 const CONFIG = {
-  GEMINI_API_KEY: 'AIzaSyBrTlBJwlreV8M2GUBDtYxcNOqku2kq460'  // ← 여기에 실제 키 입력
+  GEMINI_API_KEY: 'AIzaSyBy-487mm5r4ccXeyDSyRdFzKqmafhbfLA'  // ← 여기에 실제 키 입력
 };

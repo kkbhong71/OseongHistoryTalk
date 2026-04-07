@@ -312,7 +312,7 @@
 
 <script>
 // ═══ GAS 프록시 URL (배포 후 여기에 입력) ═══
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbwEfLKxt3yXzLQiKYVIkYXXRtEr6ztz9OEk0eD1cCk1sVlwmgnbFE6hKfFRLqzeWIk/exec';
+const GAS_URL = 'YOUR_GAS_DEPLOYMENT_URL_HERE';
 
 const C={history1:{title:"역사① 세계사",did:"18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T",units:[
 {id:"h1-1",num:"Ⅰ",emoji:"🏛️",title:"문명의 발생과 고대 세계의 형성",era:"BC 3500~BC 200",color:"#E17055",topics:[
@@ -367,8 +367,12 @@ const BD=[{id:"first_login",e:"🌟",n:"첫발걸음"},{id:"quiz_1",e:"🎯",n:"
 let S={li:false,rl:'s',nm:'탐험가',cl:'',sn:'',xp:0,sk:0,ls:null,qd:0,qv:0,qs:0,bd:['first_login'],cc:0,st:[],dk:true,fs:1,ac:[],cb:'history1',qp:'setup',qu:null,qq:[],qi:0,qsc:0,qan:false};
 function ld(){try{const s=localStorage.getItem('oh2');if(s)S={...S,...JSON.parse(s)};}catch(e){}}
 function sv(){try{localStorage.setItem('oh2',JSON.stringify(S));}catch(e){}}
+function syncToServer(){if(!S.li||S.rl!=='s'||!GAS_URL||GAS_URL==='YOUR_GAS_DEPLOYMENT_URL_HERE')return;
+fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'saveData',cl:S.cl,num:S.sn,name:S.nm,data:{xp:S.xp,streak:S.sk,lastStudy:S.ls,quizDone:S.qd,quizAvg:S.qv,badges:S.bd,studied:S.st,chatCount:S.cc}})}).catch(e=>console.log('Sync error:',e));}
+let syncTimer=null;
+function svSync(){sv();clearTimeout(syncTimer);syncTimer=setTimeout(syncToServer,3000);}
 function cs(){const t=new Date().toDateString();if(S.ls!==t){const y=new Date(Date.now()-864e5).toDateString();S.sk=S.ls===y?S.sk+1:1;S.ls=t;sv();}}
-function ax(n,r){S.xp+=n;cs();aa(r,'+'+n+' XP');cb();sv();uu();}
+function ax(n,r){S.xp+=n;cs();aa(r,'+'+n+' XP');cb();svSync();uu();}
 function aa(t,x){S.ac.unshift({t,x,tm:new Date().toLocaleTimeString('ko',{hour:'2-digit',minute:'2-digit'})});if(S.ac.length>20)S.ac.pop();}
 function cb(){const b=S.bd;if(S.qd>=1&&!b.includes('quiz_1')){b.push('quiz_1');tt('🏆 첫 퀴즈!');}if(S.qd>=10&&!b.includes('quiz_10')){b.push('quiz_10');tt('🏆 퀴즈 마스터!');}if(S.sk>=3&&!b.includes('streak_3')){b.push('streak_3');tt('🔥 3일 연속!');}if(S.sk>=7&&!b.includes('streak_7')){b.push('streak_7');tt('💪 7일 연속!');}if(S.cc>=10&&!b.includes('chat_10')){b.push('chat_10');tt('💬 호기심왕!');}const h=new Date().getHours();if(h>=22&&!b.includes('night')){b.push('night');tt('🦉 밤학자!');}if(h<7&&!b.includes('early')){b.push('early');tt('🌅 얼리버드!');}}
 function tt(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3000);}
@@ -399,12 +403,21 @@ function fmt(s){
 }
 
 function slt(r,el){document.querySelectorAll('.ltab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('sf').style.display=r==='s'?'flex':'none';document.getElementById('tf').style.display=r==='t'?'flex':'none';}
-function sLogin(){const c=document.getElementById('lc').value,num=document.getElementById('lsn').value.trim(),n=document.getElementById('ln').value.trim(),pw=document.getElementById('lpw').value;if(!c){alert('반을 선택하세요!');return;}if(!num){alert('번호를 입력하세요!');return;}if(!n){alert('이름을 입력하세요!');return;}if(!pw){alert('비밀번호를 입력하세요!');return;}
-const roster=JSON.parse(localStorage.getItem('oh2_roster')||'[]');
-if(roster.length>0){const found=roster.find(s=>s.cl===c&&s.num===num&&s.nm===n);if(!found){alert('등록되지 않은 학생입니다. 선생님께 문의하세요.');return;}const sPwKey='oh2_pw_'+c+'_'+num;const storedPw=localStorage.getItem(sPwKey)||found.pw||num.padStart(4,'0');if(pw!==storedPw){alert('비밀번호가 올바르지 않습니다.');return;}}
-else{const sPwKey='oh2_pw_'+c+'_'+num;const storedPw=localStorage.getItem(sPwKey)||num.padStart(4,'0');if(pw!==storedPw){alert('비밀번호가 올바르지 않습니다.\n초기 비밀번호: 번호 4자리 (예: 0003)');return;}}
-S.li=true;S.rl='s';S.nm=n;S.cl=c;S.sn=num;sv();ea();}
-function tLogin(){const pw=document.getElementById('tp').value;if(pw==='oseong2026'){S.li=true;S.rl='t';S.nm='선생님';sv();ea();go('teacher');}else{alert('비밀번호가 올바르지 않습니다.');}}
+async function sLogin(){const c=document.getElementById('lc').value,num=document.getElementById('lsn').value.trim(),n=document.getElementById('ln').value.trim(),pw=document.getElementById('lpw').value;if(!c){alert('반을 선택하세요!');return;}if(!num){alert('번호를 입력하세요!');return;}if(!n){alert('이름을 입력하세요!');return;}if(!pw){alert('비밀번호를 입력하세요!');return;}
+document.querySelector('#sf .lbtn').textContent='로그인 중...';document.querySelector('#sf .lbtn').disabled=true;
+try{if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){
+const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'login',cl:c,num:num,name:n,pw:pw})});const d=await r.json();
+if(!d.success){alert(d.error||'로그인 실패');document.querySelector('#sf .lbtn').textContent='시작하기 🚀';document.querySelector('#sf .lbtn').disabled=false;return;}
+S.li=true;S.rl='s';S.nm=n;S.cl=c;S.sn=num;sv();
+const r2=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'loadData',cl:c,num:num})});const d2=await r2.json();
+if(d2.success&&d2.data){S.xp=d2.data.xp||0;S.sk=d2.data.streak||0;S.ls=d2.data.lastStudy;S.qd=d2.data.quizDone||0;S.qv=d2.data.quizAvg||0;S.bd=d2.data.badges||['first_login'];S.st=d2.data.studied||[];S.cc=d2.data.chatCount||0;S.qs=S.qv*S.qd;sv();}
+}else{const defPw=num.padStart(4,'0');if(pw!==defPw){alert('비밀번호가 올바르지 않습니다.\n초기 비밀번호: '+defPw);document.querySelector('#sf .lbtn').textContent='시작하기 🚀';document.querySelector('#sf .lbtn').disabled=false;return;}
+S.li=true;S.rl='s';S.nm=n;S.cl=c;S.sn=num;sv();}
+ea();}catch(e){alert('서버 연결 오류: '+e.message);} document.querySelector('#sf .lbtn').textContent='시작하기 🚀';document.querySelector('#sf .lbtn').disabled=false;}
+async function tLogin(){const pw=document.getElementById('tp').value;
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'teacherLogin',pw:pw})});const d=await r.json();if(!d.success){alert(d.error||'비밀번호가 올바르지 않습니다.');return;}}catch(e){if(pw!=='oseong2026'){alert('비밀번호가 올바르지 않습니다.');return;}}}
+else{if(pw!=='oseong2026'){alert('비밀번호가 올바르지 않습니다.');return;}}
+S.li=true;S.rl='t';S.nm='선생님';sv();ea();go('teacher');}
 function ea(){document.getElementById('loginScreen').style.display='none';document.getElementById('tn').style.display='flex';document.getElementById('ma').style.display='block';document.getElementById('bn').style.display='flex';
 const pwSec=document.getElementById('pwChangeSection');if(pwSec)pwSec.style.display=S.rl==='s'?'block':'none';
 cs();uu();}
@@ -446,7 +459,7 @@ ar.innerHTML='<div style="background:var(--bgc);border:1px solid var(--bd);borde
 function squ(id,el){S.qu=id;document.querySelectorAll('#qa2 .qa').forEach(a=>a.classList.remove('s'));el.classList.add('s');const b=document.querySelector('#qa2 .qnb');if(b){b.disabled=false;b.style.opacity='1';}}
 function suq(uid){S.qu=uid;go('quiz');setTimeout(()=>sq(),100);}
 
-async function sq(){if(!S.qu)return;S.qp='playing';S.qi=0;S.qsc=0;S.qan=false;
+async function sq(){if(!S.qu)return;S.qp='playing';S.qi=0;S.qsc=0;S.qan=false;S.qWrongs=[];
 document.getElementById('qa2').innerHTML='<div class="qlg"><div class="qls"></div><div style="color:var(--t2);font-size:.88rem">AI가 문제를 만들고 있어요... 🤖</div></div>';
 let uc='';const au=[...C.history1.units,...C.history2.units];
 if(S.qu==='random'){const p=au[Math.floor(Math.random()*au.length)];uc=p.topics.map(t=>t.title+': '+t.content).join('\n');}
@@ -459,73 +472,101 @@ function fb(){return[{q:"인류가 최초 출현한 대륙은?",a:["아시아","
 
 function rqq(){const ar=document.getElementById('qa2'),q=S.qq[S.qi],tot=S.qq.length,lb=['①','②','③','④','⑤'];
 ar.innerHTML='<div class="qp"><div class="qpf" style="width:'+(S.qi/tot*100)+'%"></div></div><div style="display:flex;justify-content:space-between;margin-bottom:10px;font-size:.78rem;color:var(--t3)"><span>문제 '+(S.qi+1)+' / '+tot+'</span><span>맞은 수: '+S.qsc+'</span></div><div class="qqc"><div class="qqn">Q'+(S.qi+1)+'</div><div class="qqt">'+q.q+'</div><div class="qas">'+q.a.map((a,i)=>'<div class="qa" id="qa'+i+'" onclick="aq('+i+')"><div class="qal">'+lb[i]+'</div><span>'+a+'</span></div>').join('')+'</div><div id="qe"></div><div id="qn"></div></div>';}
-function aq(s){if(S.qan)return;S.qan=true;const q=S.qq[S.qi],ok=s===q.correct;if(ok)S.qsc++;document.getElementById('qa'+s).classList.add(ok?'c':'w');document.getElementById('qa'+q.correct).classList.add('c');document.getElementById('qe').innerHTML='<div class="qex"><b>'+(ok?'✅ 정답!':'❌ 오답!')+'</b><br>'+q.exp+'</div>';const last=S.qi>=S.qq.length-1;document.getElementById('qn').innerHTML='<button class="qnb" onclick="'+(last?'fq()':'nq()')+'">'+( last?'결과 보기 →':'다음 문제 →')+'</button>';}
+function aq(s){if(S.qan)return;S.qan=true;const q=S.qq[S.qi],ok=s===q.correct;if(ok)S.qsc++;else{if(!S.qWrongs)S.qWrongs=[];S.qWrongs.push(S.qi);}document.getElementById('qa'+s).classList.add(ok?'c':'w');document.getElementById('qa'+q.correct).classList.add('c');document.getElementById('qe').innerHTML='<div class="qex"><b>'+(ok?'✅ 정답!':'❌ 오답!')+'</b><br>'+q.exp+'</div>';const last=S.qi>=S.qq.length-1;document.getElementById('qn').innerHTML='<button class="qnb" onclick="'+(last?'fq()':'nq()')+'">'+( last?'결과 보기 →':'다음 문제 →')+'</button>';}
 function nq(){S.qi++;S.qan=false;rqq();}
-function fq(){S.qp='result';S.qd++;const p=Math.round(S.qsc/S.qq.length*100);S.qs+=p;S.qv=Math.round(S.qs/S.qd);ax(S.qsc*20,'퀴즈 완료 ('+p+'%)');if(p===100&&!S.bd.includes('perfect')){S.bd.push('perfect');tt('💯 만점왕!');}rqr();}
+function fq(){S.qp='result';S.qd++;const p=Math.round(S.qsc/S.qq.length*100);S.qs+=p;S.qv=Math.round(S.qs/S.qd);ax(S.qsc*20,'퀴즈 완료 ('+p+'%)');if(p===100&&!S.bd.includes('perfect')){S.bd.push('perfect');tt('💯 만점왕!');}
+const wrongs=S.qq.filter((q,i)=>S.qWrongs&&S.qWrongs.includes(i)).map(q=>({q:q.q,correct:q.a[q.correct],exp:q.exp}));
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'saveQuizRecord',cl:S.cl,num:S.sn,name:S.nm,unit:S.qu||'혼합',score:p,wrongs:wrongs})}).catch(e=>console.log('Quiz record error:',e));}
+rqr();}
 function rqr(){const ar=document.getElementById('qa2'),tot=S.qq.length,p=Math.round(S.qsc/tot*100);let e='😢',m='다시 도전!';if(p>=80){e='🎉';m='대단해요!';}else if(p>=60){e='😊';m='잘했어요!';}else if(p>=40){e='🤔';m='조금 더!';}
 ar.innerHTML='<div class="qr"><div class="qre">'+e+'</div><div class="qrs">'+S.qsc+' / '+tot+'</div><div class="qrl">'+m+' 정답률 '+p+'%</div><div class="qrx">+'+S.qsc*20+' XP</div><br><button class="qnb" onclick="S.qp=\'setup\';S.qu=null;rqs();" style="max-width:300px;margin:0 auto">다시 도전 🔄</button></div>';}
 
 function rp(){const lv=gl();document.getElementById('ppn').textContent=S.nm;document.getElementById('ppv').textContent='Lv.'+lv.l+' '+lv.t;document.getElementById('xc').textContent=S.xp+' XP';document.getElementById('xn').textContent=lv.n+' XP';const prev=[0,0,100,300,600,1000][lv.l]||0;document.getElementById('xf').style.width=Math.min(100,(S.xp-prev)/(lv.n-prev)*100)+'%';document.getElementById('ps').textContent=S.sk;document.getElementById('pa').textContent=S.qv+'%';document.getElementById('pt2').textContent=S.qd;document.getElementById('bg2').innerHTML=BD.map(b=>'<div class="bi2 '+(S.bd.includes(b.id)?'e':'l')+'"><div class="bie">'+b.e+'</div><div class="bin">'+b.n+'</div></div>').join('');}
 
-function rtd(){const ar=document.getElementById('ta');if(S.rl!=='t'){ar.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--t3)"><div style="font-size:3rem;margin-bottom:12px">🔒</div><div style="font-weight:700;font-size:1rem;margin-bottom:8px">교사 전용</div><div style="font-size:.85rem">교사 계정으로 로그인하세요.</div></div>';return;}
-const roster=JSON.parse(localStorage.getItem('oh2_roster')||'[]');
-const rosterByClass={};roster.forEach(s=>{if(!rosterByClass[s.cl])rosterByClass[s.cl]=[];rosterByClass[s.cl].push(s);});
-ar.innerHTML='<div class="sh" style="margin-bottom:14px"><div class="st">👩‍🏫 학습 관리 대시보드</div></div>'+
+async function rtd(){const ar=document.getElementById('ta');if(S.rl!=='t'){ar.innerHTML='<div style="text-align:center;padding:60px 20px;color:var(--t3)"><div style="font-size:3rem;margin-bottom:12px">🔒</div><div style="font-weight:700;font-size:1rem;margin-bottom:8px">교사 전용</div><div style="font-size:.85rem">교사 계정으로 로그인하세요.</div></div>';return;}
 
+ar.innerHTML='<div style="text-align:center;padding:40px"><div class="qls"></div><div style="color:var(--t2)">대시보드 로딩 중...</div></div>';
+
+// CSV 업로드 & 관리 영역
+const mgmtHtml='<div class="sh" style="margin-bottom:14px"><div class="st">👩‍🏫 학습 관리 대시보드</div></div>'+
 '<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:14px">'+
 '<div style="font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px"><span style="font-size:1.2rem">📋</span> 학생 명단 관리</div>'+
-'<div style="font-size:.82rem;color:var(--t2);margin-bottom:12px;line-height:1.5">CSV 파일로 학생 명단을 업로드하세요.<br>형식: <b>학년,반,번호,이름</b> (예: 1,1,1,김서준)<br>첫 줄은 헤더로 자동 무시됩니다. 초기 비밀번호는 번호 4자리입니다.</div>'+
+'<div style="font-size:.82rem;color:var(--t2);margin-bottom:12px;line-height:1.5">CSV 파일로 학생 명단을 업로드하면 Google Sheets에 저장됩니다.<br>형식: <b>학년,반,번호,이름</b> (예: 1,1,1,김서준)</div>'+
 '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">'+
 '<label style="flex:1;min-width:200px;padding:14px;border-radius:var(--rs);border:2px dashed var(--bd);text-align:center;cursor:pointer;transition:.2s;color:var(--t2);font-size:.85rem" onmouseover="this.style.borderColor=\'var(--a1)\'" onmouseout="this.style.borderColor=\'var(--bd)\'">'+
 '📂 CSV 파일 선택<input type="file" accept=".csv,.txt" onchange="uploadCSV(this)" style="display:none"></label>'+
-'<button class="lbtn" onclick="downloadSampleCSV()" style="flex:1;min-width:150px;padding:14px;font-size:.85rem;background:var(--bgg);color:var(--t2);border:1px solid var(--bd)">📥 샘플 CSV 다운로드</button></div>'+
-'<div style="display:flex;gap:8px;flex-wrap:wrap">'+
-'<button class="lbtn" onclick="resetAllPasswords()" style="flex:1;padding:12px;font-size:.82rem;background:rgba(225,112,85,.15);color:var(--a6);border:1px solid rgba(225,112,85,.3)">🔄 전체 비밀번호 초기화</button>'+
-'<button class="lbtn" onclick="if(confirm(\'정말 명단을 삭제할까요?\')){localStorage.removeItem(\'oh2_roster\');rtd();tt(\'명단 삭제 완료\');}" style="flex:1;padding:12px;font-size:.82rem;background:rgba(225,112,85,.1);color:var(--a6);border:1px solid rgba(225,112,85,.2)">🗑 명단 초기화</button></div>'+
-'</div>'+
+'<button class="lbtn" onclick="downloadSampleCSV()" style="flex:1;min-width:150px;padding:14px;font-size:.85rem;background:var(--bgg);color:var(--t2);border:1px solid var(--bd)">📥 샘플 CSV</button></div></div>';
 
-(roster.length>0?
-'<div class="dg"><div class="dc"><div class="dcl">전체 등록 학생</div><div class="dcv" style="color:var(--a1)">'+roster.length+'</div></div>'+
-'<div class="dc"><div class="dcl">반 수</div><div class="dcv" style="color:var(--a5)">'+Object.keys(rosterByClass).length+'</div></div></div>'+
-Object.keys(rosterByClass).sort().map(cl=>{const students=rosterByClass[cl].sort((a,b)=>parseInt(a.num)-parseInt(b.num));return '<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:10px">'+
-'<div style="font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center"><span>📚 '+cl.replace('-','학년 ')+'반 ('+students.length+'명)</span>'+
+// GAS에서 실제 데이터 로드
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){
+try{
+const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'getDashboard'})});
+const d=await r.json();
+if(d.success&&d.dashboard){
+const db=d.dashboard;
+const byClass={};db.students.forEach(s=>{if(!byClass[s.cl])byClass[s.cl]=[];byClass[s.cl].push(s);});
+
+ar.innerHTML=mgmtHtml+
+'<div class="dg"><div class="dc"><div class="dcl">전체 학생</div><div class="dcv" style="color:var(--a1)">'+db.total+'</div></div>'+
+'<div class="dc"><div class="dcl">오늘 활동</div><div class="dcv" style="color:var(--a5)">'+db.activeToday+'</div></div>'+
+'<div class="dc"><div class="dcl">평균 진도</div><div class="dcv" style="color:var(--a2)">'+db.avgProgress+'%</div></div>'+
+'<div class="dc"><div class="dcl">평균 정답</div><div class="dcv" style="color:var(--a4)">'+db.avgScore+'%</div></div></div>'+
+
+'<div class="sh"><div class="st">🏆 XP 랭킹</div></div>'+
+'<div style="margin-bottom:14px">'+db.students.slice(0,20).map((s,i)=>
+'<div class="sr"><div class="srk">'+(i+1)+'</div>'+
+'<div style="font-size:1.1rem">'+(s.isActive?'🟢':'⚪')+'</div>'+
+'<div class="srn">'+s.nm+' <span style="font-size:.65rem;color:var(--t3)">'+s.cl+'</span></div>'+
+'<div class="sp"><div class="spb"><div class="spf" style="width:'+s.progress+'%"></div></div></div>'+
+'<div class="srs">'+s.xp+' XP</div></div>').join('')+'</div>'+
+
+Object.keys(byClass).sort().map(cl=>{const sts=byClass[cl].sort((a,b)=>parseInt(a.num)-parseInt(b.num));
+return '<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:10px">'+
+'<div style="font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">'+
+'<span>📚 '+cl.replace('-','학년 ')+'반 ('+sts.length+'명)</span>'+
 '<button class="tb tb1" onclick="resetClassPw(\''+cl+'\')" style="font-size:.68rem">🔄 비번초기화</button></div>'+
-'<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px">'+
-students.map(s=>'<div style="background:var(--bgg);border:1px solid var(--bd);border-radius:var(--rx);padding:8px 10px;display:flex;align-items:center;gap:6px;font-size:.82rem">'+
-'<span style="color:var(--a4);font-weight:700;min-width:22px">'+s.num+'</span>'+
-'<span style="flex:1">'+s.nm+'</span>'+
-'<span style="cursor:pointer;font-size:.7rem" onclick="resetOnePw(\''+s.cl+'\',\''+s.num+'\',\''+s.nm+'\')" title="비밀번호 초기화">🔑</span></div>').join('')+
-'</div></div>';}).join('')
-:'<div style="text-align:center;padding:30px;color:var(--t3);font-size:.88rem"><div style="font-size:2.5rem;margin-bottom:10px">📋</div>등록된 학생 명단이 없습니다.<br>CSV 파일을 업로드하거나, 학생이 직접 로그인할 수 있습니다.</div>')+
+'<div style="overflow-x:auto"><table style="width:100%;font-size:.78rem;border-collapse:collapse">'+
+'<tr style="color:var(--t3);border-bottom:1px solid var(--bd)"><td style="padding:6px">번호</td><td>이름</td><td>XP</td><td>연속</td><td>퀴즈</td><td>정답률</td><td>진도</td><td>🔑</td></tr>'+
+sts.map(s=>'<tr style="border-bottom:1px solid var(--bd)"><td style="padding:6px;font-weight:700;color:var(--a4)">'+s.num+'</td>'+
+'<td>'+s.nm+'</td><td>'+s.xp+'</td><td>'+s.streak+'일</td><td>'+s.quizDone+'</td><td>'+s.quizAvg+'%</td>'+
+'<td><div style="width:50px;height:4px;background:var(--bgg);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:'+s.progress+'%;height:100%;background:var(--a5);border-radius:2px"></div></div> '+s.progress+'%</td>'+
+'<td><span style="cursor:pointer" onclick="resetOnePw(\''+s.cl+'\',\''+s.num+'\',\''+s.nm+'\')">🔑</span></td></tr>').join('')+
+'</table></div></div>';}).join('')+
 
 '<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-top:14px"><div style="font-weight:700;margin-bottom:8px">📢 학습 알림</div>'+
-'<button class="qnb" onclick="alert(\'🔔 학습 알림을 전송했습니다!\')">학습 독려 알림 보내기 📩</button></div>';}
+'<button class="qnb" onclick="alert(\'🔔 학습 알림을 전송했습니다!\')">학습 독려 알림 보내기 📩</button></div>';
+}else{ar.innerHTML=mgmtHtml+'<div style="text-align:center;padding:30px;color:var(--t3)">데이터를 불러올 수 없습니다.</div>';}
+}catch(e){ar.innerHTML=mgmtHtml+'<div style="text-align:center;padding:30px;color:var(--t3)">서버 연결 오류: '+e.message+'</div>';}}
+else{ar.innerHTML=mgmtHtml+'<div style="text-align:center;padding:30px;color:var(--t3)"><div style="font-size:2.5rem;margin-bottom:10px">⚙️</div>GAS 프록시 URL을 설정하면 실제 학생 데이터를 볼 수 있습니다.</div>';}}
 
-function uploadCSV(input){const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=function(e){const lines=e.target.result.split('\n').map(l=>l.trim()).filter(l=>l);if(lines.length<2){alert('데이터가 없습니다.');return;}
-const roster=[];for(let i=1;i<lines.length;i++){const cols=lines[i].split(',').map(c=>c.trim().replace(/"/g,''));if(cols.length>=4){const grade=cols[0],ban=cols[1],num=cols[2],nm=cols[3],cl=grade+'-'+ban,pw=cols[4]||num.padStart(4,'0');roster.push({cl,num,nm,pw});}else if(cols.length===3){const cl=cols[0],num=cols[1],nm=cols[2],pw=num.padStart(4,'0');roster.push({cl,num,nm,pw});}};
-if(roster.length===0){alert('유효한 데이터가 없습니다.\n형식: 학년,반,번호,이름 (예: 1,1,1,김서준)');return;}
-const existing=JSON.parse(localStorage.getItem('oh2_roster')||'[]');const merged=[...existing];
-roster.forEach(ns=>{const idx=merged.findIndex(s=>s.cl===ns.cl&&s.num===ns.num);if(idx>=0)merged[idx]=ns;else merged.push(ns);});
-localStorage.setItem('oh2_roster',JSON.stringify(merged));
-tt('✅ '+roster.length+'명 업로드 완료!');rtd();};
+function uploadCSV(input){const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=async function(e){const lines=e.target.result.split('\n').map(l=>l.trim()).filter(l=>l);if(lines.length<2){alert('데이터가 없습니다.');return;}
+const roster=[];for(let i=1;i<lines.length;i++){const cols=lines[i].split(',').map(c=>c.trim().replace(/"/g,''));if(cols.length>=4){const grade=cols[0],ban=cols[1],num=cols[2],nm=cols[3],cl=grade+'-'+ban;roster.push({cl,num,nm});}else if(cols.length===3){const cl=cols[0],num=cols[1],nm=cols[2];roster.push({cl,num,nm});}}
+if(roster.length===0){alert('유효한 데이터가 없습니다.');return;}
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){
+try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'uploadRoster',students:roster})});const d=await r.json();tt('✅ '+(d.message||roster.length+'명 업로드 완료!'));rtd();}catch(e){alert('업로드 오류: '+e.message);}}
+else{const existing=JSON.parse(localStorage.getItem('oh2_roster')||'[]');const merged=[...existing];roster.forEach(ns=>{const idx=merged.findIndex(s=>s.cl===ns.cl&&s.num===ns.num);if(idx>=0)merged[idx]=ns;else merged.push(ns);});localStorage.setItem('oh2_roster',JSON.stringify(merged));tt('✅ '+roster.length+'명 업로드!');rtd();}};
 reader.readAsText(file,'UTF-8');input.value='';}
 
 function downloadSampleCSV(){const csv='학년,반,번호,이름\n1,1,1,강지후\n1,1,2,김가영\n1,1,3,김건우\n1,1,4,김민율\n1,2,1,나예진\n1,2,2,박서준\n2,1,1,이하은\n2,1,2,정다온\n2,2,1,최수아\n3,1,1,한지호\n3,2,1,윤서연';const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='학생명단_샘플.csv';a.click();URL.revokeObjectURL(url);}
 
-function resetAllPasswords(){if(!confirm('전체 학생의 비밀번호를 초기화(번호 4자리)할까요?'))return;const roster=JSON.parse(localStorage.getItem('oh2_roster')||'[]');roster.forEach(s=>{localStorage.removeItem('oh2_pw_'+s.cl+'_'+s.num);});tt('🔄 전체 비밀번호 초기화 완료!');}
+async function resetAllPasswords(){if(!confirm('전체 학생의 비밀번호를 초기화할까요?'))return;
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'resetClassPw',cl:''})});tt('🔄 전체 비밀번호 초기화 완료!');}catch(e){alert('오류: '+e.message);}}
+else{tt('GAS 연동이 필요합니다.');}}
 
-function resetClassPw(cl){if(!confirm(cl+' 반 비밀번호를 초기화할까요?'))return;const roster=JSON.parse(localStorage.getItem('oh2_roster')||'[]');roster.filter(s=>s.cl===cl).forEach(s=>{localStorage.removeItem('oh2_pw_'+s.cl+'_'+s.num);});tt('🔄 '+cl+' 반 초기화 완료!');}
+async function resetClassPw(cl){if(!confirm(cl+' 반 비밀번호를 초기화할까요?'))return;
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'resetClassPw',cl:cl})});const d=await r.json();tt(d.message||'초기화 완료!');}catch(e){alert('오류: '+e.message);}}
+else{tt('GAS 연동이 필요합니다.');}}
 
-function resetOnePw(cl,num,nm){if(!confirm(nm+'('+num+'번) 비밀번호를 초기화할까요?'))return;localStorage.removeItem('oh2_pw_'+cl+'_'+num);tt('🔑 '+nm+' 비밀번호 초기화!');}
+async function resetOnePw(cl,num,nm){if(!confirm(nm+'('+num+'번) 비밀번호를 초기화할까요?'))return;
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'resetPw',cl:cl,num:num})});const d=await r.json();tt(d.message||'초기화 완료!');}catch(e){alert('오류: '+e.message);}}
+else{tt('GAS 연동이 필요합니다.');}}
 
-function changePw(){const old=document.getElementById('oldPw').value,np=document.getElementById('newPw').value,np2=document.getElementById('newPw2').value;
-const pwKey='oh2_pw_'+S.cl+'_'+S.sn;const curPw=localStorage.getItem(pwKey)||S.sn.padStart(4,'0');
-if(old!==curPw){alert('현재 비밀번호가 올바르지 않습니다.');return;}
+async function changePw(){const old=document.getElementById('oldPw').value,np=document.getElementById('newPw').value,np2=document.getElementById('newPw2').value;
 if(!np||np.length<4){alert('새 비밀번호는 4자리 이상 입력하세요.');return;}
 if(np!==np2){alert('새 비밀번호가 일치하지 않습니다.');return;}
-localStorage.setItem(pwKey,np);
-document.getElementById('oldPw').value='';document.getElementById('newPw').value='';document.getElementById('newPw2').value='';
-tt('🔑 비밀번호가 변경되었습니다!');}
+if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){
+try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'changePw',cl:S.cl,num:S.sn,oldPw:old,newPw:np})});const d=await r.json();if(d.success){document.getElementById('oldPw').value='';document.getElementById('newPw').value='';document.getElementById('newPw2').value='';tt('🔑 비밀번호가 변경되었습니다!');}else{alert(d.error||'변경 실패');}}catch(e){alert('오류: '+e.message);}}
+else{const curPw=S.sn.padStart(4,'0');if(old!==curPw){alert('현재 비밀번호가 올바르지 않습니다.');return;}tt('🔑 변경 완료 (로컬 전용)');}}
 
 function td(){S.dk=!S.dk;document.body.setAttribute('data-theme',S.dk?'dark':'light');document.getElementById('dt').classList.toggle('on',S.dk);sv();}
 function cf(d){S.fs=Math.max(0,Math.min(2,S.fs+d));const sz=[13,15,18],lb=['소','중','대'];document.documentElement.style.setProperty('--fs',sz[S.fs]+'px');document.getElementById('fl').textContent=lb[S.fs];sv();}

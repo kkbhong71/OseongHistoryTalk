@@ -327,10 +327,9 @@
 <div class="bni" onclick="go('settings')"><span class="be">⚙️</span><span>설정</span></div>
 </nav>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.2/jspdf.umd.min.js"></script>
 <script>
 // ═══ GAS 프록시 URL (배포 후 여기에 입력) ═══
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbzKfDh-VkHTi--UMDJ-wIqxqeekxko1hQNSkBUjqrp61VYphgz9Qj6Zqa3G7EHFK_Jp2w/exec';
+const GAS_URL = 'https://script.google.com/macros/library/d/1tJp-uuEh_y1Hd4uisf0f3gXZaNx9j-yk4en7129NSWZvLHaCZksMdUMc/2';
 
 const C={history1:{title:"역사① 세계사",did:"18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T",units:[
 {id:"h1-1",num:"Ⅰ",emoji:"🏛️",title:"문명의 발생과 고대 세계의 형성",era:"BC 3500~BC 200",color:"#E17055",topics:[
@@ -396,6 +395,7 @@ function cb(){const b=S.bd;if(S.qd>=1&&!b.includes('quiz_1')){b.push('quiz_1');t
 function tt(m){const d=document.createElement('div');d.className='toast';d.textContent=m;document.body.appendChild(d);setTimeout(()=>d.remove(),3000);}
 function gl(){if(S.xp<100)return{l:1,t:'역사 입문자',n:100};if(S.xp<300)return{l:2,t:'역사 탐험가',n:300};if(S.xp<600)return{l:3,t:'역사 연구원',n:600};if(S.xp<1000)return{l:4,t:'역사 박사',n:1000};return{l:5,t:'역사 마스터',n:2000};}
 function es(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML;}
+function fmtClass(cl){const s=String(cl);if(s.includes('학년'))return s;const m=s.match(/^(\d+)-(\d+)$/);if(m)return m[1]+'학년 '+m[2]+'반';return s.replace('-','학년 ')+'반';}
 function fmt(s){
   s=es(s);
   s=s.replace(/\*\*(.+?)\*\*/g,'<strong style="color:var(--a4)">$1</strong>');
@@ -567,61 +567,54 @@ async function rtd(){const ar=document.getElementById('ta');if(S.rl!=='t'){ar.in
 
 ar.innerHTML='<div style="text-align:center;padding:40px"><div class="qls"></div><div style="color:var(--t2)">대시보드 로딩 중...</div></div>';
 
-// CSV 업로드 & 관리 영역
-const mgmtHtml='<div class="sh" style="margin-bottom:14px"><div class="st">👩‍🏫 학습 관리 대시보드</div></div>'+
-'<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-bottom:14px">'+
-'<div style="font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px"><span style="font-size:1.2rem">📋</span> 학생 명단 관리</div>'+
-'<div style="font-size:.82rem;color:var(--t2);margin-bottom:12px;line-height:1.5">CSV 파일로 학생 명단을 업로드하면 Google Sheets에 저장됩니다.<br>형식: <b>학년,반,번호,이름</b> (예: 1,1,1,김서준)</div>'+
-'<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">'+
-'<label style="flex:1;min-width:200px;padding:14px;border-radius:var(--rs);border:2px dashed var(--bd);text-align:center;cursor:pointer;transition:.2s;color:var(--t2);font-size:.85rem" onmouseover="this.style.borderColor=\'var(--a1)\'" onmouseout="this.style.borderColor=\'var(--bd)\'">'+
-'📂 CSV 파일 선택<input type="file" accept=".csv,.txt" onchange="uploadCSV(this)" style="display:none"></label>'+
-'<button class="lbtn" onclick="downloadSampleCSV()" style="flex:1;min-width:150px;padding:14px;font-size:.85rem;background:var(--bgg);color:var(--t2);border:1px solid var(--bd)">📥 샘플 CSV</button></div></div>';
+if(!GAS_URL||GAS_URL==='YOUR_GAS_DEPLOYMENT_URL_HERE'){ar.innerHTML='<div class="sh"><div class="st">📊 학습 관리 대시보드</div></div><div style="text-align:center;padding:40px;color:var(--t3)"><div style="font-size:2.5rem;margin-bottom:10px">⚙️</div>GAS 프록시 URL을 설정하면 학생 데이터를 볼 수 있습니다.</div>';return;}
 
-// GAS에서 실제 데이터 로드
-if(GAS_URL&&GAS_URL!=='YOUR_GAS_DEPLOYMENT_URL_HERE'){
 try{
 const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'getDashboard'})});
 const d=await r.json();
-if(d.success&&d.dashboard){
+if(!d.success||!d.dashboard){ar.innerHTML='<div class="sh"><div class="st">📊 대시보드</div></div><div style="text-align:center;padding:30px;color:var(--t3)">데이터를 불러올 수 없습니다.</div>';return;}
+
 const db=d.dashboard;
 const byClass={};db.students.forEach(s=>{if(!byClass[s.cl])byClass[s.cl]=[];byClass[s.cl].push(s);});
 
-ar.innerHTML=mgmtHtml+
+// 전체 통계
+let html='<div class="sh" style="margin-bottom:14px"><div class="st">📊 학습 관리 대시보드</div></div>'+
 '<div class="dg"><div class="dc"><div class="dcl">전체 학생</div><div class="dcv" style="color:var(--a1)">'+db.total+'</div></div>'+
 '<div class="dc"><div class="dcl">오늘 활동</div><div class="dcv" style="color:var(--a5)">'+db.activeToday+'</div></div>'+
 '<div class="dc"><div class="dcl">평균 진도</div><div class="dcv" style="color:var(--a2)">'+db.avgProgress+'%</div></div>'+
-'<div class="dc"><div class="dcl">평균 정답</div><div class="dcv" style="color:var(--a4)">'+db.avgScore+'%</div></div></div>'+
+'<div class="dc"><div class="dcl">평균 정답률</div><div class="dcv" style="color:var(--a4)">'+db.avgScore+'%</div></div></div>';
 
-'<div class="sh"><div class="st">🏆 XP 랭킹</div></div>'+
-'<div style="margin-bottom:14px">'+db.students.slice(0,20).map((s,i)=>
-'<div class="sr"><div class="srk">'+(i+1)+'</div>'+
+// XP 랭킹 TOP 10
+const topStudents=db.students.filter(s=>s.xp>0).slice(0,10);
+if(topStudents.length>0){
+html+='<div class="sh"><div class="st">🏆 학습 우수 학생 (XP 순)</div></div>'+
+'<div style="margin-bottom:14px">'+topStudents.map((s,i)=>{
+const medals=['🥇','🥈','🥉'];
+return '<div class="sr"><div class="srk" style="font-size:1rem">'+(i<3?medals[i]:(i+1))+'</div>'+
 '<div style="font-size:1.1rem">'+(s.isActive?'🟢':'⚪')+'</div>'+
-'<div class="srn">'+s.nm+' <span style="font-size:.65rem;color:var(--t3)">'+s.cl+'</span></div>'+
-'<div class="sp"><div class="spb"><div class="spf" style="width:'+s.progress+'%"></div></div></div>'+
-'<div class="srs">'+s.xp+' XP</div></div>').join('')+'</div>'+
+'<div class="srn">'+s.nm+' <span style="font-size:.65rem;color:var(--t3)">'+fmtClass(s.cl)+'</span></div>'+
+'<div class="sp"><div class="spb"><div class="spf" style="width:'+Math.min(100,s.progress)+'%"></div></div></div>'+
+'<div class="srs">'+s.xp+' XP</div></div>';}).join('')+'</div>';}
 
-Object.keys(byClass).sort().map(cl=>{const sts=byClass[cl].sort((a,b)=>parseInt(a.num)-parseInt(b.num));
+// 반별 학습 현황
+html+='<div class="sh"><div class="st">📚 반별 학습 현황</div></div>';
+html+=Object.keys(byClass).sort().map(cl=>{const sts=byClass[cl].sort((a,b)=>parseInt(a.num)-parseInt(b.num));
+const clAvg=sts.length>0?Math.round(sts.reduce((s,st)=>s+st.quizAvg,0)/sts.length):0;
+const clProg=sts.length>0?Math.round(sts.reduce((s,st)=>s+st.progress,0)/sts.length):0;
 return '<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:10px">'+
-'<div style="font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">'+
-'<span>📚 '+cl.replace('-','학년 ')+'반 ('+sts.length+'명)</span>'+
-'<button class="tb tb1" onclick="resetClassPw(\''+cl+'\')" style="font-size:.68rem">🔄 비번초기화</button></div>'+
+'<div style="font-weight:700;margin-bottom:6px;font-size:.92rem">📚 '+fmtClass(cl)+' ('+sts.length+'명)</div>'+
+'<div style="display:flex;gap:12px;margin-bottom:10px;font-size:.75rem;color:var(--t2)">'+
+'<span>평균 정답률: <b style="color:var(--a4)">'+clAvg+'%</b></span>'+
+'<span>평균 진도: <b style="color:var(--a5)">'+clProg+'%</b></span></div>'+
 '<div style="overflow-x:auto"><table style="width:100%;font-size:.78rem;border-collapse:collapse">'+
-'<tr style="color:var(--t3);border-bottom:1px solid var(--bd)"><td style="padding:6px">번호</td><td>이름</td><td>XP</td><td>연속</td><td>퀴즈</td><td>정답률</td><td>진도</td><td>🔑</td></tr>'+
+'<tr style="color:var(--t3);border-bottom:1px solid var(--bd)"><td style="padding:6px">번호</td><td>이름</td><td>XP</td><td>연속</td><td>퀴즈</td><td>정답률</td><td>진도</td></tr>'+
 sts.map(s=>'<tr style="border-bottom:1px solid var(--bd)"><td style="padding:6px;font-weight:700;color:var(--a4)">'+s.num+'</td>'+
-'<td>'+s.nm+'</td><td>'+s.xp+'</td><td>'+s.streak+'일</td><td>'+s.quizDone+'</td><td>'+s.quizAvg+'%</td>'+
-'<td><div style="width:50px;height:4px;background:var(--bgg);border-radius:2px;display:inline-block;vertical-align:middle"><div style="width:'+s.progress+'%;height:100%;background:var(--a5);border-radius:2px"></div></div> '+s.progress+'%</td>'+
-'<td><span style="cursor:pointer" onclick="resetOnePw(\''+s.cl+'\',\''+s.num+'\',\''+s.nm+'\')">🔑</span></td></tr>').join('')+
-'</table></div></div>';}).join('')+
+'<td>'+(s.isActive?'🟢 ':'')+s.nm+'</td><td>'+s.xp+'</td><td>'+s.streak+'일</td><td>'+s.quizDone+'</td><td>'+s.quizAvg+'%</td>'+
+'<td><div style="display:flex;align-items:center;gap:4px"><div style="width:50px;height:4px;background:var(--bgg);border-radius:2px"><div style="width:'+s.progress+'%;height:100%;background:var(--a5);border-radius:2px"></div></div>'+s.progress+'%</div></td></tr>').join('')+
+'</table></div></div>';}).join('');
 
-'<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-top:14px"><div style="font-weight:700;margin-bottom:10px">📢 학생 공지 보내기</div>'+
-'<input id="noticeInput" placeholder="학생에게 보낼 공지를 입력하세요" style="width:100%;padding:12px;border-radius:var(--rx);border:1px solid var(--bd);background:var(--bgg);color:var(--t1);font-family:inherit;font-size:.85rem;margin-bottom:8px;outline:none">'+
-'<button class="qnb" onclick="sendNotice()" style="margin-bottom:8px">📢 공지 전송</button></div>'+
-
-'<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:16px;margin-top:10px"><div style="font-weight:700;margin-bottom:10px">📄 학습 리포트</div>'+
-'<button class="qnb" onclick="exportPDF()" style="background:linear-gradient(135deg,var(--a5),var(--a2))">📄 PDF 리포트 다운로드</button></div>';
-}else{ar.innerHTML=mgmtHtml+'<div style="text-align:center;padding:30px;color:var(--t3)">데이터를 불러올 수 없습니다.</div>';}
-}catch(e){ar.innerHTML=mgmtHtml+'<div style="text-align:center;padding:30px;color:var(--t3)">서버 연결 오류: '+e.message+'</div>';}}
-else{ar.innerHTML=mgmtHtml+'<div style="text-align:center;padding:30px;color:var(--t3)"><div style="font-size:2.5rem;margin-bottom:10px">⚙️</div>GAS 프록시 URL을 설정하면 실제 학생 데이터를 볼 수 있습니다.</div>';}}
+ar.innerHTML=html;
+}catch(e){ar.innerHTML='<div class="sh"><div class="st">📊 대시보드</div></div><div style="text-align:center;padding:30px;color:var(--t3)">서버 연결 오류: '+e.message+'</div>';}}
 
 function uploadCSV(input){const file=input.files[0];if(!file)return;const reader=new FileReader();reader.onload=async function(e){const lines=e.target.result.split('\n').map(l=>l.trim()).filter(l=>l);if(lines.length<2){alert('데이터가 없습니다.');return;}
 const roster=[];for(let i=1;i<lines.length;i++){const cols=lines[i].split(',').map(c=>c.trim().replace(/"/g,''));if(cols.length>=4){const grade=cols[0],ban=cols[1],num=cols[2],nm=cols[3],cl=grade+'-'+ban;roster.push({cl,num,nm});}else if(cols.length===3){const cl=cols[0],num=cols[1],nm=cols[2];roster.push({cl,num,nm});}}
@@ -787,29 +780,6 @@ document.getElementById('orderSubmit').style.display='none';}
 // ═══════════════════════════════════════
 // 📄 Phase 3: 학습 리포트 PDF (교사용)
 // ═══════════════════════════════════════
-async function exportPDF(){
-if(typeof jspdf==='undefined'&&typeof window.jspdf==='undefined'){alert('PDF 라이브러리 로딩 중... 잠시 후 다시 시도해주세요.');return;}
-tt('📄 PDF 생성 중...');
-try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'getDashboard'})});const d=await r.json();
-if(!d.success||!d.dashboard){alert('데이터를 불러올 수 없습니다.');return;}
-const db=d.dashboard;
-const{jsPDF}=window.jspdf;
-const doc=new jsPDF();
-doc.addFont('https://cdn.jsdelivr.net/npm/noto-sans-kr@0.1.1/fonts/NotoSansKR-Regular.otf','NotoSansKR','normal');
-doc.setFont('helvetica');
-doc.setFontSize(18);doc.text('Oseong History Talk - Learning Report',14,20);
-doc.setFontSize(10);doc.text('Generated: '+new Date().toLocaleDateString('ko'),14,28);
-doc.text('Total Students: '+db.total+' | Active Today: '+db.activeToday,14,34);
-doc.text('Avg Progress: '+db.avgProgress+'% | Avg Quiz Score: '+db.avgScore+'%',14,40);
-doc.setFontSize(11);doc.text('Student Rankings',14,52);
-doc.setFontSize(8);
-let y=58;
-doc.text('Rank | Name | Class | XP | Streak | Quizzes | Avg Score | Progress',14,y);y+=6;
-db.students.forEach((s,i)=>{if(y>280){doc.addPage();y=20;}
-doc.text((i+1)+' | '+s.nm+' | '+s.cl+' | '+s.xp+' XP | '+s.streak+'d | '+s.quizDone+' | '+s.quizAvg+'% | '+s.progress+'%',14,y);y+=5;});
-doc.save('OseongHistoryTalk_Report_'+new Date().toISOString().slice(0,10)+'.pdf');
-tt('📄 PDF 다운로드 완료!');}catch(e){alert('PDF 생성 오류: '+e.message);}}
-
 // ═══════════════════════════════════════
 // 👩‍🏫 교사 전용 서브 페이지
 // ═══════════════════════════════════════
@@ -836,7 +806,7 @@ const byClass={};d.roster.forEach(s=>{if(!byClass[s.cl])byClass[s.cl]=[];byClass
 ar.innerHTML+=Object.keys(byClass).sort().map(cl=>{const sts=byClass[cl].sort((a,b)=>parseInt(a.num)-parseInt(b.num));
 return '<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:10px">'+
 '<div style="font-weight:700;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center">'+
-'<span>📚 '+cl.replace('-','학년 ')+'반 ('+sts.length+'명)</span>'+
+'<span>📚 '+fmtClass(cl)+' ('+sts.length+'명)</span>'+
 '<button class="tb tb1" onclick="resetClassPw(\''+cl+'\')" style="font-size:.68rem">🔄 비번초기화</button></div>'+
 '<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:6px">'+
 sts.map(s=>'<div style="background:var(--bgg);border:1px solid var(--bd);border-radius:var(--rx);padding:8px 10px;display:flex;align-items:center;gap:6px;font-size:.82rem">'+
@@ -861,17 +831,54 @@ const byClass={};db.students.forEach(s=>{if(!byClass[s.cl])byClass[s.cl]=[];byCl
 ar.innerHTML='<div class="sh" style="margin-bottom:14px"><div class="st">📝 성적 관리</div></div>'+
 '<div class="dg"><div class="dc"><div class="dcl">평균 정답률</div><div class="dcv" style="color:var(--a4)">'+db.avgScore+'%</div></div>'+
 '<div class="dc"><div class="dcl">평균 진도</div><div class="dcv" style="color:var(--a5)">'+db.avgProgress+'%</div></div></div>'+
-'<div style="margin-bottom:10px"><button class="qnb" onclick="exportPDF()" style="background:linear-gradient(135deg,var(--a5),var(--a2))">📄 PDF 리포트 다운로드</button></div>'+
+
 Object.keys(byClass).sort().map(cl=>{const sts=byClass[cl].sort((a,b)=>parseInt(a.num)-parseInt(b.num));
+const clAvg=sts.length>0?Math.round(sts.reduce((s,st)=>s+st.quizAvg,0)/sts.length):0;
 return '<div style="background:var(--bgc);border:1px solid var(--bd);border-radius:var(--r);padding:14px;margin-bottom:10px">'+
-'<div style="font-weight:700;margin-bottom:10px">📚 '+cl.replace('-','학년 ')+'반</div>'+
+'<div style="font-weight:700;margin-bottom:6px;display:flex;justify-content:space-between;align-items:center">'+
+'<span>📚 '+fmtClass(cl)+' ('+sts.length+'명) · 평균 '+clAvg+'%</span>'+
+'<button class="tb tb1" onclick="printClass(\''+cl+'\')" style="font-size:.7rem">🖨 학급 인쇄</button></div>'+
 '<div style="overflow-x:auto"><table style="width:100%;font-size:.78rem;border-collapse:collapse">'+
-'<tr style="color:var(--t3);border-bottom:1px solid var(--bd)"><td style="padding:6px">번호</td><td>이름</td><td>XP</td><td>연속</td><td>퀴즈</td><td>정답률</td><td>진도</td></tr>'+
+'<tr style="color:var(--t3);border-bottom:1px solid var(--bd)"><td style="padding:6px">번호</td><td>이름</td><td>XP</td><td>연속</td><td>퀴즈</td><td>정답률</td><td>진도</td><td>인쇄</td></tr>'+
 sts.map(s=>'<tr style="border-bottom:1px solid var(--bd)"><td style="padding:6px;font-weight:700;color:var(--a4)">'+s.num+'</td>'+
 '<td>'+s.nm+'</td><td>'+s.xp+'</td><td>'+s.streak+'일</td><td>'+s.quizDone+'</td><td>'+s.quizAvg+'%</td>'+
-'<td><div style="display:flex;align-items:center;gap:4px"><div style="width:50px;height:4px;background:var(--bgg);border-radius:2px"><div style="width:'+s.progress+'%;height:100%;background:var(--a5);border-radius:2px"></div></div>'+s.progress+'%</div></td></tr>').join('')+
+'<td><div style="display:flex;align-items:center;gap:4px"><div style="width:50px;height:4px;background:var(--bgg);border-radius:2px"><div style="width:'+s.progress+'%;height:100%;background:var(--a5);border-radius:2px"></div></div>'+s.progress+'%</div></td>'+
+'<td><span style="cursor:pointer;font-size:.7rem" onclick="printStudent(\''+s.cl+'\',\''+s.num+'\',\''+s.nm+'\','+s.xp+','+s.streak+','+s.quizDone+','+s.quizAvg+','+s.progress+')">🖨</span></td></tr>').join('')+
 '</table></div></div>';}).join('');}}
 catch(e){ar.innerHTML='<div class="sh"><div class="st">📝 성적 관리</div></div><div style="text-align:center;padding:20px;color:var(--t3)">연결 오류</div>';}}
+
+function printStudent(cl,num,nm,xp,streak,quizDone,quizAvg,progress){
+const w=window.open('','_blank','width=600,height=800');
+w.document.write('<html><head><title>학습 리포트 - '+nm+'</title>'+
+'<style>body{font-family:"Noto Sans KR",sans-serif;padding:30px;color:#333}h1{font-size:18px;border-bottom:2px solid #333;padding-bottom:8px}table{width:100%;border-collapse:collapse;margin:16px 0}td,th{border:1px solid #ccc;padding:8px 12px;text-align:left}th{background:#f5f5f5}.bar{width:100px;height:10px;background:#eee;border-radius:5px;display:inline-block;vertical-align:middle}.fill{height:100%;background:#2ecc71;border-radius:5px}</style></head>'+
+'<body><h1>📜 오성역사톡!! 학습 리포트</h1>'+
+'<p><b>이름:</b> '+nm+' | <b>학급:</b> '+fmtClass(cl)+' '+num+'번 | <b>출력일:</b> '+new Date().toLocaleDateString('ko')+'</p>'+
+'<table><tr><th>항목</th><th>수치</th></tr>'+
+'<tr><td>⭐ 경험치(XP)</td><td><b>'+xp+'</b> XP</td></tr>'+
+'<tr><td>🔥 연속 학습일</td><td>'+streak+'일</td></tr>'+
+'<tr><td>🎯 퀴즈 완료 수</td><td>'+quizDone+'회</td></tr>'+
+'<tr><td>📊 평균 정답률</td><td>'+quizAvg+'%</td></tr>'+
+'<tr><td>📚 학습 진도</td><td><div class="bar"><div class="fill" style="width:'+progress+'%"></div></div> '+progress+'%</td></tr></table>'+
+'<p style="text-align:center;margin-top:40px;color:#999;font-size:12px">오성중학교 역사 학습 관리 시스템</p>'+
+'</body></html>');w.document.close();w.print();}
+
+async function printClass(cl){
+if(!GAS_URL)return;
+try{const r=await fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({action:'getDashboard'})});const d=await r.json();
+if(!d.success)return;
+const sts=d.dashboard.students.filter(s=>String(s.cl)===String(cl)).sort((a,b)=>parseInt(a.num)-parseInt(b.num));
+const clAvg=sts.length>0?Math.round(sts.reduce((s,st)=>s+st.quizAvg,0)/sts.length):0;
+const w=window.open('','_blank','width=800,height=900');
+w.document.write('<html><head><title>학급 학습 리포트 - '+fmtClass(cl)+'</title>'+
+'<style>body{font-family:"Noto Sans KR",sans-serif;padding:30px;color:#333}h1{font-size:18px;border-bottom:2px solid #333;padding-bottom:8px}table{width:100%;border-collapse:collapse;margin:16px 0}td,th{border:1px solid #ccc;padding:6px 10px;text-align:center;font-size:13px}th{background:#f5f5f5}.bar{width:60px;height:8px;background:#eee;border-radius:4px;display:inline-block;vertical-align:middle}.fill{height:100%;background:#2ecc71;border-radius:4px}</style></head>'+
+'<body><h1>📜 오성역사톡!! 학급 학습 리포트</h1>'+
+'<p><b>학급:</b> '+fmtClass(cl)+' ('+sts.length+'명) | <b>평균 정답률:</b> '+clAvg+'% | <b>출력일:</b> '+new Date().toLocaleDateString('ko')+'</p>'+
+'<table><tr><th>번호</th><th>이름</th><th>XP</th><th>연속일</th><th>퀴즈</th><th>정답률</th><th>진도</th></tr>'+
+sts.map(s=>'<tr><td>'+s.num+'</td><td>'+s.nm+'</td><td>'+s.xp+'</td><td>'+s.streak+'일</td><td>'+s.quizDone+'</td><td>'+s.quizAvg+'%</td>'+
+'<td><div class="bar"><div class="fill" style="width:'+s.progress+'%"></div></div> '+s.progress+'%</td></tr>').join('')+
+'</table><p style="text-align:center;margin-top:40px;color:#999;font-size:12px">오성중학교 역사 학습 관리 시스템</p>'+
+'</body></html>');w.document.close();w.print();
+}catch(e){alert('인쇄 오류: '+e.message);}}
 
 // 공지 관리 페이지
 function rtdNotice(){

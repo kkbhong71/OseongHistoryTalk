@@ -1,4 +1,4 @@
-# 📜 오성역사톡!! v2.0
+# 📜 오성역사톡!! v3.0
 
 > **역사가 재미있어지는 순간** — 오성중학교 역사 교과 전문 교육용 웹앱
 
@@ -157,7 +157,7 @@ AI 챗봇과 AI 퀴즈의 고급 기능을 사용하려면 Google AI Studio의 A
 const GK='YOUR_GEMINI_API_KEY_HERE';
 
 // 변경 후 (예시)
-const GK='?';
+const GK='AIzaSyAbCdEfGhIjKlMnOpQrStUvWxYz12345';
 ```
 
 > ⚠️ API 키는 코드에 직접 포함되므로, 레포지토리를 **Public**으로 운영할 경우 키 노출에 유의하세요. 필요 시 Private 레포지토리 사용을 권장합니다.
@@ -457,8 +457,9 @@ MIT License
 
 ## 🙏 크레딧
 
+- **개발자**: K.G.B
 - **교과서**: 비상교육 역사 ①·② (이병인 외)
-- **AI 엔진**: Google Gemini 2.0 Flash
+- **AI 엔진**: Google Gemini 2.5 Flash Lite
 - **폰트**: Noto Sans KR, Black Han Sans (Google Fonts)
 - **개발 도구**: Anthropic Claude AI 활용 바이브 코딩
 

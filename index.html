@@ -307,7 +307,7 @@
 <button class="lbtn" onclick="changePw()" style="padding:12px;font-size:.85rem">비밀번호 변경</button>
 </div></div>
 <div class="stg"><div class="sti" style="cursor:pointer" onclick="lo()"><div class="stl"><span>🚪</span> 로그아웃</div><span style="color:var(--a6)">→</span></div></div>
-<div style="text-align:center;padding:20px;color:var(--t3);font-size:.72rem">오성역사톡!! v2.0 | 오성중학교<br>Powered by Google Gemini AI</div></section>
+<div style="text-align:center;padding:20px;color:var(--t3);font-size:.72rem">오성역사톡!! v3.0 | 오성중학교<br>Developed by K.G.B<br>Powered by Google Gemini AI</div></section>
 </main>
 
 <div class="mo" id="mo"><div class="ms"><div class="mha"></div><div class="mh"><div class="mti" id="mti2"></div><button class="mx" onclick="cm2()">✕</button></div><div class="mb" id="mb2"></div></div></div>
@@ -329,7 +329,7 @@
 
 <script>
 // ═══ GAS 프록시 URL (배포 후 여기에 입력) ═══
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxAkg0x5exhrjzIicg5bGYUMk3zuWjOnmTletZOsP3dp7iMfYNr34gx6WWrkdauu8WA/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbxPT-UOF4VJf4G7Vdd4fOY44954IvX2hAiHNjKb48FaVG5GNRISgF5vbId2KSvNAeHn/exec';
 
 const C={history1:{title:"역사① 세계사",did:"18jsPHirPKwwhtGHmIqQWciFFAhYPGM5T",units:[
 {id:"h1-1",num:"Ⅰ",emoji:"🏛️",title:"문명의 발생과 고대 세계의 형성",era:"BC 3500~BC 200",color:"#E17055",topics:[
@@ -859,7 +859,7 @@ w.document.write('<html><head><title>학습 리포트 - '+nm+'</title>'+
 '<tr><td>🎯 퀴즈 완료 수</td><td>'+quizDone+'회</td></tr>'+
 '<tr><td>📊 평균 정답률</td><td>'+quizAvg+'%</td></tr>'+
 '<tr><td>📚 학습 진도</td><td><div class="bar"><div class="fill" style="width:'+progress+'%"></div></div> '+progress+'%</td></tr></table>'+
-'<p style="text-align:center;margin-top:40px;color:#999;font-size:12px">오성중학교 역사 학습 관리 시스템</p>'+
+'<p style="text-align:center;margin-top:40px;color:#999;font-size:12px">오성중학교 역사 학습 관리 시스템 | Developed by K.G.B</p>'+
 '</body></html>');w.document.close();w.print();}
 
 async function printClass(cl){
@@ -876,7 +876,7 @@ w.document.write('<html><head><title>학급 학습 리포트 - '+fmtClass(cl)+'<
 '<table><tr><th>번호</th><th>이름</th><th>XP</th><th>연속일</th><th>퀴즈</th><th>정답률</th><th>진도</th></tr>'+
 sts.map(s=>'<tr><td>'+s.num+'</td><td>'+s.nm+'</td><td>'+s.xp+'</td><td>'+s.streak+'일</td><td>'+s.quizDone+'</td><td>'+s.quizAvg+'%</td>'+
 '<td><div class="bar"><div class="fill" style="width:'+s.progress+'%"></div></div> '+s.progress+'%</td></tr>').join('')+
-'</table><p style="text-align:center;margin-top:40px;color:#999;font-size:12px">오성중학교 역사 학습 관리 시스템</p>'+
+'</table><p style="text-align:center;margin-top:40px;color:#999;font-size:12px">오성중학교 역사 학습 관리 시스템 | Developed by K.G.B</p>'+
 '</body></html>');w.document.close();w.print();
 }catch(e){alert('인쇄 오류: '+e.message);}}
 
